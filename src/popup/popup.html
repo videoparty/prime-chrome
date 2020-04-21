@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Prime Video Party</title>
+    <style type="text/css">
+      @font-face { font-family: "Amazon Ember"; src: url("https://js-assets.aiv-cdn.net/playback/web_player/ATVWebCascadesPlayer/1.2.200840.0/fonts/AmazonEmber_Rg.woff") format("woff"); font-weight: 100; }
+    </style>
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="../../lib/jquery.js"></script>
+    <script type="text/javascript" src="popup-helper.js"></script>
+    <script type="text/javascript" src="ui-events.js" defer></script>
+  </head>
+  <body style="text-align: center">
+  <img src="../../icon-alt.png" alt="img" style="height: 66px">
+  <div class="party">
+
+    <label for="party-code">Current party:</label>
+    <input id="party-code" type="text" readonly />
+    <!--
+    <i id="copy-party-code" class="fa fa-clipboard" aria-hidden="true"></i>
+    <em class="code-copied-hint">Copied!</em>
+    -->
+    <input id="party-link" type="hidden" />
+
+    <div class="party-controls">
+      <button class="primary" id="copy-party-link">
+        <i class="fa fa-clipboard" aria-hidden="true"></i> Copy link
+      </button>
+      <button class="secondary" id="new-party-link">New party</button>
+    </div>
+  </div>
+  <em>Share the link with others and start watching!</em>
+  </body>
+</html>

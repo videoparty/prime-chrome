@@ -1,0 +1,51 @@
+{
+  "manifest_version": 2,
+  "name": "__MSG_extName__",
+  "description": "__MSG_extDescription__",
+  "version": "0.1.0",
+  "default_locale": "en",
+  "permissions": [
+    "activeTab",
+    "declarativeContent"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://*.primevideo.com/*"],
+      "js": [
+        "lib/jquery.js",
+        "lib/socketio.js",
+        "src/content/helpers/helper.js",
+        "src/content/listener/extension-messages.js",
+        "src/content/listener/websocket.js",
+        "src/content/listener/start-video-button.js",
+        "src/content/actions/close.js",
+        "src/content/actions/play.js",
+        "src/content/actions/pause.js",
+        "src/content/actions/seek.js",
+        "src/content/actions/bind-actions.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "background": {
+    "scripts": [
+      "src/background/declarative-content.js",
+      "src/background/messaging.js",
+      "src/background/party.js"
+    ],
+    "persistent": false
+  },
+  "page_action": {
+    "default_icon": {
+      "19": "icon.png",
+      "38": "icon.png"
+    },
+    "default_title": "__MSG_extName__",
+    "default_popup": "src/popup/popup.html"
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  }
+}

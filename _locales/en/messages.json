@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "Prime Video Party",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Watch Prime Video together!",
+    "description": "Extension description"
+  }
+}
