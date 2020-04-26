@@ -25,7 +25,7 @@ chrome.runtime.onMessage.addListener(async function (request) {
 function getParty(broadcast, createIfUndefined) {
     if (!currentParty && createIfUndefined) {
         createNewParty();
-    } else if (broadcast) {
+    } else if (currentParty && broadcast) {
         broadcastMessage({
             type: 'party-info',
             link: currentParty.link,

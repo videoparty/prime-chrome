@@ -6,20 +6,78 @@ const websocketUrl = 'https://ws.primevideoparty.com';
 let currentPartyId;
 let socket;
 
+const joinPartyId = getPartyQueryParameter(); // To check if the user is joining a party through the URL
+if (joinPartyId) {
+    initializeWebsocket(joinPartyId);
+} else {
+    chrome.runtime.sendMessage({type: 'get-party', createNew: false});
+}
+
+/**
+ * Listen to contentscript, background / popup extension events
+ */
+window.addEventListener('message', function (ev) {
+    if (ev.data.remote) {
+        return; // Only listen to all local contentScript events
+    }
+
+    if (ev.data.type === 'party-info' && ev.data.isNew) {
+        // In case the user opens the extension for the first time in browser session,
+        // or when the user clicks the 'new party' button.
+        window.location.href = 'https://primevideo.com?pvpartyId=' + ev.data.partyId;
+    } else if (!socket && ev.data.type === 'party-info') {
+        // When the user surfs to another page but is already in a party
+        initializeWebsocket(ev.data.partyId);
+        return;
+    }
+
+    if (!socket) {
+        return; // Don't do anything if the socket isn't active
+    }
+
+    switch (ev.data.type) {
+        case 'player-ready':
+            socket.emit('player-ready');
+            break;
+        case 'seek-video':
+            socket.emit('seek-video', {time: ev.data.time});
+            break;
+        case 'start-video':
+            socket.emit('start-video', {
+                videoId: ev.data.videoId,
+                ref: ev.data.ref,
+                time: ev.data.time
+            });
+            break;
+        case 'pause-video':
+            socket.emit('pause-video', {time: ev.data.time});
+            break;
+        case 'play-video':
+            socket.emit('play-video');
+            break;
+        case 'close-video':
+            socket.emit('close-video');
+            break;
+        case 'join-party':
+            currentPartyId = ev.data.partyId;
+            socket.emit('join-party', {partyId: ev.data.partyId});
+            break;
+        case 'leave-party': // I leave my party
+            currentPartyId = undefined;
+            socket.emit('leave-party', {});
+            break;
+    }
+}, false);
+
 /**
  * Initialize the websocket and respond to all events.
  * This is triggered when opening the extension.
  */
-function initializeWebsocket() {
-    // -- Listen to socket events
+function initializeWebsocket(partyId) {
+    currentPartyId = partyId;
     socket = io(websocketUrl);
     socket.on('connect', () => {
-        const joinPartyId = getPartyQueryParameter(); // To check if the user is joining a party through the URL
-        if (joinPartyId) {
-            chrome.runtime.sendMessage({type: 'join-party', partyId: joinPartyId});
-        } else {
-            chrome.runtime.sendMessage({type: 'get-party', createNew: false});
-        }
+        socket.emit('join-party', {partyId});
     });
     socket.on('play-video', () => {
         window.postMessage({type: 'play-video', remote: true}, '*')
@@ -55,58 +113,3 @@ function initializeWebsocket() {
         }
     });
 }
-
-/**
- * Listen to contentscript, background / popup extension events
- */
-window.addEventListener('message', function (ev) {
-    if (ev.data.remote) {
-        return; // Only listen to all local contentScript events
-    }
-
-    if (!socket && ev.data.type === 'party-info') {
-        initializeWebsocket();
-    } else if (!socket) {
-        return; // Don't do anything if the socket isn't active
-    }
-
-    switch (ev.data.type) {
-        case 'player-ready':
-            socket.emit('player-ready');
-            break;
-        case 'seek-video':
-            socket.emit('seek-video', {time: ev.data.time});
-            break;
-        case 'start-video':
-            socket.emit('start-video', {
-                videoId: ev.data.videoId,
-                ref: ev.data.ref,
-                time: ev.data.time
-            });
-            break;
-        case 'pause-video':
-            socket.emit('pause-video', {time: ev.data.time});
-            break;
-        case 'play-video':
-            socket.emit('play-video');
-            break;
-        case 'close-video':
-            socket.emit('close-video');
-            break;
-        case 'join-party':
-            currentPartyId = ev.data.partyId;
-            socket.emit('join-party', {partyId: ev.data.partyId});
-            break;
-        case 'party-info':
-            if (currentPartyId !== ev.data.partyId) {
-                currentPartyId = ev.data.partyId;
-                socket.emit('leave-party', {});
-                window.location.href = 'https://primevideo.com?pvpartyId=' + currentPartyId
-            }
-            break;
-        case 'leave-party': // I leave my party
-            currentPartyId = undefined;
-            socket.emit('leave-party', {});
-            break;
-    }
-}, false);
