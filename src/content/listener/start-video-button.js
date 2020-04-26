@@ -14,6 +14,11 @@
             const aLink = jQuery(ev.target).closest('a[data-video-type="Feature"]');
             if (aLink.length > 0) {
                 const playData = splitPlayUrl(aLink.attr('href'));
+                if (playData === null) {
+                    ev.preventDefault(); // Something went wrong.. Let the user try again.
+                    return;
+                }
+
                 if (lastClickedItem !== playData.videoId) {
                     postStartVideoMessage(playData);
                     lastClickedItem = playData.videoId;
