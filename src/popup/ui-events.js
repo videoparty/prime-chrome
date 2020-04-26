@@ -1,9 +1,9 @@
-// Create new party
+// Create new party button
 $('#new-party-link').click(() => {
     createAndJoinNewParty();
 });
 
-// Copy party code
+// Copy party code button (hidden for now)
 $('#copy-party-code').click(() => {
     copyValToClipboard('#party-code');
     const copiedHint = $('.code-copied-hint');
@@ -13,7 +13,7 @@ $('#copy-party-code').click(() => {
     }, 3000);
 });
 
-// Copy party link, show a 'copied' hint and hide it after 3sec
+// Copy party link button
 $('#copy-party-link').click(() => {
     copyValToClipboard('#party-link');
     const copyLinkButton = $('#copy-party-link');
@@ -34,5 +34,7 @@ window.addEventListener('message', function (ev) {
     }
 }, false);
 
-// Get current party on init
+// Get current party on init.
+// When there is no party,
+// a new one will be created.
 getCurrentParty();

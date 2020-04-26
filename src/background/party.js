@@ -1,5 +1,4 @@
 let currentParty;
-createNewParty(); // Create party on init
 
 /**
  * Listen to incoming party-related messages
@@ -87,7 +86,7 @@ function generatePartyId(length = 5) {
  * Broadcast message to content scripts and extension
  */
 function broadcastMessage(data) {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         chrome.tabs.sendMessage(tabs[0].id, data);
     });
     chrome.runtime.sendMessage(data);
