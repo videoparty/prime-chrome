@@ -40,3 +40,7 @@ function getPartyQueryParameter() {
     }
     return undefined;
 }
+
+function partyIsEnabled() {
+    return socket !== undefined;
+}

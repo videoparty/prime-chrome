@@ -8,9 +8,8 @@ let signalReadyness = true;
 
 (
     function () {
-        // The listener must start after a video started, otherwise the
-        // webplayer doesn't exist yet.
-        listenToWindowEvent('start-video', (data) => {
+        listenToWindowEvent('start-video', () => {
+            if (!partyIsEnabled()) return; // Don't do anything if the user didn't touch the extension
             player = undefined;
             const waitForPlayer = setInterval(() => {
                 player = jQuery('.webPlayerContainer video[src]')[0];

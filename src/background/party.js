@@ -10,7 +10,7 @@ chrome.runtime.onMessage.addListener(async function (request) {
             createNewParty();
             break;
         case 'get-party':
-            getParty(true);
+            getParty(true, request.createNew);
             break;
         case 'join-party':
             joinParty(request.partyId);
@@ -22,8 +22,8 @@ chrome.runtime.onMessage.addListener(async function (request) {
  * Get current party ID.
  * If there is no current party, make a new one.
  */
-function getParty(broadcast) {
-    if (!currentParty) {
+function getParty(broadcast, createIfUndefined) {
+    if (!currentParty && createIfUndefined) {
         createNewParty();
     } else if (broadcast) {
         broadcastMessage({

@@ -26,7 +26,7 @@ function createAndJoinNewParty(sendToContentScript = true) {
  * @returns {{code: string, link: string}}
  */
 function getCurrentParty() {
-    sendMessageToRuntime({type: 'get-party'});
+    sendMessageToRuntime({type: 'get-party', createNew: true});
 }
 
 /**
