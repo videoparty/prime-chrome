@@ -101,7 +101,7 @@ window.addEventListener('message', function (ev) {
             if (currentPartyId !== ev.data.partyId) {
                 currentPartyId = ev.data.partyId;
                 socket.emit('leave-party', {});
-                socket.emit('join-party', {partyId: ev.data.partyId});
+                window.location.href = 'https://primevideo.com?pvpartyId=' + currentPartyId
             }
             break;
         case 'leave-party': // I leave my party
