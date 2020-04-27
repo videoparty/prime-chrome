@@ -15,10 +15,9 @@ function listenToWindowEvent(type, callback, timeout = 1) {
 /**
  * Breaks down a detail URL into three parts:
  * https://www.primevideo.com/detail/{VIDEOID}/ref={REF}?autoplay=1&t={TIME}
- * @param url
  */
 function splitPlayUrl(url) {
-    const splittedUrl = url.match(/detail\/([0-9A-Z]+).+ref=(\w+).+&t=([0-9]+)/);
+    const splittedUrl = url.match(/detail\/([0-9A-Z]+).+ref=(\w+)(?:.*&t=(\d+))?/);
     if (splittedUrl === null) {return null}
 
     return {
