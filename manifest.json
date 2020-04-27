@@ -15,6 +15,7 @@
         "lib/jquery.js",
         "lib/socketio.js",
         "src/content/helpers/helper.js",
+        "src/content/helpers/ui-helper.js",
         "src/content/listener/extension-messages.js",
         "src/content/listener/websocket.js",
         "src/content/listener/start-video-button.js",
