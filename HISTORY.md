@@ -1,3 +1,9 @@
+# 0.2.0 - 26-04-2020
+- Added [README](README.md) and [LICENSE](LICENSE)
+- Wait when someone is watching a trailer ([#4](https://github.com/videoparty/prime-chrome/issues/4))
+- Don't create a party immediately when visiting primevideo.com ([#1](https://github.com/videoparty/prime-chrome/issues/1))
+- Various refactors and improvements
+
 # 0.1.1 - 23-04-2020
 - Fixed broken image link in popup
 

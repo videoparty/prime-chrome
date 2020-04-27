@@ -30,8 +30,8 @@
  * Listen to when the video starts playing (again)
  */
 function onPause() {
-    if (signalReadyness) {
-        signalReadyness = false;
+    if (signalReadiness) {
+        signalReadiness = false;
     } else {
         window.postMessage({
             type: 'pause-video',

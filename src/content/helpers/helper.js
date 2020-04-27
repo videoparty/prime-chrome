@@ -40,6 +40,12 @@ function getPartyQueryParameter() {
     return undefined;
 }
 
+/**
+ * If this is false, it means that the user did not
+ * open the extension. The user is watching
+ * something alone without a party.
+ * @returns {boolean}
+ */
 function partyIsEnabled() {
     return socket !== undefined;
 }

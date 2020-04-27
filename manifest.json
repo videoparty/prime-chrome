@@ -2,11 +2,12 @@
   "manifest_version": 2,
   "name": "__MSG_extName__",
   "description": "__MSG_extDescription__",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "default_locale": "en",
   "permissions": [
     "activeTab",
-    "declarativeContent"
+    "declarativeContent",
+    "storage"
   ],
   "content_scripts": [
     {
