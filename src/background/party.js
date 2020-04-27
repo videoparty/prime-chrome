@@ -1,10 +1,8 @@
-let currentParty;
-
 /**
  * Listen to incoming party-related messages
  * from contentscript or popup.
  */
-chrome.runtime.onMessage.addListener(async function (request) {
+chrome.runtime.onMessage.addListener(function (request) {
     switch (request.type) {
         case 'create-new-party':
             createNewParty();
@@ -19,10 +17,34 @@ chrome.runtime.onMessage.addListener(async function (request) {
 });
 
 /**
+ * Reset current party on browser startup
+ */
+chrome.runtime.onStartup.addListener(function() {
+    console.log('Reset party');
+    chrome.storage.local.remove('currentParty');
+});
+
+function setCurrentParty(party) {
+    chrome.storage.local.set({ currentParty: party });
+}
+
+/**
+ * @returns Promise (resolving either in undefined or a object with link and partyId)
+ */
+function getCurrentParty() {
+    return new Promise((resolve) => {
+        chrome.storage.local.get('currentParty', function(result) {
+            resolve(result.currentParty);
+        });
+    })
+}
+
+/**
  * Get current party ID.
  * If there is no current party, make a new one.
  */
-function getParty(broadcast, createIfUndefined) {
+async function getParty(broadcast, createIfUndefined) {
+    const currentParty = await getCurrentParty();
     if (!currentParty && createIfUndefined) {
         createNewParty();
     } else if (currentParty && broadcast) {
@@ -40,11 +62,12 @@ function getParty(broadcast, createIfUndefined) {
 /**
  * Update current party
  */
-function joinParty(partyId) {
-    if (currentParty.partyId !== partyId) {
+async function joinParty(partyId) {
+    const currentParty = await getCurrentParty();
+    if (!currentParty || currentParty.partyId !== partyId) {
         createNewParty(partyId);
     } else {
-        getParty(true);
+        await getParty(true);
     }
 }
 
@@ -62,8 +85,7 @@ function createNewParty(joinPartyId = undefined) {
         isNew: true
     };
 
-    currentParty = {link: partyLink, partyId};
-
+    setCurrentParty({link: partyLink, partyId});
     broadcastMessage(newPartyMsg);
 
     return newPartyMsg;
