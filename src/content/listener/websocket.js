@@ -8,6 +8,7 @@ let socket;
 
 const joinPartyId = getPartyQueryParameter(); // To check if the user is joining a party through the URL
 if (joinPartyId) {
+    chrome.runtime.sendMessage({type: 'join-party', partyId: joinPartyId});
     initializeWebsocket(joinPartyId);
 } else {
     chrome.runtime.sendMessage({type: 'get-party', createNew: false});
