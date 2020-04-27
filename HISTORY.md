@@ -1,4 +1,4 @@
-# 0.2.0 - 26-04-2020
+# 0.2.1 - 27-04-2020
 - Added [README](README.md) and [LICENSE](LICENSE)
 - Attempt on fixing black screen with only audio([#10](https://github.com/videoparty/prime-chrome/issues/10))
 - Wait when someone is watching a trailer ([#4](https://github.com/videoparty/prime-chrome/issues/4))

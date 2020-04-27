@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_extName__",
   "description": "__MSG_extDescription__",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "default_locale": "en",
   "permissions": [
     "activeTab",
@@ -20,6 +20,7 @@
         "src/content/listener/extension-messages.js",
         "src/content/listener/websocket.js",
         "src/content/listener/start-video-button.js",
+        "src/content/actions/next-episode.js",
         "src/content/actions/close.js",
         "src/content/actions/play.js",
         "src/content/actions/pause.js",

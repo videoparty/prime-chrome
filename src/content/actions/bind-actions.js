@@ -35,5 +35,6 @@ function bindPlayerEvents() {
     player.onplay = onPlay;
     player.onpause = onPause;
     player.onseeked = onSeeked;
+    startNextEpisodeListener();
     startCloseListener();
 }
