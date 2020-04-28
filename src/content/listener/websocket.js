@@ -4,9 +4,11 @@
 
 const websocketUrl = 'https://ws.primevideoparty.com';
 let currentPartyId;
+let currentMembers = [];
 let socket;
 
-const joinPartyId = getPartyQueryParameter(); // To check if the user is joining a party through the URL
+// Check if the user is joining a party through the URL
+const joinPartyId = getPartyQueryParameter();
 if (joinPartyId) {
     chrome.runtime.sendMessage({type: 'join-party', partyId: joinPartyId});
 } else {
@@ -84,6 +86,16 @@ function initializeWebsocket(partyId) {
     });
     socket.on('play-video', () => {
         window.postMessage({type: 'play-video', remote: true}, '*')
+    });
+    socket.on('join-party', (data) => {
+        console.log(data);
+        currentMembers = data.currentMembers;
+        window.postMessage({
+            type: 'member-change',
+            change: 'join',
+            member: data.member,
+            currentMembers: data.currentMembers
+        }, '*')
     });
     socket.on('pause-video', (data) => {
         window.postMessage({type: 'pause-video', time: data?.time, remote: true}, '*')

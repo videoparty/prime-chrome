@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_extName__",
   "description": "__MSG_extDescription__",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "default_locale": "en",
   "permissions": [
     "activeTab",
@@ -25,7 +25,8 @@
         "src/content/actions/play.js",
         "src/content/actions/pause.js",
         "src/content/actions/seek.js",
-        "src/content/actions/bind-actions.js"
+        "src/content/actions/bind-actions.js",
+        "src/content/ui/navbar.js"
       ],
       "run_at": "document_end"
     }
@@ -40,8 +41,8 @@
   },
   "page_action": {
     "default_icon": {
-      "19": "icon.png",
-      "38": "icon.png"
+      "19": "icon-small.png",
+      "38": "icon-small.png"
     },
     "default_title": "__MSG_extName__",
     "default_popup": "src/popup/popup.html"

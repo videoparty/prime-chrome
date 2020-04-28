@@ -1,3 +1,7 @@
+# 0.3.0 - 28-04-2020
+- Added member count in navbar ([#2](https://github.com/videoparty/prime-chrome/issues/2))
+- Fixed icon displaying
+
 # 0.2.1 - 27-04-2020
 - Added [README](README.md) and [LICENSE](LICENSE)
 - Attempt on fixing black screen with only audio([#10](https://github.com/videoparty/prime-chrome/issues/10))
