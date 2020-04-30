@@ -17,7 +17,7 @@ window.addEventListener('message', function (ev) {
     if (ev.data.type === 'party-info' && ev.data.isNew) {
         // In case the user opens the extension for the first time in browser session,
         // or when the user clicks the 'new party' button.
-        window.location.href = 'https://primevideo.com?pvpartyId=' + ev.data.partyId;
+        window.location.href = '/?pvpartyId=' + ev.data.partyId;
     } else if (!socket && ev.data.type === 'party-info') {
         // When the user surfs to another page but is already in a party
         initializeWebsocket(ev.data.partyId);
