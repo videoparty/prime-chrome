@@ -12,6 +12,7 @@
   "content_scripts": [
     {
       "matches": ["https://*.primevideo.com/*"],
+      "css": ["lib/toastr.css"],
       "js": [
         "lib/jquery.js",
         "lib/socketio.js",
@@ -29,7 +30,6 @@
         "src/content/actions/seek.js",
         "src/content/actions/bind-actions.js",
         "src/content/ui/navbar.js",
-        "src/content/ui/notifications.js",
         "src/content/listener/bootstrap.js"
       ],
       "run_at": "document_start"
