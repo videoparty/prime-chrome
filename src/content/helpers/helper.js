@@ -34,7 +34,7 @@ function splitPlayUrl(url) {
 function getPartyQueryParameter() {
     const urlParams = new URLSearchParams(window.location.search);
     const partyId = urlParams.get('pvpartyId');
-    if (partyId && partyId.length > 0 && partyId.length < 6 && currentPartyId !== partyId) {
+    if (partyId && partyId.length === 5 && (!currentParty || currentParty.id !== partyId)) {
         return partyId;
     }
     return undefined;

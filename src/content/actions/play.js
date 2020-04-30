@@ -8,7 +8,11 @@ listenToWindowEvent('play-video', async () => {
         player.onplay = undefined; // Remove the eventlistener to prevent recursive spam
         try {
             await player.play();
-        } catch(err) {/* Can't play while pausing */}
+        } catch(err) {
+            console.error(err);
+            onPause(); // Trigger the onPause to broadcast a message and pause all other members.
+            sendNotification('error', 'Could not play automatically. Please press the play button manually!', 'Error');
+        }
         player.onplay = onPlay;
     }
 });
@@ -18,7 +22,7 @@ listenToWindowEvent('play-video', async () => {
  */
 function onPlay() {
     if (!signalReadiness) {
-        window.postMessage({type: 'play-video'}, '*')
+        window.postMessage({type: 'play-video'}, '*');
         // signalReadiness will have a follow up in seek.js and set to false in pause.js
     }
 }
