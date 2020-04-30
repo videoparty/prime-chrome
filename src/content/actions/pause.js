@@ -16,7 +16,7 @@ listenToWindowEvent('pause-video', async (ev) => {
     });
 });
 listenToWindowEvent('member-change', async (ev) => {
-    if (!ev.data.pause) return;
+    if (!ev.data.pause || isPlayingTrailer()) return;
     await executeWithoutPauseListeners(async () => {
         try {
             await player.pause();
