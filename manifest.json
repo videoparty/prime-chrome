@@ -15,20 +15,24 @@
       "js": [
         "lib/jquery.js",
         "lib/socketio.js",
+        "lib/toastr.js",
         "src/content/helpers/helper.js",
         "src/content/helpers/ui-helper.js",
         "src/content/listener/extension-messages.js",
         "src/content/listener/websocket.js",
         "src/content/listener/start-video-button.js",
+        "src/content/listener/remote-party-actions.js",
         "src/content/actions/next-episode.js",
         "src/content/actions/close.js",
         "src/content/actions/play.js",
         "src/content/actions/pause.js",
         "src/content/actions/seek.js",
         "src/content/actions/bind-actions.js",
-        "src/content/ui/navbar.js"
+        "src/content/ui/navbar.js",
+        "src/content/ui/notifications.js",
+        "src/content/listener/bootstrap.js"
       ],
-      "run_at": "document_end"
+      "run_at": "document_start"
     }
   ],
   "background": {

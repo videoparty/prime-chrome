@@ -3,17 +3,8 @@
  */
 
 const websocketUrl = 'https://ws.primevideoparty.com';
-let currentPartyId;
-let currentMembers = [];
+let currentParty; // = {id: string, members: string[]}
 let socket;
-
-// Check if the user is joining a party through the URL
-const joinPartyId = getPartyQueryParameter();
-if (joinPartyId) {
-    chrome.runtime.sendMessage({type: 'join-party', partyId: joinPartyId});
-} else {
-    chrome.runtime.sendMessage({type: 'get-party', createNew: false});
-}
 
 /**
  * Listen to contentscript, background / popup extension events
@@ -64,11 +55,11 @@ window.addEventListener('message', function (ev) {
             socket.emit('close-video');
             break;
         case 'join-party':
-            currentPartyId = ev.data.partyId;
+            currentParty = undefined; // Wait for a confirmation from the server
             socket.emit('join-party', {partyId: ev.data.partyId});
             break;
         case 'leave-party': // I leave my party
-            currentPartyId = undefined;
+            currentParty = undefined;
             socket.emit('leave-party', {});
             break;
     }
@@ -79,7 +70,7 @@ window.addEventListener('message', function (ev) {
  * This is triggered when opening the extension.
  */
 function initializeWebsocket(partyId) {
-    currentPartyId = partyId;
+    currentParty = {id: partyId, members: [] };
     socket = io(websocketUrl);
     socket.on('connect', () => {
         socket.emit('join-party', {partyId});
@@ -88,13 +79,22 @@ function initializeWebsocket(partyId) {
         window.postMessage({type: 'play-video', remote: true}, '*')
     });
     socket.on('join-party', (data) => {
-        console.log(data);
-        currentMembers = data.currentMembers;
+        currentParty.members = data.currentMembers;
         window.postMessage({
             type: 'member-change',
             change: 'join',
             member: data.member,
-            currentMembers: data.currentMembers
+            pause: data.pause,
+            remote: true
+        }, '*')
+    });
+    socket.on('left-party', (data) => {
+        currentParty.members = data.currentMembers;
+        window.postMessage({
+            type: 'member-change',
+            change: 'leave',
+            member: data.member,
+            remote: true
         }, '*')
     });
     socket.on('pause-video', (data) => {
