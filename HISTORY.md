@@ -1,5 +1,8 @@
-# 0.3.0 - 28-04-2020
+# 0.3.0 - 30-04-2020
+- Workaround for when the Google Chrome browser blocks autoplay ([#11](https://github.com/videoparty/prime-chrome/issues/11))
+- Actions are shown as notifications ([#9](https://github.com/videoparty/prime-chrome/issues/9))
 - Added member count in navbar ([#2](https://github.com/videoparty/prime-chrome/issues/2))
+- Performance improvements on client side
 - Fixed icon displaying
 
 # 0.2.1 - 27-04-2020

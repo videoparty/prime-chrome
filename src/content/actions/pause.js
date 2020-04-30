@@ -5,6 +5,7 @@
 listenToWindowEvent('pause-video', async (ev) => {
     await executeWithoutPauseListeners(async () => {
         try {
+            console.log('receive pause');
             await player.pause();
             if (ev.data && ev.data.time && (ev.data.time > player.currentTime + 0.5 || ev.data.time < player.currentTime - 0.5)) {
                 player.onseeked = undefined; // Remove to prevent publishing unneccesary seek event
@@ -33,6 +34,7 @@ function onPause() {
     if (signalReadiness) {
         signalReadiness = false;
     } else {
+        console.log('send pause');
         window.postMessage({
             type: 'pause-video',
             time: player.currentTime

@@ -75,8 +75,8 @@ function initializeWebsocket(partyId) {
     socket.on('connect', () => {
         socket.emit('join-party', {partyId});
     });
-    socket.on('play-video', () => {
-        window.postMessage({type: 'play-video', remote: true}, '*')
+    socket.on('play-video', (data) => {
+        window.postMessage({type: 'play-video', byMemberName: data.byMemberName, remote: true}, '*')
     });
     socket.on('join-party', (data) => {
         currentParty.members = data.currentMembers;
@@ -98,13 +98,13 @@ function initializeWebsocket(partyId) {
         }, '*')
     });
     socket.on('pause-video', (data) => {
-        window.postMessage({type: 'pause-video', time: data?.time, remote: true}, '*')
+        window.postMessage({type: 'pause-video', byMemberName: data.byMemberName, time: data?.time, remote: true}, '*')
     });
     socket.on('seek-video', (data) => {
-        window.postMessage({type: 'seek-video', time: data.time, remote: true}, '*')
+        window.postMessage({type: 'seek-video', byMemberName: data.byMemberName, time: data.time, remote: true}, '*')
     });
-    socket.on('close-video', () => {
-        window.postMessage({type: 'close-video', remote: true}, '*')
+    socket.on('close-video', (data) => {
+        window.postMessage({type: 'close-video', byMemberName: data.byMemberName, remote: true}, '*')
     });
     socket.on('start-video-for-member', (data) => {
         // The server is asking us for the current time so another member can join in sync
@@ -120,6 +120,7 @@ function initializeWebsocket(partyId) {
                 videoId: data.videoId,
                 ref: data.ref,
                 time: data.time,
+                byMemberName: data.byMemberName,
                 remote: true
             }, '*');
         } else {
