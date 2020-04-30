@@ -50,9 +50,11 @@ async function executeWithoutPauseListeners(func) {
     if (player.paused === false) {
         player.onpause = undefined; // Remove the eventlistener
         await func();
-        player.onseeked = () => {
-            player.onseeked = onSeeked
-        }; // Reset the original eventhandler after the first trigger
+        if (player.onseeked === undefined) {
+            player.onseeked = () => {
+                player.onseeked = onSeeked
+            }; // Reset the original eventhandler after the first trigger
+        }
         player.onpause = onPause;
     }
 }
