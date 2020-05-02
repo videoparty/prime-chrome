@@ -3,7 +3,7 @@
  */
 
 const websocketUrl = 'http://localhost:3000';
-let currentParty; // = {id: string, members: string[]}
+let currentParty; // = {id: string, members: string[], videoId: string}
 let socket;
 let displayName;
 
@@ -78,7 +78,11 @@ function initializeWebsocket(partyId) {
     currentParty = {id: partyId, members: [] };
     socket = io(websocketUrl);
     socket.on('connect', () => {
-        socket.emit('join-party', {displayName, partyId});
+        let joinArgs = {displayName, partyId};
+        if (player && currentParty.videoId) {
+            joinArgs.videoId = currentParty.videoId;
+        }
+        socket.emit('join-party', joinArgs);
     });
     socket.on('play-video', (data) => {
         window.postMessage({
@@ -128,6 +132,7 @@ function initializeWebsocket(partyId) {
     socket.on('start-video', (data) => {
         const currentUrlData = splitPlayUrl(window.location.href);
         if (currentUrlData !== null && currentUrlData.videoId.length >= 2 && currentUrlData.videoId === data.videoId) {
+            currentParty.videoId = data.videoId;
             window.postMessage({
                 type: 'start-video',
                 videoId: data.videoId,
