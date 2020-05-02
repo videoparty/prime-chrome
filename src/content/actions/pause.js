@@ -5,16 +5,15 @@
 listenToWindowEvent('pause-video', async (ev) => {
     await executeWithoutPauseListeners(async () => {
         try {
-            console.log('receive pause');
             await player.pause();
             if (ev.data && ev.data.time && (ev.data.time > player.currentTime + 0.5 || ev.data.time < player.currentTime - 0.5)) {
                 player.onseeked = undefined; // Remove to prevent publishing unneccesary seek event
                 player.currentTime = ev.data.time;
             }
         } catch (err) {
-            console.log(err); /* Can't pause while performing the play() action */
+            console.error(err); /* Can't pause while performing the play() action */
         }
-    });
+    }, true);
 });
 listenToWindowEvent('member-change', async (ev) => {
     if (!ev.data.pause || isPlayingTrailer()) return;
@@ -22,7 +21,7 @@ listenToWindowEvent('member-change', async (ev) => {
         try {
             await player.pause();
         } catch (err) {
-            console.log(err); /* Can't pause while performing the play() action */
+            console.error(err); /* Can't pause while performing the play() action */
         }
     });
 });
@@ -34,7 +33,6 @@ function onPause() {
     if (signalReadiness) {
         signalReadiness = false;
     } else {
-        console.log('send pause');
         window.postMessage({
             type: 'pause-video',
             time: player.currentTime
@@ -44,10 +42,14 @@ function onPause() {
 
 /**
  * Allows to execute code without triggering the
- * onpause and the next onseeked afterwards
- * @param func
+ * onpause and the next onseeked afterwards.
+ *
+ * Due to something strange, the onpause function
+ * is triggered immediately after it's assigned in
+ * the case when a remote party member pauses.
+ * That's why we can skip the first pause event.
  */
-async function executeWithoutPauseListeners(func) {
+async function executeWithoutPauseListeners(func, skipFirstPauseEvent = false) {
     if (!player) return;
     if (player.paused === false) {
         player.onpause = undefined; // Remove the eventlistener
@@ -57,6 +59,12 @@ async function executeWithoutPauseListeners(func) {
                 player.onseeked = onSeeked
             }; // Reset the original eventhandler after the first trigger
         }
-        player.onpause = onPause;
+        if (skipFirstPauseEvent) {
+            player.onpause = () => {
+                player.onpause = onPause
+            };
+        } else {
+            player.onpause = onPause;
+        }
     }
 }
