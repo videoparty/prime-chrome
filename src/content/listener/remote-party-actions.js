@@ -2,6 +2,8 @@
  * This file listens to all remote actions and displays notifications accordingly
  */
 
+const leavingMembers = [];
+
 listenToWindowEvent('start-video', async (ev) => {
     const memberName = ev.data.remote ? ev.data.byMemberName : 'You';
     sendNotification('info', memberName + ' started a video', 'Loading..');
@@ -42,12 +44,25 @@ listenToWindowEvent('close-video', async (ev) => {
 listenToWindowEvent('member-change', async (ev) => {
     const memberName = ev.data.remote ? ev.data.member.displayName : 'You';
     if (ev.data.change === 'join') {
+        // Do not show notification if the member joined back within 2 seconds
+        if (leavingMembers.includes(memberName)) {
+            const i = leavingMembers.indexOf(memberName);
+            leavingMembers.splice(i, 1);
+            return;
+        }
+
         if (ev.data.pause && player) {
             sendNotification('success', memberName + ' joined the party! Waiting for ' + memberName + ' to sync up..');
         } else {
             sendNotification('success', memberName + ' joined the party!');
         }
     } else if (ev.data.change === 'leave') {
-        sendNotification('error', memberName + ' left the party');
+        // Only show notification if the member does not rejoin within 2 secs
+        leavingMembers.push(memberName);
+        setTimeout(() => {
+            if (leavingMembers.includes(memberName)) {
+                sendNotification('error', memberName + ' left the party');
+            }
+        }, 2000);
     }
 });
