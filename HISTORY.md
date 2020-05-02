@@ -1,3 +1,8 @@
+# 0.4.0 - 02-05-2020
+- Join a party with a displayname
+- The trailer and movie won't start at the same time
+- Reduced amount of notifications (when pausing and surfing on the site)
+
 # 0.3.0 - 30-04-2020
 - Workaround for when the Google Chrome browser blocks autoplay ([#11](https://github.com/videoparty/prime-chrome/issues/11))
 - Actions are shown as notifications ([#9](https://github.com/videoparty/prime-chrome/issues/9))
