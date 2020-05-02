@@ -100,6 +100,9 @@ function initializeWebsocket(partyId) {
     socket.on('pause-video', (data) => {
         window.postMessage({type: 'pause-video', byMemberName: data.byMemberName, time: data?.time, remote: true}, '*')
     });
+    socket.on('watching-trailer', (data) => {
+        window.postMessage({type: 'watching-trailer', byMemberName: data.byMemberName, remote: true}, '*')
+    });
     socket.on('seek-video', (data) => {
         window.postMessage({type: 'seek-video', byMemberName: data.byMemberName, time: data.time, remote: true}, '*')
     });

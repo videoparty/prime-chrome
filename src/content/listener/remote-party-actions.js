@@ -12,6 +12,14 @@ listenToWindowEvent('pause-video', async (ev) => {
     sendNotification('info', memberName + ' paused');
 });
 
+listenToWindowEvent('watching-trailer', async (ev) => {
+    if (ev.data.remote) {
+        sendNotification('warning', 'Waiting for ' + ev.data.byMemberName + ' to finish a trailer..');
+    } else {
+        sendNotification('warning', 'The rest of the party waits for you to skip or finish the trailer');
+    }
+});
+
 listenToWindowEvent('play-video', async (ev) => {
     if (ev.data.coordinated) {
         sendNotification('info', 'Everyone is in sync', 'Resumed');
