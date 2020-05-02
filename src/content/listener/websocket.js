@@ -2,14 +2,15 @@
  * Mediating events between websocket and the window
  */
 
-const websocketUrl = 'https://ws.primevideoparty.com';
+const websocketUrl = 'http://localhost:3000';
 let currentParty; // = {id: string, members: string[]}
 let socket;
+let displayName;
 
 /**
  * Listen to contentscript, background / popup extension events
  */
-window.addEventListener('message', function (ev) {
+window.addEventListener('message', async function (ev) {
     if (ev.data.remote) {
         return; // Only listen to all local contentScript events
     }
@@ -20,6 +21,7 @@ window.addEventListener('message', function (ev) {
         window.location.href = '/?pvpartyId=' + ev.data.partyId;
     } else if (!socket && ev.data.type === 'party-info') {
         // When the user surfs to another page but is already in a party
+        displayName = await getDisplayName();
         initializeWebsocket(ev.data.partyId);
         return;
     }
@@ -31,6 +33,9 @@ window.addEventListener('message', function (ev) {
     switch (ev.data.type) {
         case 'player-ready':
             socket.emit('player-ready');
+            break;
+        case 'displayname':
+            displayName = ev.data.displayName;
             break;
         case 'watching-trailer':
             socket.emit('watching-trailer');
@@ -73,10 +78,15 @@ function initializeWebsocket(partyId) {
     currentParty = {id: partyId, members: [] };
     socket = io(websocketUrl);
     socket.on('connect', () => {
-        socket.emit('join-party', {partyId});
+        socket.emit('join-party', {displayName, partyId});
     });
-    socket.on('play-video', () => {
-        window.postMessage({type: 'play-video', remote: true}, '*')
+    socket.on('play-video', (data) => {
+        window.postMessage({
+            type: 'play-video',
+            coordinated: data.coordinated,
+            byMemberName: data.byMemberName,
+            remote: true
+        }, '*')
     });
     socket.on('join-party', (data) => {
         currentParty.members = data.currentMembers;
@@ -98,13 +108,16 @@ function initializeWebsocket(partyId) {
         }, '*')
     });
     socket.on('pause-video', (data) => {
-        window.postMessage({type: 'pause-video', time: data?.time, remote: true}, '*')
+        window.postMessage({type: 'pause-video', byMemberName: data.byMemberName, time: data?.time, remote: true}, '*')
+    });
+    socket.on('watching-trailer', (data) => {
+        window.postMessage({type: 'watching-trailer', byMemberName: data.byMemberName, remote: true}, '*')
     });
     socket.on('seek-video', (data) => {
-        window.postMessage({type: 'seek-video', time: data.time, remote: true}, '*')
+        window.postMessage({type: 'seek-video', byMemberName: data.byMemberName, time: data.time, remote: true}, '*')
     });
-    socket.on('close-video', () => {
-        window.postMessage({type: 'close-video', remote: true}, '*')
+    socket.on('close-video', (data) => {
+        window.postMessage({type: 'close-video', byMemberName: data.byMemberName, remote: true}, '*')
     });
     socket.on('start-video-for-member', (data) => {
         // The server is asking us for the current time so another member can join in sync
@@ -120,6 +133,7 @@ function initializeWebsocket(partyId) {
                 videoId: data.videoId,
                 ref: data.ref,
                 time: data.time,
+                byMemberName: data.byMemberName,
                 remote: true
             }, '*');
         } else {

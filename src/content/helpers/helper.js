@@ -18,7 +18,9 @@ function listenToWindowEvent(type, callback, timeout = 1) {
  */
 function splitPlayUrl(url) {
     const splittedUrl = url.match(/detail\/([0-9A-Z]+).+ref=(\w+)(?:.*&t=(\d+))?/);
-    if (splittedUrl === null) {return null}
+    if (splittedUrl === null) {
+        return null
+    }
 
     return {
         videoId: splittedUrl[1],
@@ -48,4 +50,22 @@ function getPartyQueryParameter() {
  */
 function partyIsEnabled() {
     return socket !== undefined;
+}
+
+/**
+ * Get displayname synchroneously
+ * by querying the backend service.
+ */
+async function getDisplayName() {
+    return new Promise((resolve) => {
+        const listener = function (ev) {
+            console.log(ev);
+            if (ev.data.type === 'displayname') {
+                window.removeEventListener('message', listener);
+                resolve(ev.data.displayName);
+            }
+        };
+        window.addEventListener('message', listener, false);
+        chrome.runtime.sendMessage({type: 'get-displayname'});
+    })
 }

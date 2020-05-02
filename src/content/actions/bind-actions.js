@@ -15,6 +15,7 @@ listenToWindowEvent('start-video', () => {
 
         clearInterval(waitForPlayer);
         if (isPlayingTrailer()) {
+            player.pause();
             window.postMessage({type: 'watching-trailer'}, '*');
         }
         signalReadiness = true;

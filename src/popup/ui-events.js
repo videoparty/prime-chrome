@@ -3,24 +3,21 @@ $('#new-party-link').click(() => {
     createAndJoinNewParty();
 });
 
-// Copy party code button (hidden for now)
-$('#copy-party-code').click(() => {
-    copyValToClipboard('#party-code');
-    const copiedHint = $('.code-copied-hint');
-    copiedHint.css('display', 'inline');
+// Save displayname
+$('#save-displayname').click(() => {
+    setDisplayName($('#displayname').val());
+    $('.me .saved-hint').css('visibility', 'visible')
+                        .css('opacity', '1');
+
     setTimeout(() => {
-        copiedHint.css('display', 'none');
+        $('.me .saved-hint').css('visibility', 'hidden')
+                            .css('opacity', '0');
     }, 3000);
 });
 
 // Copy party link button
 $('#copy-party-link').click(() => {
     copyValToClipboard('#party-link');
-    const copyLinkButton = $('#copy-party-link');
-    copyLinkButton.html('<i class="fa fa-check" aria-hidden="true"></i> Copied!');
-    setTimeout(() => {
-        copyLinkButton.html('<i class="fa fa-clipboard" aria-hidden="true"></i> Copy link');
-    }, 3000);
 });
 
 // Listen to incoming events
@@ -31,10 +28,8 @@ window.addEventListener('message', function (ev) {
             $('#party-link').val(msg.link);
             $('#party-code').val(msg.partyId);
             break;
+        case 'displayname':
+            $('#displayname').val(msg.displayName);
+            break;
     }
 }, false);
-
-// Get current party on init.
-// When there is no party,
-// a new one will be created.
-getCurrentParty();

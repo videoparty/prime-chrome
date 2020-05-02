@@ -22,11 +22,30 @@ function createAndJoinNewParty(sendToContentScript = true) {
 }
 
 /**
- * Get current party info
- * @returns {{code: string, link: string}}
+ * Get current party info.
+ * Background service will kick
+ * off a 'party-info' event.
  */
 function getCurrentParty() {
     sendMessageToRuntime({type: 'get-party', createNew: true});
+}
+
+/**
+ * Get current displayname
+ * Background service will kick
+ * off a 'displayname' event.
+ */
+function getDisplayName() {
+    sendMessageToRuntime({type: 'get-displayname'});
+}
+
+/**
+ * Set current displayname
+ * Background service will kick
+ * off a 'displayname' event.
+ */
+function setDisplayName(name) {
+    sendMessageToRuntime({type: 'set-displayname', displayName: name});
 }
 
 /**

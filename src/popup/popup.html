@@ -11,9 +11,16 @@
     <script type="text/javascript" src="../../lib/jquery.js"></script>
     <script type="text/javascript" src="popup-helper.js"></script>
     <script type="text/javascript" src="ui-events.js" defer></script>
+    <script type="text/javascript" src="init.js" defer></script>
   </head>
   <body style="text-align: center">
   <img src="../../icon.png" alt="img" style="height: 80px">
+  <div class="me">
+    <label for="displayname">Your name:</label>
+    <input id="displayname" type="text" maxlength="20" />
+    <i id="save-displayname" class="fa fa-floppy-o" aria-hidden="true"></i>
+    <em class="saved-hint">Saved!</em>
+  </div>
   <div class="party">
 
     <label for="party-code">Current party:</label>

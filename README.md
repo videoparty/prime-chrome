@@ -14,5 +14,14 @@ Watch video's from primevideo.com together in sync! This extension handles all c
 ## Contributions
 Spotted a bug or got a new feature in mind? Pull requests are very much appreciated!
 
+## Credits
+This codebase includes work from the projects below:
+- [toastr](https://codeseven.github.io/toastr/), by Hans Fjällemark, John Papa & Tim Ferrell
+- [socket.io](https://socket.io), by Guillermo Rauch
+- [jquery](https://jquery.org), by JS Foundation
+- [normalize](https://github.com/necolas/normalize.css), by Nicolas Gallagher and Jonathan Neal
+
+Inspired by [NetflixParty](https://www.netflixparty.com/).
+
 ## License
 [apache-2.0](LICENSE)
