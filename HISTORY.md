@@ -1,4 +1,5 @@
 # 0.4.0 - 02-05-2020
+- In case of server reboot, send videoId to restore party state
 - Join a party with a displayname
 - The trailer and movie won't start at the same time
 - Reduced amount of notifications (when pausing and surfing on the site)
