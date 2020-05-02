@@ -34,9 +34,10 @@ listenToWindowEvent('close-video', async (ev) => {
 listenToWindowEvent('member-change', async (ev) => {
     if (!ev.data.remote) {return}
     if (ev.data.change === 'join') {
-        sendNotification('success', ev.data.member.displayName + ' joined the party!');
         if (ev.data.pause && player) {
-            sendNotification('info', 'Waiting for ' + ev.data.member.displayName + ' to sync up..');
+            sendNotification('success', ev.data.member.displayName + ' joined the party! Waiting for ' + ev.data.member.displayName + ' to sync up..');
+        } else {
+            sendNotification('success', ev.data.member.displayName + ' joined the party!');
         }
     } else if (ev.data.change === 'leave') {
         sendNotification('error', ev.data.member.displayName + ' left the party');
