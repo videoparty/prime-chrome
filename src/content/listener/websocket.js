@@ -5,11 +5,12 @@
 const websocketUrl = 'http://localhost:3000';
 let currentParty; // = {id: string, members: string[]}
 let socket;
+let displayName;
 
 /**
  * Listen to contentscript, background / popup extension events
  */
-window.addEventListener('message', function (ev) {
+window.addEventListener('message', async function (ev) {
     if (ev.data.remote) {
         return; // Only listen to all local contentScript events
     }
@@ -20,6 +21,7 @@ window.addEventListener('message', function (ev) {
         window.location.href = '/?pvpartyId=' + ev.data.partyId;
     } else if (!socket && ev.data.type === 'party-info') {
         // When the user surfs to another page but is already in a party
+        displayName = await getDisplayName();
         initializeWebsocket(ev.data.partyId);
         return;
     }
@@ -31,6 +33,9 @@ window.addEventListener('message', function (ev) {
     switch (ev.data.type) {
         case 'player-ready':
             socket.emit('player-ready');
+            break;
+        case 'displayname':
+            displayName = ev.data.displayName;
             break;
         case 'watching-trailer':
             socket.emit('watching-trailer');
@@ -73,7 +78,7 @@ function initializeWebsocket(partyId) {
     currentParty = {id: partyId, members: [] };
     socket = io(websocketUrl);
     socket.on('connect', () => {
-        socket.emit('join-party', {partyId});
+        socket.emit('join-party', {displayName, partyId});
     });
     socket.on('play-video', (data) => {
         window.postMessage({

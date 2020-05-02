@@ -26,10 +26,30 @@ em {
     top: -3px;
 }
 
-.code-copied-hint {
-    display: none;
+.me {
+    margin-bottom: 15px;
+}
+
+#save-displayname {
+    transition: color 250ms ease-out;
+}
+
+#save-displayname:hover {
+    color: rgb(0, 160, 214);
+    cursor: pointer;
+}
+
+#displayname {
+    padding: 3px;
+    width: 106px;
+}
+
+.saved-hint {
+    transition: visibility 0s, opacity 250ms ease-in-out;
+    visibility: hidden;
+    opacity: 0;
     position: absolute;
-    margin: 8px;
+    margin: 4px;
 }
 
 .fa-clipboard {
@@ -51,9 +71,11 @@ button {
     height: 30px;
     border-color: #fff;
     color: #fff;
+    cursor: pointer;
 }
 
 button.secondary {
+    transition: background-color 250ms ease-out;
     background-color: rgba(15, 23, 30, 0.4);
     box-shadow: inset 0 0 0 2px #425265;
 }
@@ -62,12 +84,15 @@ button.secondary:hover {
     background-color: #203140;
 }
 
-#party-code {
+#party-code, #displayname {
     background-color: #0f171e;
-    font-size: 1.5em;
     text-align: center;
     border: 1px solid #223444;
     color: rgba(242, 244, 246, .8);
+}
+
+#party-code {
+    font-size: 1.5em;
     width: 78px;
 }
 

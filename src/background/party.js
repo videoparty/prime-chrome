@@ -10,6 +10,12 @@ chrome.runtime.onMessage.addListener(function (request) {
         case 'get-party':
             getParty(true, request.createNew);
             break;
+        case 'set-displayname':
+            setDisplayName(request.displayName);
+            break;
+        case 'get-displayname':
+            getDisplayName();
+            break;
         case 'join-party':
             joinParty(request.partyId);
             break;
@@ -28,6 +34,10 @@ function setCurrentParty(party) {
     chrome.storage.local.set({ currentParty: party });
 }
 
+function setDisplayName(name) {
+    chrome.storage.local.set({ displayName: name });
+}
+
 /**
  * @returns Promise (resolving either in undefined or a object with link and partyId)
  */
@@ -35,6 +45,20 @@ function getCurrentParty() {
     return new Promise((resolve) => {
         chrome.storage.local.get('currentParty', function(result) {
             resolve(result.currentParty);
+        });
+    })
+}
+
+/**
+ * @returns Promise
+ */
+function getDisplayName(broadcast = true) {
+    return new Promise((resolve) => {
+        chrome.storage.local.get('displayName', function(result) {
+            if (broadcast) {
+                broadcastMessage({type: 'displayname', displayName: result.displayName});
+            }
+            resolve(result.displayName);
         });
     })
 }
