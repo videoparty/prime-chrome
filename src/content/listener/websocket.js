@@ -2,7 +2,7 @@
  * Mediating events between websocket and the window
  */
 
-const websocketUrl = 'https://ws.primevideoparty.com';
+const websocketUrl = 'http://localhost:3000';
 let currentParty; // = {id: string, members: string[]}
 let socket;
 
@@ -76,7 +76,12 @@ function initializeWebsocket(partyId) {
         socket.emit('join-party', {partyId});
     });
     socket.on('play-video', (data) => {
-        window.postMessage({type: 'play-video', byMemberName: data.byMemberName, remote: true}, '*')
+        window.postMessage({
+            type: 'play-video',
+            coordinated: data.coordinated,
+            byMemberName: data.byMemberName,
+            remote: true
+        }, '*')
     });
     socket.on('join-party', (data) => {
         currentParty.members = data.currentMembers;
