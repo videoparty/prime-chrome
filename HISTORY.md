@@ -1,3 +1,6 @@
+# 0.4.1 - 02-05-2020
+- Fixed bug which stops the extension from connecting to the syncserver
+
 # 0.4.0 - 02-05-2020
 - In case of server reboot, send videoId to restore party state
 - Join a party with a displayname

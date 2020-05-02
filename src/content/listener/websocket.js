@@ -2,7 +2,7 @@
  * Mediating events between websocket and the window
  */
 
-const websocketUrl = 'http://localhost:3000';
+const websocketUrl = 'https://ws.primevideoparty.com';
 let currentParty; // = {id: string, members: string[], videoId: string}
 let socket;
 let displayName;
