@@ -24,6 +24,6 @@ function handlePlayerParentChange() {
         playerObserver.disconnect();
         console.log('Oh noes, we are gone! Restart..');
         // Perform a hacky trick by adding 'remote', so we do not emit it through socket.
-        window.postMessage({type: 'start-video', remote: true}, '*');
+        window.postMessage({type: 'start-video', reason: 'next-episode', remote: true}, '*');
     }
 }

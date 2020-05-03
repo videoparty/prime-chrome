@@ -5,6 +5,7 @@
 const leavingMembers = [];
 
 listenToWindowEvent('start-video', async (ev) => {
+    if (ev.data.reason === 'next-episode') return;
     const memberName = ev.data.remote ? ev.data.byMemberName : 'You';
     sendNotification('info', memberName + ' started a video', 'Loading..');
 });
