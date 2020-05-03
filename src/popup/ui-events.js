@@ -19,6 +19,11 @@ $('#displayname').submit((ev) => {
 // Copy party link button
 $('#copy-party-link').click(() => {
     copyValToClipboard('#party-link');
+    const copyLinkButton = $('#copy-party-link');
+    copyLinkButton.html('<i class="fa fa-check" aria-hidden="true"></i> Copied!');
+    setTimeout(() => {
+        copyLinkButton.html('<i class="fa fa-clipboard" aria-hidden="true"></i> Copy link');
+    }, 3000);
 });
 
 // Listen to incoming events
