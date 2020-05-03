@@ -35,7 +35,8 @@ listenToWindowEvent('start-video', () => {
 function bindPlayerEvents() {
     player.onplay = onPlay;
     player.onpause = onPause;
-    player.onseeked = onSeeked;
+    // The first onseeked event is a part of initializing, so ignore it
+    player.onseeked = () => { player.onseeked = onSeeked };
     startNextEpisodeListener();
     startCloseListener();
 }
