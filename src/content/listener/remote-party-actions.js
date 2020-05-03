@@ -45,11 +45,7 @@ listenToWindowEvent('member-change', async (ev) => {
     const memberName = ev.data.remote ? ev.data.member.displayName : 'You';
     if (ev.data.change === 'join') {
         // Do not show notification if the member joined back within 2 seconds
-        if (leavingMembers.includes(memberName)) {
-            const i = leavingMembers.indexOf(memberName);
-            leavingMembers.splice(i, 1);
-            return;
-        }
+        if (removeLeavingMember(memberName)) return;
 
         if (ev.data.pause && player) {
             sendNotification('success', memberName + ' joined the party! Waiting for ' + memberName + ' to sync up..');
@@ -61,8 +57,18 @@ listenToWindowEvent('member-change', async (ev) => {
         leavingMembers.push(memberName);
         setTimeout(() => {
             if (leavingMembers.includes(memberName)) {
+                removeLeavingMember(memberName);
                 sendNotification('error', memberName + ' left the party');
             }
         }, 2000);
     }
 });
+
+function removeLeavingMember(memberName) {
+    if (leavingMembers.includes(memberName)) {
+        const i = leavingMembers.indexOf(memberName);
+        leavingMembers.splice(i, 1);
+        return true;
+    }
+    return false;
+}
