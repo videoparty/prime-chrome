@@ -40,6 +40,7 @@ let closeChecker;
  * Listen to when the webplayer disappears
  */
 function startCloseListener() {
+    if (closeChecker !== undefined) return;
     closeChecker = setInterval(() => {
         const playerObj = jQuery('.webPlayerContainer video[src]')[0];
         if (!playerObj || jQuery(playerObj).css('visibility') === 'hidden') {
