@@ -43,7 +43,11 @@ listenToWindowEvent('close-video', async (ev) => {
 });
 
 listenToWindowEvent('member-change', async (ev) => {
-    const memberName = ev.data.remote ? ev.data.member.displayName : 'You';
+    let memberName = 'You';
+    if (ev.data.remote && ev.data.member.displayName !== displayName) {
+        memberName = ev.data.member.displayName;
+    }
+
     if (ev.data.change === 'join') {
         // Do not show notification if the member joined back within 2 seconds
         if (removeLeavingMember(memberName)) return;
