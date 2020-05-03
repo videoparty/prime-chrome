@@ -59,7 +59,6 @@ function partyIsEnabled() {
 async function getDisplayName() {
     return new Promise((resolve) => {
         const listener = function (ev) {
-            console.log(ev);
             if (ev.data.type === 'displayname') {
                 window.removeEventListener('message', listener);
                 resolve(ev.data.displayName);
