@@ -4,15 +4,16 @@ $('#new-party-link').click(() => {
 });
 
 // Save displayname
-$('#save-displayname').click(() => {
-    setDisplayName($('#displayname').val());
-    $('.me .saved-hint').css('visibility', 'visible')
-                        .css('opacity', '1');
+$('#displayname').submit((ev) => {
+    setDisplayName($('#displayname-text').val());
+    $('.saved-hint').css('visibility', 'visible')
+        .css('opacity', '1');
 
     setTimeout(() => {
-        $('.me .saved-hint').css('visibility', 'hidden')
-                            .css('opacity', '0');
+        $('.saved-hint').css('visibility', 'hidden')
+            .css('opacity', '0');
     }, 3000);
+    ev.preventDefault(); // Prevent page reload
 });
 
 // Copy party link button
@@ -29,7 +30,7 @@ window.addEventListener('message', function (ev) {
             $('#party-code').val(msg.partyId);
             break;
         case 'displayname':
-            $('#displayname').val(msg.displayName);
+            $('#displayname-text').val(msg.displayName);
             break;
     }
 }, false);

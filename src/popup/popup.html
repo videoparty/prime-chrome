@@ -16,10 +16,12 @@
   <body style="text-align: center">
   <img src="../../icon.png" alt="img" style="height: 80px">
   <div class="me">
-    <label for="displayname">Your name:</label>
-    <input id="displayname" type="text" maxlength="20" />
-    <i id="save-displayname" class="fa fa-floppy-o" aria-hidden="true"></i>
-    <em class="saved-hint">Saved!</em>
+    <form id="displayname">
+      <label for="displayname-text">Your name:</label>
+      <input id="displayname-text" type="text" maxlength="20" />
+      <button id="save-displayname" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+      <em class="saved-hint">Saved!</em>
+    </form>
   </div>
   <div class="party">
 

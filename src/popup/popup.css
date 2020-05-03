@@ -31,7 +31,13 @@ em {
 }
 
 #save-displayname {
+    margin: 0 0 0 3px;
+    padding: 0;
+    background-color: unset;
+    border: none;
+    font-size: 1.2em;
     transition: color 250ms ease-out;
+    color: rgba(242, 244, 246, 0.9);
 }
 
 #save-displayname:hover {
@@ -39,29 +45,18 @@ em {
     cursor: pointer;
 }
 
-#displayname {
+#displayname-text {
     padding: 3px;
     width: 106px;
 }
 
 .saved-hint {
-    transition: visibility 0s, opacity 250ms ease-in-out;
+    transition: visibility 250ms, opacity 250ms ease-in-out;
     visibility: hidden;
     opacity: 0;
     position: absolute;
-    margin: 4px;
+    margin: 7px;
 }
-
-.fa-clipboard {
-    font-size: 1.1em;
-    margin-left: 3px;
-}
-
-.fa-clipboard:hover {
-    color: rgb(0, 160, 214);
-    cursor: pointer;
-}
-
 
 button {
     background-color: rgb(0, 160, 214);
@@ -84,7 +79,7 @@ button.secondary:hover {
     background-color: #203140;
 }
 
-#party-code, #displayname {
+#party-code, #displayname-text {
     background-color: #0f171e;
     text-align: center;
     border: 1px solid #223444;
