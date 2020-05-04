@@ -56,6 +56,9 @@ window.addEventListener('message', async function (ev) {
         case 'play-video':
             socket.emit('play-video');
             break;
+        case 'next-episode':
+            socket.emit('next-episode', {season: ev.data.season, episode: ev.data.episode});
+            break;
         case 'close-video':
             socket.emit('close-video');
             break;
@@ -114,6 +117,9 @@ function initializeWebsocket(partyId) {
     socket.on('pause-video', (data) => {
         window.postMessage({type: 'pause-video', byMemberName: data.byMemberName, time: data?.time, remote: true}, '*')
     });
+    socket.on('next-episode', (data) => {
+        window.postMessage({type: 'next-episode', byMemberName: data.byMemberName, season: data.season, episode: data.episode, remote: true}, '*')
+    });
     socket.on('watching-trailer', (data) => {
         window.postMessage({type: 'watching-trailer', byMemberName: data.byMemberName, remote: true}, '*')
     });
@@ -131,7 +137,9 @@ function initializeWebsocket(partyId) {
     });
     socket.on('start-video', (data) => {
         const currentUrlData = splitPlayUrl(window.location.href);
-        if (currentUrlData !== null && currentUrlData.videoId.length >= 2 && currentUrlData.videoId === data.videoId) {
+        if (currentUrlData !== null
+            && currentUrlData.videoId === data.videoId
+            && !webPlayerWasClosed) {
             currentParty.videoId = data.videoId;
             window.postMessage({
                 type: 'start-video',

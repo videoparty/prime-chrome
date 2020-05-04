@@ -5,9 +5,17 @@
 const leavingMembers = [];
 
 listenToWindowEvent('start-video', async (ev) => {
-    if (ev.data.reason === 'next-episode') return;
     const memberName = ev.data.remote ? ev.data.byMemberName : 'You';
-    sendNotification('info', memberName + ' started a video', 'Loading..');
+    if (ev.data.reason === 'next-episode') {
+        sendNotification('info', memberName + ' started the next episode');
+    } else {
+        sendNotification('info', memberName + ' started a video', 'Loading..');
+    }
+});
+
+listenToWindowEvent('next-episode', async (ev) => {
+    const memberName = ev.data.remote ? ev.data.byMemberName : 'You';
+    sendNotification('info', memberName + ' started the next episode');
 });
 
 listenToWindowEvent('pause-video', async (ev) => {

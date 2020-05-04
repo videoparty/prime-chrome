@@ -6,10 +6,10 @@ let player;
 // Readiness is signaled by all party members to perform a coordinated 'play'-action.
 let signalReadiness = true;
 
-listenToWindowEvent('start-video', () => {
+listenToWindowEvent('start-video', (ev) => {
     if (!partyIsEnabled()) return; // Don't do anything if the user didn't open the extension
     player = undefined;
-    const waitForPlayer = setInterval(() => { // Todo rebuild this to a MutationListener
+    const waitForPlayer = setInterval(() => { // Todo rebuild this to a MutationListener (with a setPlayer check before)
         // Set the 'player' variable with the video element or undefined.
         if (setPlayer() === undefined) return;
 
@@ -19,6 +19,15 @@ listenToWindowEvent('start-video', () => {
             handleWatchingTrailer();
         } else {
             bindPlayerEvents();
+            // Explicitly pause in case the video was restarted from the same page.
+            if (webPlayerWasClosed && currentParty.members.length > 1) {
+                performPause();
+            }
+        }
+
+        // The next episode was started from the local webplayer. Broadcast it to the rest of the party
+        if (ev.data.reason === 'next-episode') {
+            window.postMessage({type: 'next-episode', ...getSeasonAndEpisode() }, '*');
         }
     }, 200);
 });
