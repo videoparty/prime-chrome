@@ -10,7 +10,7 @@ listenToWindowEvent('play-video', async () => {
             await player.play();
         } catch(err) {
             console.error(err);
-            if (err.includes('https://goo.gl/LdLk22')) {
+            if (err.message.includes('https://goo.gl/LdLk22')) {
                 setTimeout(() => { player.play(); }, 50);
             } else {
                 onPause(); // Trigger the onPause to broadcast a message and pause all other members.
