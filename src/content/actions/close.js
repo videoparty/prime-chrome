@@ -1,51 +1,61 @@
+let closeObserver;
 /**
- * This file listens every half asecond when the
- * current video player was closed (or by other members)
+ * When someone closed the video before we got there
  */
-
-let closeChecker;
-
-(
-    function () {
-        listenToWindowEvent('close-video', async () => {
-            const closeButton = jQuery('.closeButtonWrapper');
-            if (player && closeButton.length > 0) {
-
-                // todo fix problem: close-video is triggered when leaving/reloading the page
-                closeButton.click(); // todo: this doesn't work
-                clearInterval(closeChecker);
-                player.onpause = undefined;
-                player.pause();
-                player = undefined;
-                //window.location.href = 'https://primevideo.com';
-
-                // var eventOptions = {
-                //     'bubbles': true,
-                //     'button': 0,
-                //     'currentTarget': closeButton[0]
-                // };
-                // closeButton[0].dispatchEvent(new MouseEvent('mousemove', eventOptions));
-
-                // player.onpause = undefined;
-                // player.pause();
-                // jQuery('#dv-web-player').css('display', 'none');
-                // clearInterval(closeChecker);
-                // player = undefined;
-            }
-        });
-    }
-)();
+let closeImmediately = false;
+/**
+ * To track whether the webplayer was closed before on this page
+ */
+let webPlayerWasClosed = false;
 
 /**
- * Listen to when the webplayer disappears
+ * Listens when a remote member closed the video
+ */
+listenToWindowEvent('close-video', async () => {
+    if (!closeObserver) {
+        closeImmediately = true;
+        return;
+    }
+    closeObserver?.disconnect();
+    closeWebPlayer();
+});
+
+/**
+ * Listens whether current video player was closed locally
  */
 function startCloseListener() {
-    closeChecker = setInterval(() => {
-        const playerObj = jQuery('.webPlayerContainer video[src]')[0];
-        if (!playerObj || jQuery(playerObj).css('visibility') === 'hidden') {
-            // todo fix problem: close-video is triggered when leaving/reloading the page
-            //window.postMessage({type: 'close-video'}, '*');
-            clearInterval(closeChecker);
-        }
-    }, 500);
+    closeObserver?.disconnect();
+
+    if (closeImmediately) {
+        closeWebPlayer();
+        closeImmediately = false;
+        return;
+    }
+
+    closeObserver = new MutationObserver(handleWebPlayerChange);
+    const observeConfig =  {
+        attributes: true,
+        childList: false,
+        characterData: false
+    };
+    closeObserver.observe(jQuery('#dv-web-player')[0], observeConfig);
+}
+
+
+function handleWebPlayerChange() {
+    if (!webPlayerIsOpen()) {
+        closeObserver.disconnect();
+        window.postMessage({type: 'close-video'}, '*');
+    }
+}
+
+/**
+ * Triggers a mouseclick on the 'close' button
+ */
+function closeWebPlayer() {
+    lastClickedPlayItem = undefined;
+    jQuery('.closeButtonWrapper img.svgBackground').click();
+    player = undefined;
+    nextEpisodeObserver?.disconnect();
+    webPlayerWasClosed = true;
 }

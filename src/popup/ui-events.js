@@ -4,20 +4,26 @@ $('#new-party-link').click(() => {
 });
 
 // Save displayname
-$('#save-displayname').click(() => {
-    setDisplayName($('#displayname').val());
-    $('.me .saved-hint').css('visibility', 'visible')
-                        .css('opacity', '1');
+$('#displayname').submit((ev) => {
+    setDisplayName($('#displayname-text').val());
+    $('.saved-hint').css('visibility', 'visible')
+        .css('opacity', '1');
 
     setTimeout(() => {
-        $('.me .saved-hint').css('visibility', 'hidden')
-                            .css('opacity', '0');
+        $('.saved-hint').css('visibility', 'hidden')
+            .css('opacity', '0');
     }, 3000);
+    ev.preventDefault(); // Prevent page reload
 });
 
 // Copy party link button
 $('#copy-party-link').click(() => {
     copyValToClipboard('#party-link');
+    const copyLinkButton = $('#copy-party-link');
+    copyLinkButton.html('<i class="fa fa-check" aria-hidden="true"></i> Copied!');
+    setTimeout(() => {
+        copyLinkButton.html('<i class="fa fa-clipboard" aria-hidden="true"></i> Copy link');
+    }, 3000);
 });
 
 // Listen to incoming events
@@ -29,7 +35,7 @@ window.addEventListener('message', function (ev) {
             $('#party-code').val(msg.partyId);
             break;
         case 'displayname':
-            $('#displayname').val(msg.displayName);
+            $('#displayname-text').val(msg.displayName);
             break;
     }
 }, false);

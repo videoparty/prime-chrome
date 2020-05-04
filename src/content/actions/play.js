@@ -5,15 +5,16 @@
 listenToWindowEvent('play-video', async () => {
     if (!player) return;
     if (player.paused === true) {
-        player.onplay = undefined; // Remove the eventlistener to prevent recursive spam
-        try {
-            await player.play();
-        } catch(err) {
-            console.error(err);
-            onPause(); // Trigger the onPause to broadcast a message and pause all other members.
-            sendNotification('error', 'Could not play automatically. Please press the play button manually!', 'Error');
+        if(isPlayingTrailer()) { // Block all remote play actions during trailer
+            window.postMessage({
+                type: 'pause-video',
+                time: player.currentTime,
+                reason: 'watching-trailer'
+            }, '*');
+            return;
         }
-        player.onplay = onPlay;
+
+        performPlay();
     }
 });
 
@@ -21,8 +22,37 @@ listenToWindowEvent('play-video', async () => {
  * Listen to when the video starts playing (again)
  */
 function onPlay() {
-    if (!signalReadiness) {
+    if (signalReadiness) {
+        performPause();
+        window.postMessage({type: 'player-ready'}, '*');
+        signalReadiness = false;
+
+        // Prevent broadcasting unnecessary seek event
+        player.onseeked = undefined;
+        setTimeout(() => player.onseeked = onSeeked, 600);
+    } else {
         window.postMessage({type: 'play-video'}, '*');
-        // signalReadiness will have a follow up in seek.js and set to false in pause.js
+    }
+}
+
+/**
+ * Triggers player.play()
+ * without triggering the eventhandler,
+ * including error handling
+ */
+function performPlay(errorRetry = false) {
+    if (!player.paused) return;
+    player.onplay = () => {player.onplay = onPlay};
+    try {
+        player.play();
+    } catch(err) {
+        console.error(err);
+        if (err.message.includes('https://goo.gl/LdLk22') && !errorRetry) {
+            setTimeout(() => { performPlay(true) }, 50); // Race condition, try again
+        } else {
+            onPause(); // Trigger the onPause to broadcast a message and pause all other members.
+            sendNotification('error', 'Could not play automatically. Please press the play button manually!', 'Error');
+        }
+        player.onplay = onPlay;
     }
 }

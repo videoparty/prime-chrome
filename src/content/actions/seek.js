@@ -1,30 +1,38 @@
-/**
- * This file listens to the current time being reseeked to another point (can also be triggered by other party members)
- */
+let postponedSeekToTime;
 
+/**
+ * Listen to any event that triggers a jump to another time (can also be triggered by other party members)
+ */
 listenToWindowEvent('seek-video', async (ev) => {
-    if (!player) return;
-    player.onseeked = undefined;
-    player.onpause = undefined; // Remove the eventlistener to prevent recursive spam
-    try {
-        console.log('pause from seek');
-        player.pause();
-        player.currentTime = ev.data.time;
-    } catch (err) {/* Can't play while pausing */}
-    player.onseeked = () => {
-        window.postMessage({type: 'player-ready'}, '*');
-        player.onseeked = onSeeked
-    };
-    player.onpause = onPause;
+    if (isPlayingTrailer()) {
+        // In case someone seeks when we are still watching
+        // a trailer, postpone the seek until later.
+        postponedSeekToTime = ev.data.time;
+    } else {
+        performSeek(ev.data.time);
+    }
 });
+
+/**
+ * Perform a jump to another time without
+ * triggering the onseeked eventlistener
+ */
+function performSeek(time, emitPlayerReady = true) {
+    if (time === undefined) return;
+    player.onseeked = () => {
+        if (emitPlayerReady) {
+            window.postMessage({type: 'player-ready'}, '*');
+        }
+        player.onseeked = onSeeked;
+    };
+    performPause();
+    player.currentTime = time;
+}
 
 /**
  * Listen to when the video seek finished
  */
 function onSeeked() {
-    if (isPlayingTrailer()) return;
-    player.onpause = undefined;
-    player.pause();
-    player.onpause = onPause;
+    if (isPlayingTrailer() || signalReadiness) return;
     window.postMessage({type: 'seek-video', time: player.currentTime}, '*');
 }

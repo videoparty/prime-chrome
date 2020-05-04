@@ -25,17 +25,34 @@ function isPlayingTrailer() {
 }
 
 /**
- * Shows an error modal using the webplayer overlay
- * UNTESTED
+ * If the webplayer is currently open or not
  */
-function showErrorModal(title, message) {
-    jQuery('.webPlayer .overlaysContainer').append('' +
-        '<div class="modalContainer flexRow" style="display: flex;">' +
-        '<div class="modal flexColumn"><div class="errorModal flexColumn">' +
-        '<div class="title">' + title + '<div class="closePlayer html5"></div></div>' +
-        '<div class="description scrollableVertical">' + message + '</div>' +
-        '<div class="footer"><div class="button">Close player</div></div>' +
-        '</div></div></div>');
+function webPlayerIsOpen() {
+    const webplayer = jQuery('#dv-web-player');
+    return webplayer && webplayer.hasClass('dv-player-fullscreen');
+}
+
+/**
+ * Gets the current season and episode
+ * number from the webplayer
+ */
+function getSeasonAndEpisode() {
+    try {
+        const extracted = jQuery('.contentTitlePanel .subtitle').html().match(/(\d+)\D*(\d+)/);
+        return {
+            season: extracted[1],
+            episode: extracted[2]
+        }
+    } catch(err) {}
+    return undefined;
+}
+
+/**
+ * Perform a mouseclick event on the
+ * 'next episode' link in the webplayer
+ */
+function performNextEpisode() {
+    jQuery('.nextTitleButton .text').click();
 }
 
 /**

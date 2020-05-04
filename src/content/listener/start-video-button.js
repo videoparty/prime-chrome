@@ -5,11 +5,12 @@
  * This file listens to all those 'start video' clicks and
  * broadcasts a message about it.
  */
+
+let lastClickedPlayItem;
 (
     function () {
         // Circle is the 'start video' button element on the homepage,
         // but somehow we can't listen on elements inside svg's.. So listen to everything.
-        let lastClickedItem;
         jQuery('*').click(function (ev) {
             const aLink = jQuery(ev.target).closest('a[data-video-type="Feature"]');
             if (aLink.length > 0) {
@@ -19,9 +20,9 @@
                     return;
                 }
 
-                if (lastClickedItem !== playData.videoId) {
+                if (lastClickedPlayItem !== playData.videoId) {
                     postStartVideoMessage(playData);
-                    lastClickedItem = playData.videoId;
+                    lastClickedPlayItem = playData.videoId;
                 }
             }
         });
