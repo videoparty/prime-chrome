@@ -1,3 +1,9 @@
+# 0.5.0 - 05-05-2020
+- Starting the next episode in sync
+- Closing a video is now synced
+- Improved stability on synced actions
+- Blocking all remote actions when watching a trailer
+
 # 0.4.1 - 02-05-2020
 - Fixed bug which stops the extension from connecting to the syncserver
 
