@@ -9,17 +9,17 @@ let signalReadiness = true;
 listenToWindowEvent('start-video', () => {
     if (!partyIsEnabled()) return; // Don't do anything if the user didn't open the extension
     player = undefined;
-    const waitForPlayer = setInterval(() => {
+    const waitForPlayer = setInterval(() => { // Todo rebuild this to a MutationListener
         // Set the 'player' variable with the video element or undefined.
         if (setPlayer() === undefined) return;
 
         clearInterval(waitForPlayer);
-        if (isPlayingTrailer()) {
-            player.pause();
-            window.postMessage({type: 'watching-trailer'}, '*');
-        }
         signalReadiness = true;
-        bindPlayerEvents();
+        if (isPlayingTrailer()) {
+            handleWatchingTrailer();
+        } else {
+            bindPlayerEvents();
+        }
     }, 200);
 });
 
@@ -35,8 +35,27 @@ listenToWindowEvent('start-video', () => {
 function bindPlayerEvents() {
     player.onplay = onPlay;
     player.onpause = onPause;
-    // The first onseeked event is a part of initializing, so ignore it
-    player.onseeked = () => { player.onseeked = onSeeked };
+    player.onseeked = onSeeked;
     startNextEpisodeListener();
     startCloseListener();
+}
+
+/**
+ * We are watching a trailer. When the trailer is finished,
+ * the original player will start automatically. When this
+ * happens, check if someone seeked to another time previously.
+ */
+function handleWatchingTrailer() {
+    player.onplay = () => {
+        // After the trailer finishes, the player plays. Then bind the events.
+        bindPlayerEvents();
+        if (postponedSeekToTime !== undefined) {
+            performSeek(postponedSeekToTime); // Inform party after we seek
+            postponedSeekToTime = undefined;
+        } else {
+            player.onplay = onPlay; // Restore original eventhandler
+            onPlay(); // Inform the party that we are playing now
+        }
+    };
+    window.postMessage({type: 'watching-trailer'}, '*');
 }

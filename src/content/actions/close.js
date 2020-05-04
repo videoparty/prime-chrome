@@ -15,7 +15,7 @@ let closeChecker;
                 closeButton.click(); // todo: this doesn't work
                 clearInterval(closeChecker);
                 player.onpause = undefined;
-                player.pause();
+                await player.pause();
                 player = undefined;
                 //window.location.href = 'https://primevideo.com';
 

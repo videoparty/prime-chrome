@@ -11,6 +11,7 @@ listenToWindowEvent('start-video', async (ev) => {
 });
 
 listenToWindowEvent('pause-video', async (ev) => {
+    if (ev.data.reason === 'watching-trailer') return;
     const memberName = ev.data.remote ? ev.data.byMemberName : 'You';
     sendNotification('info', memberName + ' paused');
 });
