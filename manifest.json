@@ -35,6 +35,9 @@
       "run_at": "document_start"
     }
   ],
+  "web_accessible_resources": [
+    "icon-small.png"
+  ],
   "background": {
     "scripts": [
       "src/background/declarative-content.js",
