@@ -88,7 +88,7 @@ function initializeWebsocket(partyId) {
         socket.emit('join-party', joinArgs);
     });
     socket.on('play-video', (data) => {
-        window.postMessage({
+        postWindowMessage({
             type: 'play-video',
             coordinated: data.coordinated,
             byMemberName: data.byMemberName,
@@ -97,7 +97,7 @@ function initializeWebsocket(partyId) {
     });
     socket.on('join-party', (data) => {
         currentParty.members = data.currentMembers;
-        window.postMessage({
+        postWindowMessage({
             type: 'member-change',
             change: 'join',
             member: data.member,
@@ -107,7 +107,7 @@ function initializeWebsocket(partyId) {
     });
     socket.on('left-party', (data) => {
         currentParty.members = data.currentMembers;
-        window.postMessage({
+        postWindowMessage({
             type: 'member-change',
             change: 'leave',
             member: data.member,
@@ -115,19 +115,19 @@ function initializeWebsocket(partyId) {
         }, '*')
     });
     socket.on('pause-video', (data) => {
-        window.postMessage({type: 'pause-video', byMemberName: data.byMemberName, time: data?.time, remote: true}, '*')
+        postWindowMessage({type: 'pause-video', byMemberName: data.byMemberName, time: data?.time, remote: true}, '*')
     });
     socket.on('next-episode', (data) => {
-        window.postMessage({type: 'next-episode', byMemberName: data.byMemberName, season: data.season, episode: data.episode, remote: true}, '*')
+        postWindowMessage({type: 'next-episode', byMemberName: data.byMemberName, season: data.season, episode: data.episode, remote: true}, '*')
     });
     socket.on('watching-trailer', (data) => {
-        window.postMessage({type: 'watching-trailer', byMemberName: data.byMemberName, remote: true}, '*')
+        postWindowMessage({type: 'watching-trailer', byMemberName: data.byMemberName, remote: true}, '*')
     });
     socket.on('seek-video', (data) => {
-        window.postMessage({type: 'seek-video', byMemberName: data.byMemberName, time: data.time, remote: true}, '*')
+        postWindowMessage({type: 'seek-video', byMemberName: data.byMemberName, time: data.time, remote: true}, '*')
     });
     socket.on('close-video', (data) => {
-        window.postMessage({type: 'close-video', byMemberName: data.byMemberName, remote: true}, '*')
+        postWindowMessage({type: 'close-video', byMemberName: data.byMemberName, remote: true}, '*')
     });
     socket.on('start-video-for-member', (data) => {
         // The server is asking us for the current time so another member can join in sync
@@ -141,7 +141,7 @@ function initializeWebsocket(partyId) {
             && currentUrlData.videoId === data.videoId
             && !webPlayerWasClosed) {
             currentParty.videoId = data.videoId;
-            window.postMessage({
+            postWindowMessage({
                 type: 'start-video',
                 videoId: data.videoId,
                 ref: data.ref,

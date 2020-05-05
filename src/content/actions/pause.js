@@ -22,7 +22,7 @@ listenToWindowEvent('member-change', async (ev) => {
  */
 function onPause() {
     if (signalReadiness) return;
-    window.postMessage({
+    postWindowMessage({
         type: 'pause-video',
         time: player.currentTime
     }, '*');

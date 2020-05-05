@@ -35,7 +35,7 @@ let lastClickedPlayItem;
         });
 
         function postStartVideoMessage(playData) {
-            window.postMessage({
+            postWindowMessage({
                 type: 'start-video',
                 videoId: playData.videoId,
                 ref: playData.ref,

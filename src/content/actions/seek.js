@@ -21,7 +21,7 @@ function performSeek(time, emitPlayerReady = true) {
     if (time === undefined) return;
     player.onseeked = () => {
         if (emitPlayerReady) {
-            window.postMessage({type: 'player-ready'}, '*');
+            postWindowMessage({type: 'player-ready'}, '*');
         }
         player.onseeked = onSeeked;
     };
@@ -34,5 +34,5 @@ function performSeek(time, emitPlayerReady = true) {
  */
 function onSeeked() {
     if (isPlayingTrailer() || signalReadiness) return;
-    window.postMessage({type: 'seek-video', time: player.currentTime}, '*');
+    postWindowMessage({type: 'seek-video', time: player.currentTime}, '*');
 }

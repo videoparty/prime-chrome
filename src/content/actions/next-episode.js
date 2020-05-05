@@ -30,6 +30,6 @@ function handlePlayerParentChange() {
     if (webPlayerIsOpen() && setPlayer() === undefined) {
         nextEpisodeObserver.disconnect();
         // Perform a hacky trick by adding 'remote', so we do not emit it through socket.
-        window.postMessage({type: 'start-video', reason: 'next-episode', remote: true}, '*');
+        postWindowMessage({type: 'start-video', reason: 'next-episode', remote: true}, '*');
     }
 }

@@ -6,7 +6,7 @@ listenToWindowEvent('play-video', async () => {
     if (!player) return;
     if (player.paused === true) {
         if(isPlayingTrailer()) { // Block all remote play actions during trailer
-            window.postMessage({
+            postWindowMessage({
                 type: 'pause-video',
                 time: player.currentTime,
                 reason: 'watching-trailer'
@@ -24,14 +24,14 @@ listenToWindowEvent('play-video', async () => {
 function onPlay() {
     if (signalReadiness) {
         performPause();
-        window.postMessage({type: 'player-ready'}, '*');
+        postWindowMessage({type: 'player-ready'}, '*');
         signalReadiness = false;
 
         // Prevent broadcasting unnecessary seek event
         player.onseeked = undefined;
         setTimeout(() => player.onseeked = onSeeked, 600);
     } else {
-        window.postMessage({type: 'play-video'}, '*');
+        postWindowMessage({type: 'play-video'}, '*');
     }
 }
 

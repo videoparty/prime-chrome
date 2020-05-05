@@ -4,7 +4,7 @@
 (
     function () {
         chrome.extension.onMessage.addListener(function(msg) {
-            window.postMessage(msg, '*');
+            postWindowMessage(msg, '*');
         });
     }
 )();

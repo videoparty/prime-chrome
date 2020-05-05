@@ -17,6 +17,7 @@
         "lib/jquery.js",
         "lib/socketio.js",
         "lib/toastr.js",
+        "lib/global-helpers.js",
         "src/content/helpers/helper.js",
         "src/content/helpers/ui-helper.js",
         "src/content/listener/extension-messages.js",
