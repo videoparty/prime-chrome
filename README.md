@@ -5,6 +5,9 @@
 
 Watch video's from primevideo.com together in sync! This extension handles all client-side actions (start video, pause, resume, seek time) coming from or going to the [PvP server](https://github.com/videoparty/server).
 
+## Install
+[![Chrome WebStore](https://developer.chrome.com/webstore/images/ChromeWebStore_BadgeWBorder_v2_340x96.png)](https://chrome.google.com/webstore/detail/eingklpogjmofcedolfbgoomghkaamkn)
+
 ## Local development
 - Open your [Chrome Extensions](chrome://extensions)
 - Enable **Developer mode** in the top right corner 
