@@ -23,5 +23,9 @@ This codebase includes work from the projects below:
 
 Inspired by [NetflixParty](https://www.netflixparty.com/).
 
+## Disclaimer
+**Prime Video** is a trademark of **Amazon Technologies, Inc.**, a subsidiary of **Amazon.com, Inc.**
+The author of this Work is not affiliated with those companies.
+
 ## License
 [apache-2.0](LICENSE)
