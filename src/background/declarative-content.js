@@ -3,6 +3,18 @@ var rule = {
     conditions: [
         new chrome.declarativeContent.PageStateMatcher({
             pageUrl: { hostContains: '.primevideo.com', schemes: ['https'] }
+        }),
+        new chrome.declarativeContent.PageStateMatcher({
+            pageUrl: { hostContains: '.amazon.com', schemes: ['https'] }
+        }),
+        new chrome.declarativeContent.PageStateMatcher({
+            pageUrl: { hostContains: '.amazon.co.uk', schemes: ['https'] }
+        }),
+        new chrome.declarativeContent.PageStateMatcher({
+            pageUrl: { hostContains: '.amazon.de', schemes: ['https'] }
+        }),
+        new chrome.declarativeContent.PageStateMatcher({
+            pageUrl: { hostContains: '.amazon.co.jp', schemes: ['https'] }
         })
     ],
     actions: [ new chrome.declarativeContent.ShowPageAction() ]

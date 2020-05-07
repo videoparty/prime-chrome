@@ -18,8 +18,19 @@ window.addEventListener('message', async function (ev) {
     if (ev.data.type === 'party-info' && ev.data.isNew) {
         // In case the user opens the extension for the first time in browser session,
         // or when the user clicks the 'new party' button.
-        window.location.href = '/?pvpartyId=' + ev.data.partyId;
-    } else if (!socket && ev.data.type === 'party-info') {
+        let baseUrl = '';
+        if (window.isOnAmazonWebsite) {
+            baseUrl = '/gp/video/storefront';
+        }
+        window.location.href = baseUrl + '/?pvpartyId=' + ev.data.partyId;
+        return;
+    }
+
+    if (window.isOnAmazonWebsite && !(await isOnPrimeVideoSection())) {
+        return; // Only when primevideo section is open
+    }
+
+    if (!socket && ev.data.type === 'party-info') {
         // When the user surfs to another page but is already in a party
         displayName = await getDisplayName();
         initializeWebsocket(ev.data.partyId);
@@ -151,7 +162,11 @@ function initializeWebsocket(partyId) {
             }, '*');
         } else {
             let startTime = data.time || 0;
-            window.location.href = 'https://www.primevideo.com/detail/' + data.videoId + '/ref=' + data.ref + '?autoplay=1&t=' + startTime;
+            let urlBase = 'https://www.primevideo.com';
+            if (window.isOnAmazonWebsite) {
+                urlBase = new URL(window.location).origin;
+            }
+            window.location.href = urlBase + '/detail/' + data.videoId + '/ref=' + data.ref + '?autoplay=1&t=' + startTime;
         }
     });
 }

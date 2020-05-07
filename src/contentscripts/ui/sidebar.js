@@ -3,8 +3,9 @@
  * after the user joined the party
  */
 let sidebarInitialized = false;
-listenToWindowEvent('member-change', (ev) => {
-    if (ev.data.change !== 'join' || sidebarInitialized) return;
+listenToWindowEvent('member-change', async (ev) => {
+    if (ev.data.change !== 'join' || sidebarInitialized ||
+        (window.isOnAmazonWebsite && !(await isOnPrimeVideoSection()))) return;
     const sidebarSrc = chrome.runtime.getURL('src/sidebar/sidebar.html');
     jQuery('body')
         .css('display', 'flex')

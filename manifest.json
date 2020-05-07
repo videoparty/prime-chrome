@@ -11,7 +11,19 @@
   ],
   "content_scripts": [
     {
-      "matches": ["https://*.primevideo.com/*"],
+      "matches": [
+        "https://*.amazon.com/*",
+        "https://*.amazon.co.uk/*",
+        "https://*.amazon.de/*",
+        "https://*.amazon.co.jp/*"
+      ],
+      "js": [
+        "src/contentscripts/ui/amazon.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://*.primevideo.com/*", "https://*.amazon.com/*", "https://*.amazon.co.uk/*", "https://*.amazon.de/*", "https://*.amazon.co.jp/*"],
       "css": ["lib/toastr.css", "src/sidebar/sidebar-host.css"],
       "js": [
         "lib/jquery.js",
