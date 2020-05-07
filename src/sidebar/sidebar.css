@@ -1,0 +1,22 @@
+html {
+    background-color: transparent;
+}
+
+html.active > body.player-mode {
+    transition: all .3s ease-in-out;
+    color: rgba(242, 244, 246, .8);
+}
+
+body {
+    font-family: "Amazon Ember", Arial, sans-serif;
+    margin: 15px;
+    color: rgba(242, 244, 246, .8);
+    transition: all 1s ease-in-out;
+}
+
+body.player-mode {
+    color: rgba(242, 244, 246, .4);
+}
+
+
+/* CONTENT */

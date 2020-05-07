@@ -6,16 +6,18 @@ let sidebarInitialized = false;
 listenToWindowEvent('member-change', (ev) => {
     if (ev.data.change !== 'join' || sidebarInitialized) return;
     const sidebarSrc = chrome.runtime.getURL('src/sidebar/sidebar.html');
-    jQuery('body').append('' +
-        '<div id="pvp-sidebar">' +
-        '<iframe id="pvp-sidebar-iframe" src="' + sidebarSrc + '"></iframe>' +
-        '</div>');
+    jQuery('body')
+        .css('display', 'flex')
+        .append('' +
+            '<div id="pvp-sidebar">' +
+            '<iframe id="pvp-sidebar-iframe" src="' + sidebarSrc + '"></iframe>' +
+            '</div>');
     jQuery('#a-page').css('transition', 'width 1s ease-in-out').css('width', '100%');
 
     // I like animations
     setTimeout(() => {
-        jQuery('#pvp-sidebar').css('width', '20%');
-        jQuery('#a-page').css('width', '80%');
+        jQuery('#pvp-sidebar').css('width', '15%');
+        jQuery('#a-page').css('width', '85%');
     }, 1000);
 
     startWebplayerWatcher();

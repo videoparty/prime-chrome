@@ -12,7 +12,7 @@
   "content_scripts": [
     {
       "matches": ["https://*.primevideo.com/*"],
-      "css": ["lib/toastr.css"],
+      "css": ["lib/toastr.css", "src/sidebar/sidebar-host.css"],
       "js": [
         "lib/jquery.js",
         "lib/socketio.js",
@@ -31,13 +31,15 @@
         "src/contentscripts/actions/seek.js",
         "src/contentscripts/actions/bind-actions.js",
         "src/contentscripts/ui/navbar.js",
+        "src/contentscripts/ui/sidebar.js",
         "src/contentscripts/listener/bootstrap.js"
       ],
       "run_at": "document_start"
     }
   ],
   "web_accessible_resources": [
-    "icon-small.png"
+    "icon-small.png",
+    "src/sidebar/*"
   ],
   "background": {
     "scripts": [
