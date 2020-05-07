@@ -70,7 +70,7 @@ function getDisplayName(broadcast = true) {
 async function getParty(broadcast, createIfUndefined) {
     const currentParty = await getCurrentParty();
     if (!currentParty && createIfUndefined) {
-        createNewParty();
+        await createNewParty();
     } else if (currentParty && broadcast) {
         broadcastMessage({
             type: 'party-info',
@@ -89,7 +89,7 @@ async function getParty(broadcast, createIfUndefined) {
 async function joinParty(partyId) {
     const currentParty = await getCurrentParty();
     if (!currentParty || currentParty.partyId !== partyId) {
-        createNewParty(partyId);
+        await createNewParty(partyId);
     } else {
         await getParty(true);
     }
@@ -99,9 +99,9 @@ async function joinParty(partyId) {
  * Generate new party link and resets the current party
  * @returns {{partyId: string, link: string}}
  */
-function createNewParty(joinPartyId = undefined) {
+async function createNewParty(joinPartyId = undefined) {
     const partyId = joinPartyId || generatePartyId();
-    const partyLink = 'https://primevideo.com/?pvpartyId=' + partyId;
+    const partyLink = await getCurrentTabBaseUrl() +'/?pvpartyId=' + partyId;
     const newPartyMsg = {
         type: 'party-info',
         link: partyLink,
@@ -138,4 +138,20 @@ function broadcastMessage(data) {
         }
     });
     chrome.runtime.sendMessage(data);
+}
+
+async function getCurrentTabBaseUrl() {
+    return new Promise((resolve) => {
+        chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+            if (tabs.length > 0) {
+                let url = new URL(tabs[0].url).origin;
+                if (url.includes('amazon.')) {
+                    url += '/gp/video/storefront'
+                }
+                resolve(url);
+            } else {
+                resolve(undefined);
+            }
+        });
+    })
 }

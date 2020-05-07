@@ -18,8 +18,19 @@ window.addEventListener('message', async function (ev) {
     if (ev.data.type === 'party-info' && ev.data.isNew) {
         // In case the user opens the extension for the first time in browser session,
         // or when the user clicks the 'new party' button.
-        window.location.href = '/?pvpartyId=' + ev.data.partyId;
-    } else if (!socket && ev.data.type === 'party-info') {
+        let baseUrl = '';
+        if (window.isOnAmazonWebsite) {
+            baseUrl = '/gp/video/storefront';
+        }
+        window.location.href = baseUrl + '/?pvpartyId=' + ev.data.partyId;
+        return;
+    }
+
+    if (window.isOnAmazonWebsite && !(await isOnPrimeVideoSection())) {
+        return; // Only when primevideo section is open
+    }
+
+    if (!socket && ev.data.type === 'party-info') {
         // When the user surfs to another page but is already in a party
         displayName = await getDisplayName();
         initializeWebsocket(ev.data.partyId);
@@ -88,7 +99,7 @@ function initializeWebsocket(partyId) {
         socket.emit('join-party', joinArgs);
     });
     socket.on('play-video', (data) => {
-        window.postMessage({
+        postWindowMessage({
             type: 'play-video',
             coordinated: data.coordinated,
             byMemberName: data.byMemberName,
@@ -97,7 +108,7 @@ function initializeWebsocket(partyId) {
     });
     socket.on('join-party', (data) => {
         currentParty.members = data.currentMembers;
-        window.postMessage({
+        postWindowMessage({
             type: 'member-change',
             change: 'join',
             member: data.member,
@@ -107,7 +118,7 @@ function initializeWebsocket(partyId) {
     });
     socket.on('left-party', (data) => {
         currentParty.members = data.currentMembers;
-        window.postMessage({
+        postWindowMessage({
             type: 'member-change',
             change: 'leave',
             member: data.member,
@@ -115,19 +126,19 @@ function initializeWebsocket(partyId) {
         }, '*')
     });
     socket.on('pause-video', (data) => {
-        window.postMessage({type: 'pause-video', byMemberName: data.byMemberName, time: data?.time, remote: true}, '*')
+        postWindowMessage({type: 'pause-video', byMemberName: data.byMemberName, time: data?.time, remote: true}, '*')
     });
     socket.on('next-episode', (data) => {
-        window.postMessage({type: 'next-episode', byMemberName: data.byMemberName, season: data.season, episode: data.episode, remote: true}, '*')
+        postWindowMessage({type: 'next-episode', byMemberName: data.byMemberName, season: data.season, episode: data.episode, remote: true}, '*')
     });
     socket.on('watching-trailer', (data) => {
-        window.postMessage({type: 'watching-trailer', byMemberName: data.byMemberName, remote: true}, '*')
+        postWindowMessage({type: 'watching-trailer', byMemberName: data.byMemberName, remote: true}, '*')
     });
     socket.on('seek-video', (data) => {
-        window.postMessage({type: 'seek-video', byMemberName: data.byMemberName, time: data.time, remote: true}, '*')
+        postWindowMessage({type: 'seek-video', byMemberName: data.byMemberName, time: data.time, remote: true}, '*')
     });
     socket.on('close-video', (data) => {
-        window.postMessage({type: 'close-video', byMemberName: data.byMemberName, remote: true}, '*')
+        postWindowMessage({type: 'close-video', byMemberName: data.byMemberName, remote: true}, '*')
     });
     socket.on('start-video-for-member', (data) => {
         // The server is asking us for the current time so another member can join in sync
@@ -141,7 +152,7 @@ function initializeWebsocket(partyId) {
             && currentUrlData.videoId === data.videoId
             && !webPlayerWasClosed) {
             currentParty.videoId = data.videoId;
-            window.postMessage({
+            postWindowMessage({
                 type: 'start-video',
                 videoId: data.videoId,
                 ref: data.ref,
@@ -151,7 +162,11 @@ function initializeWebsocket(partyId) {
             }, '*');
         } else {
             let startTime = data.time || 0;
-            window.location.href = 'https://www.primevideo.com/detail/' + data.videoId + '/ref=' + data.ref + '?autoplay=1&t=' + startTime;
+            let urlBase = 'https://www.primevideo.com';
+            if (window.isOnAmazonWebsite) {
+                urlBase = new URL(window.location).origin;
+            }
+            window.location.href = urlBase + '/detail/' + data.videoId + '/ref=' + data.ref + '?autoplay=1&t=' + startTime;
         }
     });
 }

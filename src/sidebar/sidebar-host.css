@@ -1,0 +1,39 @@
+/**
+* Inject this file in the iframe host document
+*/
+
+/* ******************** Webplayer and page ******************** */
+#dv-web-player, #a-page {
+    transition: width 1s ease-in-out;
+}
+
+/* *************** PvP defaults (browsing mode) *************** */
+#pvp-sidebar {
+    position: fixed;
+    height: 100%;
+    width: 0;
+    right: 0;
+    top: initial;
+    transition: width 1s ease-in-out, top 1s ease-in-out;
+}
+
+#pvp-sidebar iframe {
+    width: 100%;
+    border: none;
+    height: 100%;
+    border-top: 1px solid rgba(129,151,164,.5);
+    border-left: 1px solid rgba(129,151,164,.5);
+    background-color: #203140;
+}
+
+/* ******************** PvP webplayer mode ******************** */
+#pvp-sidebar.player-mode {
+    top: 0;
+    z-index: 10000;
+}
+
+#pvp-sidebar.player-mode iframe {
+    border-top: none;
+    border-left: 1px solid rgba(129,151,164,.2);
+    background-color: #000;
+}

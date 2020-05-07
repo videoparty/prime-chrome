@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_extName__",
   "description": "__MSG_extDescription__",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "default_locale": "en",
   "permissions": [
     "activeTab",
@@ -11,29 +11,46 @@
   ],
   "content_scripts": [
     {
-      "matches": ["https://*.primevideo.com/*"],
+      "matches": [
+        "https://*.amazon.com/*",
+        "https://*.amazon.co.uk/*",
+        "https://*.amazon.de/*",
+        "https://*.amazon.co.jp/*"
+      ],
+      "js": [
+        "src/contentscripts/ui/amazon.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://*.primevideo.com/*", "https://*.amazon.com/*", "https://*.amazon.co.uk/*", "https://*.amazon.de/*", "https://*.amazon.co.jp/*"],
       "css": ["lib/toastr.css"],
       "js": [
         "lib/jquery.js",
         "lib/socketio.js",
         "lib/toastr.js",
-        "src/content/helpers/helper.js",
-        "src/content/helpers/ui-helper.js",
-        "src/content/listener/extension-messages.js",
-        "src/content/listener/websocket.js",
-        "src/content/listener/start-video-button.js",
-        "src/content/listener/remote-party-actions.js",
-        "src/content/actions/next-episode.js",
-        "src/content/actions/close.js",
-        "src/content/actions/play.js",
-        "src/content/actions/pause.js",
-        "src/content/actions/seek.js",
-        "src/content/actions/bind-actions.js",
-        "src/content/ui/navbar.js",
-        "src/content/listener/bootstrap.js"
+        "lib/global-helpers.js",
+        "src/contentscripts/helpers/helper.js",
+        "src/contentscripts/helpers/ui-helper.js",
+        "src/contentscripts/listener/extension-messages.js",
+        "src/contentscripts/listener/websocket.js",
+        "src/contentscripts/listener/start-video-button.js",
+        "src/contentscripts/listener/remote-party-actions.js",
+        "src/contentscripts/actions/next-episode.js",
+        "src/contentscripts/actions/close.js",
+        "src/contentscripts/actions/play.js",
+        "src/contentscripts/actions/pause.js",
+        "src/contentscripts/actions/seek.js",
+        "src/contentscripts/actions/bind-actions.js",
+        "src/contentscripts/ui/navbar.js",
+        "src/contentscripts/listener/bootstrap.js"
       ],
       "run_at": "document_start"
     }
+  ],
+  "web_accessible_resources": [
+    "icon-small.png",
+    "src/sidebar/*"
   ],
   "background": {
     "scripts": [

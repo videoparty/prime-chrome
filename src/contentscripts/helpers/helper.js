@@ -1,18 +1,4 @@
 /**
- * Listen to a specific window event.
- * An optional timeout delays calling the callback function.
- */
-function listenToWindowEvent(type, callback, timeout = 1) {
-    window.addEventListener('message', function (ev) {
-        if (ev.data.type === type) {
-            setTimeout(() => {
-                callback(ev)
-            }, timeout);
-        }
-    }, false);
-}
-
-/**
  * Breaks down a detail URL into three parts:
  * https://www.primevideo.com/detail/{VIDEOID}/ref={REF}?autoplay=1&t={TIME}
  */

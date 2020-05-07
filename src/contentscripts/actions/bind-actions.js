@@ -27,7 +27,7 @@ listenToWindowEvent('start-video', (ev) => {
 
         // The next episode was started from the local webplayer. Broadcast it to the rest of the party
         if (ev.data.reason === 'next-episode') {
-            window.postMessage({type: 'next-episode', ...getSeasonAndEpisode() }, '*');
+            postWindowMessage({type: 'next-episode', ...getSeasonAndEpisode() }, '*');
         }
     }, 200);
 });
@@ -66,5 +66,5 @@ function handleWatchingTrailer() {
             onPlay(); // Inform the party that we are playing now
         }
     };
-    window.postMessage({type: 'watching-trailer'}, '*');
+    postWindowMessage({type: 'watching-trailer'}, '*');
 }
