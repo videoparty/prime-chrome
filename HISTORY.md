@@ -1,3 +1,6 @@
+# 0.5.1 - 07-05-2020
+- Supporting amazon.com/.co.uk/.de/.co.jp
+
 # 0.5.0 - 05-05-2020
 - Starting the next episode in sync
 - Closing a video is now synced
