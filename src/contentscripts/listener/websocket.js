@@ -62,7 +62,7 @@ window.addEventListener('message', async function (ev) {
             });
             break;
         case 'pause-video':
-            socket.emit('pause-video', {time: ev.data.time});
+            socket.emit('pause-video', {time: ev.data.time, reason: ev.data.reason});
             break;
         case 'play-video':
             socket.emit('play-video');
@@ -126,7 +126,7 @@ function initializeWebsocket(partyId) {
         }, '*')
     });
     socket.on('pause-video', (data) => {
-        postWindowMessage({type: 'pause-video', byMemberName: data.byMemberName, time: data?.time, remote: true}, '*')
+        postWindowMessage({type: 'pause-video', byMemberName: data.byMemberName, reason: data.reason, time: data.time, remote: true}, '*')
     });
     socket.on('next-episode', (data) => {
         postWindowMessage({type: 'next-episode', byMemberName: data.byMemberName, season: data.season, episode: data.episode, remote: true}, '*')

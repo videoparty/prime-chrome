@@ -19,8 +19,14 @@ listenToWindowEvent('next-episode', async (ev) => {
 });
 
 listenToWindowEvent('pause-video', async (ev) => {
-    if (ev.data.reason === 'watching-trailer') return;
     const memberName = ev.data.remote ? ev.data.byMemberName : 'You';
+    if (ev.data.reason === 'watching-trailer' && ev.data.remote) {
+        sendNotification('error', 'Cannot resume, ' + memberName + ' is watching a trailer');
+        return;
+    } else if(ev.data.reason === 'watching-trailer' && !ev.data.remote) {
+        return;
+    }
+
     sendNotification('info', memberName + ' paused');
 });
 
