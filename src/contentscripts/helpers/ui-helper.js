@@ -6,7 +6,7 @@ function setPlayer() {
     // In case of a prior trailer, there are 2 video elements. Grab the last one.
     // The last video element will trigger onPlay when the trailer finished.
     const videoElements = jQuery('.webPlayerContainer video[src]');
-    if (videoElements.length === 0) {
+    if (videoElements.length === 0 || jQuery(videoElements[videoElements.length - 1]).css('visibility') !== 'visible') {
         player = undefined;
     } else if (videoElements[videoElements.length - 1].src.startsWith('blob')) {
         player = videoElements[videoElements.length - 1];
@@ -53,20 +53,6 @@ function getSeasonAndEpisode() {
  */
 function performNextEpisode() {
     jQuery('.nextTitleButton .text').click();
-}
-
-/**
- * Show the overlay spinner
- */
-function showSpinner() {
-    jQuery('.overlay .loadingSpinner').css('display', 'block');
-}
-
-/**
- * Hide the overlay spinner
- */
-function hideSpinner() {
-    jQuery('.overlay .loadingSpinner').css('display', 'none');
 }
 
 /**

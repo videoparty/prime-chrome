@@ -1,3 +1,6 @@
+# 0.5.2 - 09-05-2020
+- Bind events to the player after it becomes visible - preventing a black screen after starting the next episode ([#10](https://github.com/videoparty/prime-chrome/issues/10))
+
 # 0.5.1 - 07-05-2020
 - Supporting amazon.com/.co.uk/.de/.co.jp
 

@@ -9,7 +9,7 @@ let signalReadiness = true;
 listenToWindowEvent('start-video', (ev) => {
     if (!partyIsEnabled()) return; // Don't do anything if the user didn't open the extension
     player = undefined;
-    const waitForPlayer = setInterval(() => { // Todo rebuild this to a MutationListener (with a setPlayer check before)
+    const waitForPlayer = setInterval(() => {
         // Set the 'player' variable with the video element or undefined.
         if (setPlayer() === undefined) return;
 
