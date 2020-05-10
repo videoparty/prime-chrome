@@ -95,3 +95,8 @@ button.secondary:hover {
 .party-controls {
     margin: 15px 0 15px 0;
 }
+
+#ext-version {
+    font-size: 0.6em;
+    color: rgba(242, 244, 246, .2);
+}
