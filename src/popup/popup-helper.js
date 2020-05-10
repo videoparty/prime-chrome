@@ -18,7 +18,9 @@ function sendMessageToRuntime(data) {
  * @returns {{code: string, link: string}}
  */
 function createAndJoinNewParty(sendToContentScript = true) {
-    sendMessageToRuntime({type: 'create-new-party'});
+    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+        sendMessageToRuntime({type: 'create-new-party', url: tabs[0].url});
+    });
 }
 
 /**
@@ -27,7 +29,9 @@ function createAndJoinNewParty(sendToContentScript = true) {
  * off a 'party-info' event.
  */
 function getCurrentParty() {
-    sendMessageToRuntime({type: 'get-party', createNew: true});
+    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+        sendMessageToRuntime({type: 'get-party', url: tabs[0].url, createNew: true});
+    });
 }
 
 /**
