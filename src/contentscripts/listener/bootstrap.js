@@ -4,9 +4,9 @@
  */
 const joinPartyId = getPartyQueryParameter();
 if (joinPartyId) {
-    chrome.runtime.sendMessage({type: 'join-party', partyId: joinPartyId});
+    chrome.runtime.sendMessage({type: 'join-party', url: window.location.href, partyId: joinPartyId});
 } else {
-    chrome.runtime.sendMessage({type: 'get-party', createNew: false});
+    chrome.runtime.sendMessage({type: 'get-party', url: window.location.href, createNew: false});
 }
 
 /**

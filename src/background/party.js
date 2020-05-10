@@ -5,10 +5,10 @@
 chrome.runtime.onMessage.addListener(function (request) {
     switch (request.type) {
         case 'create-new-party':
-            createNewParty();
+            createNewParty(request.url);
             break;
         case 'get-party':
-            getParty(true, request.createNew);
+            getParty(request.url, true, request.createNew);
             break;
         case 'set-displayname':
             setDisplayName(request.displayName);
@@ -17,7 +17,7 @@ chrome.runtime.onMessage.addListener(function (request) {
             getDisplayName();
             break;
         case 'join-party':
-            joinParty(request.partyId);
+            joinParty(request.url, request.partyId);
             break;
     }
 });
@@ -26,8 +26,7 @@ chrome.runtime.onMessage.addListener(function (request) {
  * Reset current party on browser startup
  */
 chrome.runtime.onStartup.addListener(function() {
-    console.log('Reset party');
-    chrome.storage.local.remove('currentParty');
+    leaveParty();
 });
 
 function setCurrentParty(party) {
@@ -67,10 +66,10 @@ function getDisplayName(broadcast = true) {
  * Get current party ID.
  * If there is no current party, make a new one.
  */
-async function getParty(broadcast, createIfUndefined) {
+async function getParty(url, broadcast, createIfUndefined) {
     const currentParty = await getCurrentParty();
     if (!currentParty && createIfUndefined) {
-        await createNewParty();
+        createNewParty(url);
     } else if (currentParty && broadcast) {
         broadcastMessage({
             type: 'party-info',
@@ -86,12 +85,12 @@ async function getParty(broadcast, createIfUndefined) {
 /**
  * Update current party
  */
-async function joinParty(partyId) {
+async function joinParty(url, partyId) {
     const currentParty = await getCurrentParty();
     if (!currentParty || currentParty.partyId !== partyId) {
-        await createNewParty(partyId);
+        createNewParty(url, partyId);
     } else {
-        await getParty(true);
+        await getParty(url, true);
     }
 }
 
@@ -99,9 +98,9 @@ async function joinParty(partyId) {
  * Generate new party link and resets the current party
  * @returns {{partyId: string, link: string}}
  */
-async function createNewParty(joinPartyId = undefined) {
+function createNewParty(url, joinPartyId = undefined) {
     const partyId = joinPartyId || generatePartyId();
-    const partyLink = await getCurrentTabBaseUrl() +'/?pvpartyId=' + partyId;
+    const partyLink = getCurrentTabBaseUrl(url) +'/?pvpartyId=' + partyId;
     const newPartyMsg = {
         type: 'party-info',
         link: partyLink,
@@ -109,10 +108,16 @@ async function createNewParty(joinPartyId = undefined) {
         isNew: true
     };
 
+    chrome.tabs.onRemoved.addListener(() => leaveParty())
+
     setCurrentParty({link: partyLink, partyId});
     broadcastMessage(newPartyMsg);
 
     return newPartyMsg;
+}
+
+function leaveParty() {
+    chrome.storage.local.remove('currentParty');
 }
 
 /**
@@ -140,18 +145,11 @@ function broadcastMessage(data) {
     chrome.runtime.sendMessage(data);
 }
 
-async function getCurrentTabBaseUrl() {
-    return new Promise((resolve) => {
-        chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-            if (tabs.length > 0) {
-                let url = new URL(tabs[0].url).origin;
-                if (url.includes('amazon.')) {
-                    url += '/gp/video/storefront'
-                }
-                resolve(url);
-            } else {
-                resolve(undefined);
-            }
-        });
-    })
+function getCurrentTabBaseUrl(fullUrl) {
+    console.log(fullUrl)
+    let url = new URL(fullUrl).origin;
+    if (url.includes('amazon.')) {
+        url += '/gp/video/storefront'
+    }
+    return url;
 }
