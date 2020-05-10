@@ -1,3 +1,8 @@
+# 0.5.3 - 10-05-2020
+- Fix unable to join party through URL after first extension (re)load
+- Clear the party information after closing the current tab
+- Show current version in the extension popup
+
 # 0.5.2 - 09-05-2020
 - Bind events to the player after it becomes visible - preventing a black screen after starting the next episode ([#10](https://github.com/videoparty/prime-chrome/issues/10))
 
