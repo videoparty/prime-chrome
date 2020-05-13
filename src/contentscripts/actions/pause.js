@@ -25,7 +25,7 @@ function onPause() {
     postWindowMessage({
         type: 'pause-video',
         time: player.currentTime
-    }, '*');
+    });
 }
 
 /**

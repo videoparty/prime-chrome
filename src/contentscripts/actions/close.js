@@ -45,7 +45,7 @@ function startCloseListener() {
 function handleWebPlayerChange() {
     if (!webPlayerIsOpen()) {
         closeObserver.disconnect();
-        postWindowMessage({type: 'close-video'}, '*');
+        postWindowMessage({type: 'close-video'});
     }
 }
 

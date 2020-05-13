@@ -3,7 +3,7 @@
  */
 
 const websocketUrl = 'https://ws.primevideoparty.com';
-let currentParty; // = {id: string, members: string[], videoId: string}
+let currentParty; // = {id: string, members: {id: string, displayName: string}[], videoId: string}
 let socket;
 let displayName;
 
@@ -104,7 +104,7 @@ function initializeWebsocket(partyId) {
             coordinated: data.coordinated,
             byMemberName: data.byMemberName,
             remote: true
-        }, '*')
+        })
     });
     socket.on('join-party', (data) => {
         currentParty.members = data.currentMembers;
@@ -113,8 +113,9 @@ function initializeWebsocket(partyId) {
             change: 'join',
             member: data.member,
             pause: data.pause,
+            currentParty,
             remote: true
-        }, '*')
+        })
     });
     socket.on('left-party', (data) => {
         currentParty.members = data.currentMembers;
@@ -122,23 +123,24 @@ function initializeWebsocket(partyId) {
             type: 'member-change',
             change: 'leave',
             member: data.member,
+            currentParty,
             remote: true
-        }, '*')
+        })
     });
     socket.on('pause-video', (data) => {
-        postWindowMessage({type: 'pause-video', byMemberName: data.byMemberName, reason: data.reason, time: data.time, remote: true}, '*')
+        postWindowMessage({type: 'pause-video', byMemberName: data.byMemberName, time: data?.time, remote: true}, '*')
     });
     socket.on('next-episode', (data) => {
-        postWindowMessage({type: 'next-episode', byMemberName: data.byMemberName, season: data.season, episode: data.episode, remote: true}, '*')
+        postWindowMessage({type: 'next-episode', byMemberName: data.byMemberName, season: data.season, episode: data.episode, remote: true})
     });
     socket.on('watching-trailer', (data) => {
-        postWindowMessage({type: 'watching-trailer', byMemberName: data.byMemberName, remote: true}, '*')
+        postWindowMessage({type: 'watching-trailer', byMemberName: data.byMemberName, remote: true})
     });
     socket.on('seek-video', (data) => {
-        postWindowMessage({type: 'seek-video', byMemberName: data.byMemberName, time: data.time, remote: true}, '*')
+        postWindowMessage({type: 'seek-video', byMemberName: data.byMemberName, time: data.time, remote: true})
     });
     socket.on('close-video', (data) => {
-        postWindowMessage({type: 'close-video', byMemberName: data.byMemberName, remote: true}, '*')
+        postWindowMessage({type: 'close-video', byMemberName: data.byMemberName, remote: true})
     });
     socket.on('start-video-for-member', (data) => {
         // The server is asking us for the current time so another member can join in sync
@@ -159,7 +161,7 @@ function initializeWebsocket(partyId) {
                 time: data.time,
                 byMemberName: data.byMemberName,
                 remote: true
-            }, '*');
+            });
         } else {
             let startTime = data.time || 0;
             let urlBase = 'https://www.primevideo.com';

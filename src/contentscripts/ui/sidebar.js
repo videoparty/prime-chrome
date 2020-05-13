@@ -6,6 +6,10 @@ let sidebarInitialized = false;
 listenToWindowEvent('member-change', async (ev) => {
     if (ev.data.change !== 'join' || sidebarInitialized ||
         (window.isOnAmazonWebsite && !(await isOnPrimeVideoSection()))) return;
+    await initializeSidebar(ev);
+});
+
+async function initializeSidebar(ev) {
     const sidebarSrc = chrome.runtime.getURL('src/sidebar/sidebar.html');
     jQuery('body')
         .css('display', 'flex')
@@ -21,9 +25,24 @@ listenToWindowEvent('member-change', async (ev) => {
         jQuery('#a-page').css('width', '85%');
     }, 1000);
 
+    // Watcher is changing the theme
     startWebplayerWatcher();
     sidebarInitialized = true;
+}
+
+/**
+ * Sidebar is asking for party data
+ */
+listenToWindowEvent('sb-get-current-party', () => {
+    postWindowMessage({type:'party-info', currentParty}, getSidebarWindow());
 });
+
+/**
+ * Get the contentWindow of the sidebar iframe
+ */
+function getSidebarWindow() {
+    return document.getElementById('pvp-sidebar-iframe').contentWindow;
+}
 
 /**
  * Adjusts the PvP sidebar theme when the webplayer opens or closes.

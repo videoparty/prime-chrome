@@ -10,7 +10,7 @@ listenToWindowEvent('play-video', async () => {
                 type: 'pause-video',
                 time: player.currentTime,
                 reason: 'watching-trailer'
-            }, '*');
+            });
             return;
         }
 
@@ -24,14 +24,14 @@ listenToWindowEvent('play-video', async () => {
 function onPlay() {
     if (signalReadiness) {
         performPause();
-        postWindowMessage({type: 'player-ready'}, '*');
+        postWindowMessage({type: 'player-ready'});
         signalReadiness = false;
 
         // Prevent broadcasting unnecessary seek event
         player.onseeked = undefined;
         setTimeout(() => player.onseeked = onSeeked, 600);
     } else {
-        postWindowMessage({type: 'play-video'}, '*');
+        postWindowMessage({type: 'play-video'});
     }
 }
 

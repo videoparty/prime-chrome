@@ -40,7 +40,7 @@ let lastClickedPlayItem;
                 videoId: playData.videoId,
                 ref: playData.ref,
                 time: playData.time
-            }, '*')
+            })
         }
     }
 )();
