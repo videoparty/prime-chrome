@@ -34,15 +34,8 @@ async function initializeSidebar(ev) {
  * Sidebar is asking for party data
  */
 listenToWindowEvent('sb-get-current-party', () => {
-    postWindowMessage({type:'party-info', currentParty}, getSidebarWindow());
+    postWindowMessage({type:'party-info', currentParty}, getSidebarIframe().contentWindow);
 });
-
-/**
- * Get the contentWindow of the sidebar iframe
- */
-function getSidebarWindow() {
-    return document.getElementById('pvp-sidebar-iframe').contentWindow;
-}
 
 /**
  * Adjusts the PvP sidebar theme when the webplayer opens or closes.

@@ -12,6 +12,7 @@ body {
     margin: 15px;
     color: rgba(242, 244, 246, .8);
     transition: all 1s ease-in-out;
+    font-size: 1.35em;
 }
 
 body.player-mode {
@@ -19,4 +20,5 @@ body.player-mode {
 }
 
 
-/* CONTENT */
+/* ************ CONTENT ************ */
+

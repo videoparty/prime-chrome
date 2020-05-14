@@ -1,0 +1,47 @@
+.member {
+    display: flex;
+    align-items: center;
+}
+
+/* Status icon */
+.member .status {
+    font-size: 0.75em;
+    margin-right: 5px;
+}
+
+body:not(.player-mode) .member .status,
+html.active body.player-mode .member .status {
+    /* Icons have blue color when hovering or not in play mode */
+    color: rgb(0, 160, 214);
+    transition: color .3s ease-in-out;
+}
+
+body:not(.player-mode) .member .status.loading,
+body:not(.player-mode) .member .status.watching-trailer,
+body:not(.player-mode) .member .status.unknown,
+html.active body.player-mode .member .status.loading,
+html.active body.player-mode .member .status.watching-trailer,
+html.active body.player-mode .member .status.unknown {
+    /* Unknown, watching trailer or loading statuses are orange */
+    color: #ffa724;
+    transition: color .3s ease-in-out;
+}
+
+body.player-mode .member .status {
+    color: rgba(242, 244, 246, .4);
+    transition: color 1s ease-in-out;
+}
+
+.member .status i {
+    display: none;
+}
+
+.status.idle .fa-desktop,
+.status.playing .fa-play,
+.status.paused .fa-pause,
+.status.loading .fa-spinner,
+.status.next-episode .fa-fast-forward,
+.status.watching-trailer .fa-film,
+.status.unknown .fa-question {
+    display: block;
+}

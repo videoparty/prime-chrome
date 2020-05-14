@@ -108,6 +108,12 @@ function initializeWebsocket(partyId) {
     });
     socket.on('join-party', (data) => {
         currentParty.members = data.currentMembers;
+        for (let member of currentParty.members) {
+            if (member.id !== socket.id) continue;
+            member.isMe = true;
+            break;
+        }
+
         postWindowMessage({
             type: 'member-change',
             change: 'join',
@@ -128,7 +134,7 @@ function initializeWebsocket(partyId) {
         })
     });
     socket.on('pause-video', (data) => {
-        postWindowMessage({type: 'pause-video', byMemberName: data.byMemberName, time: data?.time, remote: true}, '*')
+        postWindowMessage({type: 'pause-video', byMemberName: data.byMemberName, time: data?.time, remote: true})
     });
     socket.on('next-episode', (data) => {
         postWindowMessage({type: 'next-episode', byMemberName: data.byMemberName, season: data.season, episode: data.episode, remote: true})
@@ -160,6 +166,7 @@ function initializeWebsocket(partyId) {
                 ref: data.ref,
                 time: data.time,
                 byMemberName: data.byMemberName,
+                byMember: {id: socket.id, displayName: socket.displayName || 'Unknown'},
                 remote: true
             });
         } else {
