@@ -16,11 +16,31 @@ function setPlayer() {
 }
 
 /**
+ * 14-05-2020, a new webplayer is rolled
+ * out across regions gradually.
+ * This new webplayer uses obfuscated class names.
+ */
+function isLegacyWebPlayer() {
+    return jQuery('.webPlayerElement .webPlayer').length > 0;
+}
+
+/**
+ * Helper to get the correct element according to
+ * whic webplayer is applied.
+ * @see isLegacyWebPlayer
+ */
+function getWebPlayerElement(legacySelector, newSelector) {
+    return isLegacyWebPlayer() ? jQuery(legacySelector) : jQuery(newSelector);
+}
+
+/**
  * Check if the user is currently watching a trailer
  * @returns boolean
  */
 function isPlayingTrailer() {
-    const skipButton = jQuery('.bottomPanelItem .adSkipButton');
+    const skipButton = getWebPlayerElement(
+        '.bottomPanelItem .adSkipButton',
+        '.fe39tpk .fu4rd6c.f1cw2swo');
     return skipButton.length > 0;
 }
 
@@ -38,7 +58,9 @@ function webPlayerIsOpen() {
  */
 function getSeasonAndEpisode() {
     try {
-        const extracted = jQuery('.contentTitlePanel .subtitle').html().match(/(\d+)\D*(\d+)/);
+        const extracted = getWebPlayerElement(
+            '.contentTitlePanel .subtitle',
+            '.f15586js.f1iodedr.fdm7v.fs89ngr').html().match(/(\d+)\D*(\d+)/);
         return {
             season: extracted[1],
             episode: extracted[2]
@@ -52,7 +74,7 @@ function getSeasonAndEpisode() {
  * 'next episode' link in the webplayer
  */
 function performNextEpisode() {
-    jQuery('.nextTitleButton .text').click();
+    getWebPlayerElement('.nextTitleButton .text', '.f1l8jkug.fpp3az0').click();
 }
 
 /**

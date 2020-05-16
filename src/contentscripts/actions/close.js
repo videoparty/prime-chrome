@@ -54,7 +54,9 @@ function handleWebPlayerChange() {
  */
 function closeWebPlayer() {
     lastClickedPlayItem = undefined;
-    jQuery('.closeButtonWrapper img.svgBackground').click();
+    getWebPlayerElement(
+        '.closeButtonWrapper img.svgBackground',
+        '.fyysciv.f1yzibwv > .fo6n8wp.fud1t1u.f1njeegi > img.fuorrko').click();
     player = undefined;
     nextEpisodeObserver?.disconnect();
     webPlayerWasClosed = true;

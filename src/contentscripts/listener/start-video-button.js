@@ -12,7 +12,7 @@ let lastClickedPlayItem;
         // Circle is the 'start video' button element on the homepage,
         // but somehow we can't listen on elements inside svg's.. So listen to everything.
         jQuery('*').click(function (ev) {
-            const aLink = jQuery(ev.target).closest('a[data-video-type="Feature"]');
+            const aLink = jQuery(ev.target).closest('a[data-video-type="Feature"], a._1HiwGB');
             if (aLink.length > 0) {
                 const playData = splitPlayUrl(aLink.attr('href'));
                 if (playData === null) {
@@ -31,7 +31,9 @@ let lastClickedPlayItem;
         // as a 'start video' button on detail pages.
         jQuery('a[data-video-type="Feature"]').click(function () {
             const playData = splitPlayUrl(jQuery(this).attr('href'));
-            postStartVideoMessage(playData);
+            if (playData !== null) {
+                postStartVideoMessage(playData);
+            }
         });
 
         function postStartVideoMessage(playData) {
