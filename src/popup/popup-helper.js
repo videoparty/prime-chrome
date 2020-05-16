@@ -2,7 +2,7 @@
  * Listen to all incoming contentscript messages
  */
 chrome.runtime.onMessage.addListener(async function (msg) {
-    postWindowMessage(msg, '*');
+    postWindowMessage(msg);
 });
 
 /**

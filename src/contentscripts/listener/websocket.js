@@ -2,6 +2,7 @@
  * Mediating events between websocket and the window
  */
 
+const supportedUi = '3.19.4-2020-05-14'; // Amazon user interface version. Different versions might imply webplayer changes.
 const websocketUrl = 'https://ws.primevideoparty.com';
 let currentParty; // = {id: string, members: string[], videoId: string}
 let socket;
@@ -52,17 +53,24 @@ window.addEventListener('message', async function (ev) {
             socket.emit('watching-trailer');
             break;
         case 'seek-video':
-            socket.emit('seek-video', {time: ev.data.time});
+            socket.emit('seek-video', {
+                time: ev.data.time,
+                isLegacyPlayer: isLegacyWebPlayer()
+            });
             break;
         case 'start-video':
             socket.emit('start-video', {
                 videoId: ev.data.videoId,
                 ref: ev.data.ref,
-                time: ev.data.time
+                time: ev.data.time,
+                isLegacyPlayer: isLegacyWebPlayer()
             });
             break;
         case 'pause-video':
-            socket.emit('pause-video', {time: ev.data.time});
+            socket.emit('pause-video', {
+                time: ev.data.time,
+                isLegacyPlayer: isLegacyWebPlayer()
+            });
             break;
         case 'play-video':
             socket.emit('play-video');
@@ -104,7 +112,7 @@ function initializeWebsocket(partyId) {
             coordinated: data.coordinated,
             byMemberName: data.byMemberName,
             remote: true
-        }, '*')
+        })
     });
     socket.on('join-party', (data) => {
         currentParty.members = data.currentMembers;
@@ -114,7 +122,7 @@ function initializeWebsocket(partyId) {
             member: data.member,
             pause: data.pause,
             remote: true
-        }, '*')
+        })
     });
     socket.on('left-party', (data) => {
         currentParty.members = data.currentMembers;
@@ -123,27 +131,50 @@ function initializeWebsocket(partyId) {
             change: 'leave',
             member: data.member,
             remote: true
-        }, '*')
+        })
     });
     socket.on('pause-video', (data) => {
-        postWindowMessage({type: 'pause-video', byMemberName: data.byMemberName, time: data?.time, remote: true}, '*')
+        postWindowMessage({
+            type: 'pause-video',
+            byMemberName: data.byMemberName,
+            time: data.time,
+            isLegacyPlayer: data.isLegacyPlayer,
+            remote: true
+        })
     });
     socket.on('next-episode', (data) => {
-        postWindowMessage({type: 'next-episode', byMemberName: data.byMemberName, season: data.season, episode: data.episode, remote: true}, '*')
+        postWindowMessage({
+            type: 'next-episode',
+            byMemberName: data.byMemberName,
+            season: data.season,
+            episode: data.episode,
+            remote: true
+        })
     });
     socket.on('watching-trailer', (data) => {
-        postWindowMessage({type: 'watching-trailer', byMemberName: data.byMemberName, remote: true}, '*')
+        postWindowMessage({
+            type: 'watching-trailer',
+            byMemberName: data.byMemberName,
+            remote: true
+        })
     });
     socket.on('seek-video', (data) => {
-        postWindowMessage({type: 'seek-video', byMemberName: data.byMemberName, time: data.time, remote: true}, '*')
+        postWindowMessage({
+            type: 'seek-video',
+            byMemberName: data.byMemberName,
+            time: data.time,
+            isLegacyPlayer: data.isLegacyPlayer,
+            remote: true
+        })
     });
     socket.on('close-video', (data) => {
-        postWindowMessage({type: 'close-video', byMemberName: data.byMemberName, remote: true}, '*')
+        postWindowMessage({type: 'close-video', byMemberName: data.byMemberName, remote: true})
     });
     socket.on('start-video-for-member', (data) => {
         // The server is asking us for the current time so another member can join in sync
-        // Send our currentTime minus 10 seconds because the webplayer always starts at 10sec..
-        data.time = player ? player.currentTime - 10 : 0;
+        // If the currentTime in legacy webplayer = -10 seconds for new webplayer
+        data.isLegacyPlayer = isLegacyWebPlayer();
+        data.time = player ? player.currentTime : 0;
         socket.emit('start-video-for-member', data);
     });
     socket.on('start-video', (data) => {
@@ -157,9 +188,10 @@ function initializeWebsocket(partyId) {
                 videoId: data.videoId,
                 ref: data.ref,
                 time: data.time,
+                isLegacyPlayer: data.isLegacyPlayer,
                 byMemberName: data.byMemberName,
                 remote: true
-            }, '*');
+            });
         } else {
             let startTime = data.time || 0;
             let urlBase = 'https://www.primevideo.com';
