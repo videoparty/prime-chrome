@@ -1,3 +1,8 @@
+# 0.5.4 - 16-05-2020
+- A new webplayer was released on 14-05, having obfuscated class names. Now supporting the old and new webplayer ([#24](https://github.com/videoparty/prime-chrome/issues/24))
+- Fixed sync difference of +10 or -10 seconds ([#23](https://github.com/videoparty/prime-chrome/issues/23))
+- No notification when someone tries to resume while we are watching a trailer
+
 # 0.5.3 - 10-05-2020
 - Fix unable to join party through URL after first extension (re)load
 - Clear the party information after closing the current tab
