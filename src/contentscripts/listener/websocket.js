@@ -111,7 +111,7 @@ function initializeWebsocket(partyId) {
         postWindowMessage({
             type: 'play-video',
             coordinated: data.coordinated,
-            byMemberName: data.byMemberName,
+            byMember: data.byMember,
             remote: true
         })
     });
@@ -145,7 +145,7 @@ function initializeWebsocket(partyId) {
     socket.on('pause-video', (data) => {
         postWindowMessage({
             type: 'pause-video',
-            byMemberName: data.byMemberName,
+            byMember: data.byMember,
             time: data.time,
             isLegacyPlayer: data.isLegacyPlayer,
             remote: true
@@ -154,31 +154,34 @@ function initializeWebsocket(partyId) {
     socket.on('next-episode', (data) => {
         postWindowMessage({
             type: 'next-episode',
-            byMemberName: data.byMemberName,
+            byMember: data.byMember,
             season: data.season,
             episode: data.episode,
             remote: true
-        })
-        postWindowMessage({type: 'next-episode', byMemberName: data.byMemberName, season: data.season, episode: data.episode, remote: true})
+        });
     });
     socket.on('watching-trailer', (data) => {
         postWindowMessage({
             type: 'watching-trailer',
-            byMemberName: data.byMemberName,
+            byMember: data.byMember,
             remote: true
         })
     });
     socket.on('seek-video', (data) => {
         postWindowMessage({
             type: 'seek-video',
-            byMemberName: data.byMemberName,
+            byMember: data.byMember,
             time: data.time,
             isLegacyPlayer: data.isLegacyPlayer,
             remote: true
         })
     });
     socket.on('close-video', (data) => {
-        postWindowMessage({type: 'close-video', byMemberName: data.byMemberName, remote: true})
+        postWindowMessage({
+            type: 'close-video',
+            byMember: data.byMember,
+            remote: true
+        })
     });
     socket.on('start-video-for-member', (data) => {
         // The server is asking us for the current time so another member can join in sync
@@ -199,7 +202,6 @@ function initializeWebsocket(partyId) {
                 ref: data.ref,
                 time: data.time,
                 isLegacyPlayer: data.isLegacyPlayer,
-                byMemberName: data.byMemberName,
                 byMember: data.byMember,
                 remote: true
             });
