@@ -1,13 +1,3 @@
-const States = {
-    idle: 'idle',
-    loading: 'loading',
-    playing: 'playing',
-    paused: 'paused',
-    nextEpisode: 'next-episode',
-    watchingTrailer: 'watching-trailer',
-    unknown: 'unknown'
-};
-
 /**
  * All local and remote actions that result
  * into a change of state, like playing, pausing, etc.
@@ -20,9 +10,20 @@ listenToWindowEvent('start-video', (ev) => {
         updateMemberStatus(member, States.loading);
     }
 });
+listenToWindowEvent('state-update', (ev) => {
+    const member = ev.data.byMember ? ev.data.byMember.displayName : myDisplayName;
+    const state = States[ev.data.state] ? ev.data.state : States.unknown;
+    updateMemberStatus(member, state);
+});
 listenToWindowEvent('play-video', (ev) => {
     const member = ev.data.byMember ? ev.data.byMember.displayName : myDisplayName;
     updateMemberStatus(member, States.playing);
+});
+listenToWindowEvent('seek-video', () => {
+    updateMemberStatus(myDisplayName, States.playerReady);
+});
+listenToWindowEvent('player-ready', () => {
+    updateMemberStatus(myDisplayName, States.playerReady);
 });
 listenToWindowEvent('pause-video', (ev) => {
     const member = ev.data.byMember ? ev.data.byMember.displayName : myDisplayName;

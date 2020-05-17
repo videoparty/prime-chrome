@@ -60,4 +60,5 @@ function closeWebPlayer() {
     player = undefined;
     nextEpisodeObserver?.disconnect();
     webPlayerWasClosed = true;
+    postWindowMessage({type: 'state-update', state: States.idle});
 }

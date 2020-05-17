@@ -4,6 +4,11 @@ let myDisplayName;
  * Add a member to the bottom of the member list
  */
 function addMemberToList(displayName) {
+    const existingMember = $('#members .member[data-id="' + displayName + '"]');
+    if (existingMember.length > 0) {
+        existingMember.remove();
+    }
+
     $('#members').append('' +
         '<div class="member" data-id="' + displayName + '">\n' +
         '  <span class="status idle">\n' +

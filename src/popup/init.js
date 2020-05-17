@@ -9,8 +9,3 @@ getDisplayName();
  * a new one will be created.
  */
 getCurrentParty();
-
-/**
- * Setup the window message listener
- */
-setupWindowListener();

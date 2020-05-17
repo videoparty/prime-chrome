@@ -24,7 +24,7 @@ function performSeek(time, emitPlayerReady = true) {
     if (time === undefined) return;
     player.onseeked = () => {
         if (emitPlayerReady) {
-            postWindowMessage({type: 'player-ready'});
+            postWindowMessage({type: 'player-ready'}); // Server will also emit a state update
         }
         player.onseeked = onSeeked;
     };

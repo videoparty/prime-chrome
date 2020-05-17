@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_extName__",
   "description": "__MSG_extDescription__",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "default_locale": "en",
   "permissions": [
     "activeTab",
@@ -30,6 +30,7 @@
         "lib/socketio.js",
         "lib/toastr.js",
         "lib/global-helpers.js",
+        "lib/states.js",
         "src/contentscripts/helpers/helper.js",
         "src/contentscripts/helpers/ui-helper.js",
         "src/contentscripts/listener/extension-messages.js",

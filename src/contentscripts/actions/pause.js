@@ -41,6 +41,7 @@ function performPause() {
     player.onpause = () => {player.onpause = onPause};
     try {
         player.pause();
+        postWindowMessage({type: 'state-update', state: States.paused});
     } catch(err) {
         console.error(err);
         player.onpause = onPause;

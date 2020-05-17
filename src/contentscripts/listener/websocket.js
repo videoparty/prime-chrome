@@ -73,6 +73,9 @@ window.addEventListener('message', async function (ev) {
                 reason: ev.data.reason
             });
             break;
+        case 'state-update':
+            socket.emit('state-update', {state: ev.data.state});
+            break;
         case 'play-video':
             socket.emit('play-video');
             break;
@@ -112,6 +115,14 @@ function initializeWebsocket(partyId) {
             type: 'play-video',
             coordinated: data.coordinated,
             byMember: data.byMember,
+            remote: true
+        })
+    });
+    socket.on('state-update', (data) => {
+        postWindowMessage({
+            type: 'state-update',
+            byMember: data.byMember,
+            state: data.state,
             remote: true
         })
     });
