@@ -15,6 +15,7 @@ function addMemberToList(displayName) {
         '    <i class="fa fa-desktop"></i>\n' +
         '    <i class="fa fa-play"></i>\n' +
         '    <i class="fa fa-pause"></i>\n' +
+        '    <i class="fa fa-check"></i>\n' +
         '    <i class="fa fa-spinner fa-pulse fa-fw"></i>\n' +
         '    <i class="fa fa-question"></i>\n' +
         '    <i class="fa fa-film"></i>\n' +
@@ -54,10 +55,10 @@ function removeMemberFromList(displayName) {
  * Update the icon in front of the member
  * @param memberId currently the displayName
  * @param status one of the States enum
- * @param setAllToLoading wether to set all members to 'loading'
+ * @param setAllToLoading wether to set all members to 'loading'. If undefined, it will be determined automatically.
  * @see States
  */
-function updateMemberStatus(memberId, status, setAllToLoading = true) {
+function updateMemberStatus(memberId, status, setAllToLoading = undefined) {
     const memberStatus = $('#members .member[data-id="'+memberId+'"] .status');
     if (memberStatus.length === 0) return;
 

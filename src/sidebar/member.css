@@ -37,6 +37,7 @@ body.player-mode .member .status {
 }
 
 .status.idle .fa-desktop,
+.status.player-ready .fa-check,
 .status.playing .fa-play,
 .status.paused .fa-pause,
 .status.loading .fa-spinner,

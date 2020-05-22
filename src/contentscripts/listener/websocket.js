@@ -3,7 +3,7 @@
  */
 
 const supportedUi = '3.19.4-2020-05-14'; // Amazon user interface version. Different versions might imply webplayer changes.
-const websocketUrl = 'https://ws.primevideoparty.com';
+const websocketUrl = 'http://localhost:3000';
 let currentParty; // = {id: string, members: {id: string, displayName: string}[], videoId: string}
 let socket;
 let displayName;
@@ -19,6 +19,11 @@ window.addEventListener('message', async function (ev) {
     if (ev.data.type === 'party-info' && ev.data.isNew) {
         // In case the user opens the extension for the first time in browser session,
         // or when the user clicks the 'new party' button.
+
+        if (currentParty && socket) {
+            socket.emit('leave-party', {});
+        }
+
         let baseUrl = '';
         if (window.isOnAmazonWebsite) {
             baseUrl = '/gp/video/storefront';
@@ -223,6 +228,13 @@ function initializeWebsocket(partyId) {
                 urlBase = new URL(window.location).origin;
             }
             window.location.href = urlBase + '/detail/' + data.videoId + '/ref=' + data.ref + '?autoplay=1&t=' + startTime;
+        }
+    });
+
+    // Socket error handling
+    socket.on('reconnecting', (attemptNr) => {
+        if (attemptNr === 1) {
+            sendNotification('error', 'The server might be in the process of updating. Sorry for the inconvenience.', 'Lost connection');
         }
     });
 }

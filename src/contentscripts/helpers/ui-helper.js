@@ -3,6 +3,9 @@
  * Sets to undefined if the webplayer video element could not be found.
  */
 function setPlayer() {
+    // Do not set the player if we are watching a trailer!
+    if (isPlayingTrailer()) return undefined;
+
     // In case of a prior trailer, there are 2 video elements. Grab the last one.
     // The last video element will trigger onPlay when the trailer finished.
     const videoElements = jQuery('.webPlayerContainer video[src]');

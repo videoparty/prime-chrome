@@ -16,7 +16,7 @@ listenToWindowEvent('pause-video', async (ev) => {
  * Pause when someone joined/left with a 'pause' flag enabled
  */
 listenToWindowEvent('member-change', async (ev) => {
-    if (!ev.data.pause || !player || !player.paused) return;
+    if (!ev.data.pause || !player) return;
     performPause();
 });
 
@@ -36,12 +36,14 @@ function onPause() {
  * without triggering the eventhandler,
  * including error handling
  */
-function performPause() {
+function performPause(broadcastStateUpdate = true) {
     if (player.paused) return;
     player.onpause = () => {player.onpause = onPause};
     try {
         player.pause();
-        postWindowMessage({type: 'state-update', state: States.paused});
+        if (broadcastStateUpdate) {
+            postWindowMessage({type: 'state-update', state: States.paused});
+        }
     } catch(err) {
         console.error(err);
         player.onpause = onPause;

@@ -9,7 +9,7 @@ listenToWindowEvent('member-change', async (ev) => {
     await initializeSidebar(ev);
 });
 
-async function initializeSidebar(ev) {
+async function initializeSidebar() {
     const sidebarSrc = chrome.runtime.getURL('src/sidebar/sidebar.html');
     jQuery('body')
         .css('display', 'flex')
@@ -25,6 +25,15 @@ async function initializeSidebar(ev) {
         jQuery('#a-page').css('width', '85%');
     }, 1000);
 
+    setTimeout(() => {
+        const sidebar = jQuery('#pvp-sidebar');
+        if ((player || isPlayingTrailer()) && !sidebar.hasClass('player-mode')) {
+            adjustPlayerWidth('85%');
+            postWindowMessage({type: 'start-video'}, getSidebarIframe().contentWindow);
+            sidebar.addClass('player-mode');
+        }
+    }, 5000); // Just to make sure it's not missing the 'start-video' message
+
     // Watcher is changing the theme
     startWebplayerWatcher();
     sidebarInitialized = true;
@@ -34,29 +43,33 @@ async function initializeSidebar(ev) {
  * Sidebar is asking for party data
  */
 listenToWindowEvent('sb-get-current-party', () => {
-    postWindowMessage({type:'party-info', currentParty}, getSidebarIframe().contentWindow);
+    postWindowMessage({type: 'party-info', currentParty}, getSidebarIframe().contentWindow);
 });
 
 /**
  * Adjusts the PvP sidebar theme when the webplayer opens or closes.
  */
 function startWebplayerWatcher() {
+
+    if (player) {
+        adjustPlayerWidth('85%');
+    }
+
     listenToWindowEvent('start-video', () => {
         const sidebar = jQuery('#pvp-sidebar');
         sidebar.addClass('player-mode');
-        adjustPlayerWidth(sidebar.css('width'));
+        adjustPlayerWidth('85%');
     });
 
     listenToWindowEvent('close-video', () => {
         const sidebar = jQuery('#pvp-sidebar');
         sidebar.removeClass('player-mode');
-        adjustPlayerWidth(sidebar.css('width'));
     });
+}
 
-    function adjustPlayerWidth(sidebarWidth) {
-        const webPlayer = jQuery('#dv-web-player');
-        if (webPlayer.length > 0) {
-            webPlayer.css('width', 'calc(100% - ' + sidebarWidth + ')');
-        }
+function adjustPlayerWidth(sidebarWidth) {
+    const webPlayer = jQuery('#dv-web-player');
+    if (webPlayer.length > 0) {
+        webPlayer.css('width', sidebarWidth);
     }
 }

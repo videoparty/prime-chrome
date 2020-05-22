@@ -12,7 +12,13 @@ listenToWindowEvent('start-video', (ev) => {
 });
 listenToWindowEvent('state-update', (ev) => {
     const member = ev.data.byMember ? ev.data.byMember.displayName : myDisplayName;
-    const state = States[ev.data.state] ? ev.data.state : States.unknown;
+    let state = States.unknown;
+    for (let key in States) {
+        if (ev.data.state === States[key]) {
+            state = States[key];
+            break;
+        }
+    }
     updateMemberStatus(member, state);
 });
 listenToWindowEvent('play-video', (ev) => {

@@ -12,37 +12,33 @@ let lastClickedPlayItem;
         // Circle is the 'start video' button element on the homepage,
         // but somehow we can't listen on elements inside svg's.. So listen to everything.
         jQuery('*').click(function (ev) {
-            const aLink = jQuery(ev.target).closest('a[data-video-type="Feature"], a._1HiwGB');
-            if (aLink.length > 0) {
-                const playData = splitPlayUrl(aLink.attr('href'));
-                if (playData === null) {
-                    ev.preventDefault(); // Something went wrong.. Let the user try again.
-                    return;
-                }
+            const aLink = jQuery(ev.target).closest('a');
+            if (aLink.length === 0) return;
 
-                if (lastClickedPlayItem !== playData.videoId) {
-                    postStartVideoMessage(playData);
-                    lastClickedPlayItem = playData.videoId;
-                }
+            const playData = splitPlayUrl(aLink.attr('href'));
+            if (playData !== null && playData.autoplay !== undefined && lastClickedPlayItem !== playData.videoId) {
+                postStartVideoMessage(playData);
+                lastClickedPlayItem = playData.videoId;
             }
         });
 
         // The other one is listening specifically to an a-element, acting
         // as a 'start video' button on detail pages.
-        jQuery('a[data-video-type="Feature"]').click(function () {
+        jQuery('a').click(function () {
             const playData = splitPlayUrl(jQuery(this).attr('href'));
-            if (playData !== null) {
+            if (playData !== null && playData.autoplay !== undefined) {
                 postStartVideoMessage(playData);
             }
         });
 
         function postStartVideoMessage(playData) {
+            if (!currentParty) return;
             postWindowMessage({
                 type: 'start-video',
                 videoId: playData.videoId,
                 ref: playData.ref,
                 time: playData.time
-            })
+            });
         }
     }
 )();

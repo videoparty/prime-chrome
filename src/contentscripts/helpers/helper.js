@@ -1,9 +1,9 @@
 /**
  * Breaks down a detail URL into three parts:
- * https://www.primevideo.com/detail/{VIDEOID}/ref={REF}?autoplay=1&t={TIME}
+ * https://www.primevideo.com/detail/{VIDEOID}/ref={REF}?autoplay={AUTOPLAY}&t={TIME}
  */
 function splitPlayUrl(url) {
-    const splittedUrl = url.match(/detail\/([0-9A-Z]+).+ref=(\w+)(?:.*&t=(\d+))?/);
+    const splittedUrl = url.match(/detail\/([0-9A-Z]+).+ref=(\w+)(?:.*autoplay=(\d+))?(?:.*&t=(\d+))?/);
     if (splittedUrl === null) {
         return null
     }
@@ -11,7 +11,8 @@ function splitPlayUrl(url) {
     return {
         videoId: splittedUrl[1],
         ref: splittedUrl[2],
-        time: splittedUrl[3]
+        autoplay: splittedUrl[3],
+        time: splittedUrl[4],
     }
 }
 

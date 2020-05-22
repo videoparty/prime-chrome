@@ -33,11 +33,7 @@ function startCloseListener() {
     }
 
     closeObserver = new MutationObserver(handleWebPlayerChange);
-    const observeConfig =  {
-        attributes: true,
-        childList: false,
-        characterData: false
-    };
+    const observeConfig = {attributes: true, characterData: false};
     closeObserver.observe(jQuery('#dv-web-player')[0], observeConfig);
 }
 
@@ -57,8 +53,11 @@ function closeWebPlayer() {
     getWebPlayerElement(
         '.closeButtonWrapper img.svgBackground',
         '.fyysciv.f1yzibwv > .fo6n8wp.fud1t1u.f1njeegi > img.fuorrko').click();
+    player.onplay = undefined;
+    player.onpause = undefined;
+    player.onseeked = undefined;
     player = undefined;
-    nextEpisodeObserver?.disconnect();
+    stopNextEpisodeListener();
     webPlayerWasClosed = true;
     postWindowMessage({type: 'state-update', state: States.idle});
 }
