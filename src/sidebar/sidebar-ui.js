@@ -9,8 +9,10 @@ function addMemberToList(displayName) {
         existingMember.remove();
     }
 
+    const sanitizedName = sanitize(displayName);
+
     $('#members').append('' +
-        '<div class="member" data-id="' + displayName + '">\n' +
+        '<div class="member" data-id="' + sanitizedName + '">\n' +
         '  <span class="status idle">\n' +
         '    <i class="fa fa-desktop"></i>\n' +
         '    <i class="fa fa-play"></i>\n' +
@@ -21,8 +23,22 @@ function addMemberToList(displayName) {
         '    <i class="fa fa-film"></i>\n' +
         '    <i class="fa fa-fast-forward"></i>\n' +
         '  </span>\n' +
-        '  <span class="displayname">' + displayName + '</span>\n' +
+        '  <span class="displayname">' + sanitizedName + '</span>\n' +
         '</div>');
+}
+
+function sanitize(string) {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#x27;',
+        "/": '&#x2F;',
+        "`": '&grave;',
+    };
+    const reg = /[&<>"`'/]/ig;
+    return string.replace(reg, (match)=>(map[match]));
 }
 
 /**
