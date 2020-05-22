@@ -3,7 +3,7 @@
  */
 
 const supportedUi = '3.19.4-2020-05-14'; // Amazon user interface version. Different versions might imply webplayer changes.
-const websocketUrl = 'http://localhost:3000';
+const websocketUrl = 'https://ws.primevideoparty.com';
 let currentParty; // = {id: string, members: {id: string, displayName: string}[], videoId: string}
 let socket;
 let displayName;
