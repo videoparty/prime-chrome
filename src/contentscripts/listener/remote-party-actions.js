@@ -3,27 +3,32 @@
  */
 
 const leavingMembers = [];
+let lastEpisodeNotification = {season: 0, episode: 0}; // To prevent duplicate notifications
 
 listenToWindowEvent('start-video', async (ev) => {
-    const memberName = ev.data.remote ? ev.data.byMemberName : 'You';
-    if (ev.data.reason === 'next-episode') {
+    const memberName = ev.data.remote && ev.data.byMember ? ev.data.byMember.displayName : 'You';
+    if (ev.data.reason === 'next-episode'
+        && (ev.data.season !== lastEpisodeNotification.season || ev.data.episode !== lastEpisodeNotification.episode)) {
+        lastEpisodeNotification.season = ev.data.season;
+        lastEpisodeNotification.episode = ev.data.episode;
         sendNotification('info', memberName + ' started the next episode');
-    } else {
+    } else if (!ev.data.reason || ev.data.reason !== 'next-episode') {
         sendNotification('info', memberName + ' started a video', 'Loading..');
     }
 });
 
 listenToWindowEvent('next-episode', async (ev) => {
-    const memberName = ev.data.remote ? ev.data.byMemberName : 'You';
+    const memberName = ev.data.remote ? ev.data.byMember.displayName : 'You';
+
     sendNotification('info', memberName + ' started the next episode');
 });
 
 listenToWindowEvent('pause-video', async (ev) => {
-    const memberName = ev.data.remote ? ev.data.byMemberName : 'You';
+    const memberName = ev.data.remote ? ev.data.byMember.displayName : 'You';
     if (ev.data.reason === 'watching-trailer' && ev.data.remote) {
         sendNotification('error', 'Cannot resume, ' + memberName + ' is watching a trailer');
         return;
-    } else if(ev.data.reason === 'watching-trailer' && !ev.data.remote) {
+    } else if (ev.data.reason === 'watching-trailer' && !ev.data.remote) {
         return;
     }
 
@@ -32,7 +37,7 @@ listenToWindowEvent('pause-video', async (ev) => {
 
 listenToWindowEvent('watching-trailer', async (ev) => {
     if (ev.data.remote) {
-        sendNotification('warning', 'Waiting for ' + ev.data.byMemberName + ' to finish a trailer..');
+        sendNotification('warning', 'Waiting for ' + ev.data.byMember.displayName + ' to finish a trailer..');
     } else {
         sendNotification('warning', 'The rest of the party waits for you to skip or finish the trailer');
     }
@@ -42,18 +47,18 @@ listenToWindowEvent('play-video', async (ev) => {
     if (ev.data.coordinated) {
         sendNotification('info', 'Everyone is in sync', 'Resumed');
     } else {
-        const memberName = ev.data.remote ? ev.data.byMemberName : 'You';
+        const memberName = ev.data.remote ? ev.data.byMember.displayName : 'You';
         sendNotification('info', memberName + ' resumed');
     }
 });
 
 listenToWindowEvent('seek-video', async (ev) => {
-    const memberName = ev.data.remote ? ev.data.byMemberName : 'You';
+    const memberName = ev.data.remote ? ev.data.byMember.displayName : 'You';
     sendNotification('info', memberName + ' seeked to another time');
 });
 
 listenToWindowEvent('close-video', async (ev) => {
-    const memberName = ev.data.remote ? ev.data.byMemberName : 'You';
+    const memberName = ev.data.remote ? ev.data.byMember.displayName : 'You';
     sendNotification('warning', memberName + ' closed the video');
 });
 
@@ -66,12 +71,7 @@ listenToWindowEvent('member-change', async (ev) => {
     if (ev.data.change === 'join') {
         // Do not show notification if the member joined back within 2 seconds
         if (removeLeavingMember(memberName)) return;
-
-        if (ev.data.pause && player) {
-            sendNotification('success', memberName + ' joined the party! Waiting for ' + memberName + ' to sync up..');
-        } else {
-            sendNotification('success', memberName + ' joined the party!');
-        }
+        sendNotification('success', memberName + ' joined the party!');
     } else if (ev.data.change === 'leave') {
         // Only show notification if the member does not rejoin within 2 secs
         leavingMembers.push(memberName);

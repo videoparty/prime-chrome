@@ -7,6 +7,13 @@ listenToWindowEvent('start-video', () => {
     sidebar.addClass('player-mode');
 });
 
+listenToWindowEvent('play-video', () => {
+    const sidebar = jQuery('body');
+    if (!sidebar.hasClass('player-mode')) {
+        sidebar.addClass('player-mode');
+    }
+});
+
 listenToWindowEvent('close-video', () => {
     const sidebar = jQuery('body');
     sidebar.removeClass('player-mode');

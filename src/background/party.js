@@ -108,7 +108,7 @@ function createNewParty(url, joinPartyId = undefined) {
         isNew: true
     };
 
-    chrome.tabs.onRemoved.addListener(() => leaveParty())
+    chrome.tabs.onRemoved.addListener(() => leaveParty());
 
     setCurrentParty({link: partyLink, partyId});
     broadcastMessage(newPartyMsg);
@@ -146,7 +146,6 @@ function broadcastMessage(data) {
 }
 
 function getCurrentTabBaseUrl(fullUrl) {
-    console.log(fullUrl)
     let url = new URL(fullUrl).origin;
     if (url.includes('amazon.')) {
         url += '/gp/video/storefront'

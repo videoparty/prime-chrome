@@ -2,11 +2,10 @@
  * Listen to any action that triggers a pause (or triggered by other party members)
  */
 listenToWindowEvent('pause-video', async (ev) => {
-    if (ev.data.isLegacyPlayer && !isLegacyWebPlayer() && ev.data.remote) ev.data.time -= 10;
-    else if (!ev.data.isLegacyPlayer && isLegacyWebPlayer() && ev.data.remote) ev.data.time += 10;
+    const time = ev.data.time += currentTimeOffset;
 
-    if (ev.data && ev.data.time && (ev.data.time > player.currentTime + 0.5 || ev.data.time < player.currentTime - 0.5)) {
-        performSeek(ev.data.time, false);
+    if (ev.data && time && (time > player.currentTime + 0.5 || time < player.currentTime - 0.5)) {
+        performSeek(time, false);
     } else {
         performPause();
     }
@@ -16,7 +15,7 @@ listenToWindowEvent('pause-video', async (ev) => {
  * Pause when someone joined/left with a 'pause' flag enabled
  */
 listenToWindowEvent('member-change', async (ev) => {
-    if (!ev.data.pause || !player || !player.paused) return;
+    if (!ev.data.pause || !player) return;
     performPause();
 });
 
@@ -27,7 +26,7 @@ function onPause() {
     if (signalReadiness) return;
     postWindowMessage({
         type: 'pause-video',
-        time: player.currentTime
+        time: player.currentTime - currentTimeOffset
     });
 }
 
@@ -36,11 +35,14 @@ function onPause() {
  * without triggering the eventhandler,
  * including error handling
  */
-function performPause() {
+function performPause(broadcastStateUpdate = true) {
     if (player.paused) return;
     player.onpause = () => {player.onpause = onPause};
     try {
         player.pause();
+        if (broadcastStateUpdate) {
+            postWindowMessage({type: 'state-update', state: States.paused});
+        }
     } catch(err) {
         console.error(err);
         player.onpause = onPause;

@@ -1,3 +1,16 @@
+# 0.6.1 - 23-05-2020
+- Another attempt on detecting a trailer and broadcasting it to the party
+- Generic fix for the time difference between web players by maintaining a local offset
+
+# 0.6.0 - 22-05-2020
+- Introducing the sidebar, showing webplayer information for each party member
+- Recent UI updates changed some 'play' buttons. Now supporting any `a` link that contains video information
+- Bugfix: When a new member joined during a video, the party wouldn't pause to wait for the member to sync up
+- Notifying members if they lost connecton or the server is updating
+- Stability improvements with the new webplayer
+    - After starting a video, wait for other party members before playing
+    - Fixed detection of going to the next episode
+
 # 0.5.4 - 16-05-2020
 - A new webplayer was released on 14-05, having obfuscated class names. Now supporting the old and new webplayer ([#24](https://github.com/videoparty/prime-chrome/issues/24))
 - Fixed sync difference of +10 or -10 seconds ([#23](https://github.com/videoparty/prime-chrome/issues/23))
