@@ -2,11 +2,10 @@
  * Listen to any action that triggers a pause (or triggered by other party members)
  */
 listenToWindowEvent('pause-video', async (ev) => {
-    if (ev.data.isLegacyPlayer && !isLegacyWebPlayer() && ev.data.remote) ev.data.time -= 10;
-    else if (!ev.data.isLegacyPlayer && isLegacyWebPlayer() && ev.data.remote) ev.data.time += 10;
+    const time = ev.data.time += currentTimeOffset;
 
-    if (ev.data && ev.data.time && (ev.data.time > player.currentTime + 0.5 || ev.data.time < player.currentTime - 0.5)) {
-        performSeek(ev.data.time, false);
+    if (ev.data && time && (time > player.currentTime + 0.5 || time < player.currentTime - 0.5)) {
+        performSeek(time, false);
     } else {
         performPause();
     }
@@ -27,7 +26,7 @@ function onPause() {
     if (signalReadiness) return;
     postWindowMessage({
         type: 'pause-video',
-        time: player.currentTime
+        time: player.currentTime - currentTimeOffset
     });
 }
 

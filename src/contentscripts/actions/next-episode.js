@@ -43,7 +43,8 @@ function handlePlayerParentChange() {
     setTimeout(() => {
         if (webPlayerIsOpen() && player && currentEpisode) {
             console.log('Next episode detected!');
-            if (setPlayer() === undefined) {
+            player = getPlayer();
+            if (player === undefined) {
                 stopNextEpisodeListener();
             }
             // Perform a hacky trick by adding 'remote', so we do not emit it through socket.

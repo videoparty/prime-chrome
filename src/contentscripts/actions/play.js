@@ -14,7 +14,6 @@ listenToWindowEvent('play-video', async (ev) => {
         if(isPlayingTrailer()) { // Block all remote play actions during trailer
             postWindowMessage({
                 type: 'pause-video',
-                time: player.currentTime,
                 reason: 'watching-trailer'
             });
             return;

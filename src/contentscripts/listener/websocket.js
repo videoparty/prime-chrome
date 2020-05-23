@@ -203,7 +203,7 @@ function initializeWebsocket(partyId) {
         // The server is asking us for the current time so another member can join in sync
         // If the currentTime in legacy webplayer = -10 seconds for new webplayer
         data.isLegacyPlayer = isLegacyWebPlayer();
-        data.time = player ? player.currentTime : 0;
+        data.time = player ? player.currentTime - currentTimeOffset : 0;
         socket.emit('start-video-for-member', data);
     });
     socket.on('start-video', (data) => {

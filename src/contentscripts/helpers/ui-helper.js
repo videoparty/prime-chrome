@@ -1,21 +1,33 @@
 /**
- * Finds the video element in the webplayer and sets the global player variable.
- * Sets to undefined if the webplayer video element could not be found.
+ * Finds the video element in the webplayer.
+ * Returns undefined if the webplayer video element could not be found.
  */
-function setPlayer() {
-    // Do not set the player if we are watching a trailer!
-    if (isPlayingTrailer()) return undefined;
+function getPlayer() {
+    // Do not set the player if we are watching a trailer.
+    // If there are no play and pause buttons, skip
+    if (isPlayingTrailer() || !hasWebplayerControls()) return undefined;
 
     // In case of a prior trailer, there are 2 video elements. Grab the last one.
     // The last video element will trigger onPlay when the trailer finished.
     const videoElements = jQuery('.webPlayerContainer video[src]');
     if (videoElements.length === 0 || jQuery(videoElements[videoElements.length - 1]).css('visibility') !== 'visible') {
-        player = undefined;
+        return undefined;
     } else if (videoElements[videoElements.length - 1].src.startsWith('blob')) {
-        player = videoElements[videoElements.length - 1];
+        return videoElements[videoElements.length - 1];
     }
 
-    return player;
+    return undefined;
+}
+
+/**
+ * Detect whether the new webplayer is
+ * showing the play/pause button.
+ * (not compatible with legacy webplayer!)
+ */
+function hasWebplayerControls() {
+    if (isLegacyWebPlayer()) return true;
+    return jQuery('.webPlayerUIContainer .f1fo23vz .fveo0gq.f3s9by7.f1kiqelb.f1l8jkug.f13bmvti.fubttoo.fal744d.fbpe0th')
+        .length > 0
 }
 
 /**
@@ -41,10 +53,31 @@ function getWebPlayerElement(legacySelector, newSelector) {
  * @returns boolean
  */
 function isPlayingTrailer() {
-    const skipButton = getWebPlayerElement(
+    return getWebPlayerElement(
         '.bottomPanelItem .adSkipButton',
-        '.fe39tpk .fu4rd6c.f1cw2swo');
-    return skipButton.length > 0;
+        '.fe39tpk .fu4rd6c.f1cw2swo')
+        .length > 0;
+}
+
+/**
+ * Calculates the difference betweeh
+ * player.currentTime and the UI's time.
+ * @see currentTimeOffset
+ */
+function getCurrentTimeOffset() {
+    try {
+        const timeIndicator = jQuery('.f1ha12bn.f177tia9.fc1n9o1.f25z3of.floz2gv.f1ak3391 .fheif50.f989gul.f1s55b4').clone();
+        timeIndicator.find('*').remove();
+        const splittedTime = timeIndicator.text().match(/(\d+):(\d+):(\d+)/);
+        const hr = parseInt(splittedTime[1]) * 3600;
+        const min = parseInt(splittedTime[2]) * 60;
+        const sec = parseInt(splittedTime[3]);
+        const offset = player.currentTime - (hr + min + sec);
+
+        return offset < 2 ? 0 : offset;
+    } catch(err) {
+        return 0;
+    }
 }
 
 /**

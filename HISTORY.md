@@ -1,3 +1,7 @@
+# 0.6.1 - 23-05-2020
+- Another attempt on detecting a trailer and broadcasting it to the party
+- Generic fix for the time difference between web players by maintaining a local offset
+
 # 0.6.0 - 22-05-2020
 - Introducing the sidebar, showing webplayer information for each party member
 - Recent UI updates changed some 'play' buttons. Now supporting any `a` link that contains video information

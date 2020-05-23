@@ -8,6 +8,12 @@
  */
 let player;
 /**
+ * Sometimes the content starts with a 10-sec trailer.
+ * That means that 00:00:01 in the webplayer UI
+ * is actually 00:00:11 in the <video> element.
+ */
+let currentTimeOffset = 0;
+/**
  * Readiness is signaled by all party members to perform a coordinated 'play'-action.
  */
 let signalReadiness = true;
@@ -27,6 +33,7 @@ listenToWindowEvent('start-video', (ev) => {
     const waitForPlayer = setInterval(() => {
         if (isPlayingTrailer()) {
             if (!signaledWatchingTrailer) {
+                startCloseListener(); // Do not bind actions, only listen to close.
                 postWindowMessage({type: 'watching-trailer'});
                 signaledWatchingTrailer = true;
             }
@@ -34,12 +41,13 @@ listenToWindowEvent('start-video', (ev) => {
             // Keep the interval going until the trailer finished / skipped
             return;
         }
-        console.log('not watching trailer');
 
         // Set the 'player' variable with the video element or undefined.
-        if (setPlayer() === undefined) return;
+        player = getPlayer();
+        if (player === undefined) return;
 
         clearInterval(waitForPlayer);
+        currentTimeOffset = getCurrentTimeOffset();
         signaledWatchingTrailer = false;
         signalReadiness = true;
         waitingForCoordinatedPlay = true;
