@@ -1,3 +1,6 @@
+# 0.6.2 - 25-05-2020
+- Fixed incorred redirect URL for amazon.com websites ([#27](https://github.com/videoparty/prime-chrome/issues/27))
+
 # 0.6.1 - 23-05-2020
 - Another attempt on detecting a trailer and broadcasting it to the party
 - Generic fix for the time difference between web players by maintaining a local offset
