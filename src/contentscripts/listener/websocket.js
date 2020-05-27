@@ -225,7 +225,7 @@ function initializeWebsocket(partyId) {
             let startTime = data.time || 0;
             let urlBase = 'https://www.primevideo.com';
             if (window.isOnAmazonWebsite) {
-                urlBase = new URL(window.location).origin;
+                urlBase = new URL(window.location).origin + '/gp/video';
             }
             window.location.href = urlBase + '/detail/' + data.videoId + '/ref=' + data.ref + '?autoplay=1&t=' + startTime;
         }
