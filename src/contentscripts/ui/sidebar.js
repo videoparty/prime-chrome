@@ -11,10 +11,11 @@ listenToWindowEvent('member-change', async (ev) => {
 
 async function initializeSidebar() {
     const sidebarSrc = chrome.runtime.getURL('src/sidebar/sidebar.html');
+    const sidebarClass = window.isOnAmazonWebsite ? '' : 'primevideo';
     jQuery('body')
         .css('display', 'flex')
         .append('' +
-            '<div id="pvp-sidebar">' +
+            '<div id="pvp-sidebar" class="' + sidebarClass + '">' +
             '<iframe id="pvp-sidebar-iframe" src="' + sidebarSrc + '"></iframe>' +
             '</div>');
     jQuery('#a-page').css('transition', 'width 1s ease-in-out').css('width', '100%');

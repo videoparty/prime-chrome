@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress HtmlFormInputWithoutLabel -->
 <html>
   <head>
     <title>Prime Video Party</title>
@@ -6,18 +7,32 @@
       @font-face { font-family: "Amazon Ember"; src: url("https://js-assets.aiv-cdn.net/playback/web_player/ATVWebCascadesPlayer/1.2.200840.0/fonts/AmazonEmber_Rg.woff") format("woff"); font-weight: 100; }
     </style>
     <link rel="stylesheet" href="../../lib/normalize.css">
-    <link rel="stylesheet" href="sidebar.css">
-    <link rel="stylesheet" href="member.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="sidebar.css">
+    <link rel="stylesheet" href="sidebar-playmode.css">
+    <link rel="stylesheet" href="member.css">
+    <link rel="stylesheet" href="message.css">
     <script type="text/javascript" src="../../lib/jquery.js"></script>
     <script type="text/javascript" src="../../lib/global-helpers.js"></script>
     <script type="text/javascript" src="../../lib/states.js"></script>
     <script type="text/javascript" src="theme-listener.js" defer></script>
     <script type="text/javascript" src="sidebar-ui.js" defer></script>
     <script type="text/javascript" src="state-listener.js" defer></script>
+    <script type="text/javascript" src="message-listener.js" defer></script>
   </head>
   <body>
-  <div id="members">
+
+  <div id="members" class="scroll">
+  </div>
+
+  <div class="fixed">
+    <div id="messages" class="scroll">
+    </div>
+
+    <div id="send-chat">
+      <input id="chat-box" type="text" />
+      <button id="send-message"></button>
+    </div>
   </div>
   </body>
 </html>

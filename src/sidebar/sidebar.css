@@ -1,24 +1,92 @@
 html {
-    background-color: transparent;
+    background-color: #203140;
+    border-top: 1px solid rgba(129, 151, 164, .5);
+    border-left: 1px solid rgba(129, 151, 164, .5);
+    height: calc(100% - 1px);
+
+    font-family: "Amazon Ember", Arial, sans-serif;
+    transition: all 1s ease-in-out;
+    color: rgba(242, 244, 246, .8);
 }
 
-html.active > body.player-mode {
+html.player-mode {
+    color: rgba(242, 244, 246, .4);
+    background-color: #000;
+    transition: all 1s ease-in-out;
+    border-left: 1px solid rgba(129, 151, 164, .2);
+}
+
+html.active.player-mode {
     transition: all .3s ease-in-out;
     color: rgba(242, 244, 246, .8);
 }
 
 body {
-    font-family: "Amazon Ember", Arial, sans-serif;
-    margin: 15px;
-    color: rgba(242, 244, 246, .8);
-    transition: all 1s ease-in-out;
     font-size: 1.35em;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
-
-body.player-mode {
-    color: rgba(242, 244, 246, .4);
-}
-
 
 /* ************ CONTENT ************ */
+#members {
+    padding: 15px;
+    max-height: 40%;
+    height: auto;
+    border-bottom: 1px solid rgba(129, 151, 164, .5);
+}
 
+#messages {
+    padding: 15px;
+    font-size: 0.6em;
+    flex-grow: 8;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.fixed {
+    flex: 1;
+    flex-direction: column;
+    display: flex;
+}
+
+#send-chat {
+    display: flex;
+    height: auto;
+}
+
+#chat-box {
+    background-color: #0f171e;
+    text-align: center;
+    border: 1px solid #223444;
+    color: rgba(242, 244, 246, .8);
+    width: 70%;
+    padding: 5px;
+}
+
+/* ************ SCROLL ************ */
+.scroll {
+    overflow: auto;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.scroll::-webkit-scrollbar-track {
+    background: rgba(15, 23, 30, 0.2);
+}
+
+.scroll::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(15, 23, 30, 0.5);
+}
+
+.scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(15, 23, 30, 0.65);
+}
+
+.scroll::-webkit-scrollbar-thumb:active {
+    background: rgba(15, 23, 30, 0.85);
+}

@@ -118,8 +118,10 @@ function performNextEpisode() {
  * Html code is escaped.
  * @param type 'success', 'info', 'warning', 'error'
  * @param message
+ * @param action the State or 'join' or 'leave'
  * @param title optional
  */
-function sendNotification(type, message, title = undefined) {
-    toastr[type](message, title);
+function sendNotification(type, message, action = undefined, title = undefined) {
+    //toastr[type](message, title);
+    postWindowMessage({type: 'notification', message, title, action});
 }
