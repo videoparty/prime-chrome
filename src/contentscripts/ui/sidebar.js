@@ -20,16 +20,21 @@ async function initializeSidebar() {
             '</div>');
     jQuery('#a-page').css('transition', 'width 1s ease-in-out').css('width', '100%');
 
+    // If there is a player, move the sidebar into the player
+    setTimeout(() => {
+        moveSidebar();
+    }, 100);
+
     // I like animations
     setTimeout(() => {
         jQuery('#pvp-sidebar').css('width', '15%');
         jQuery('#a-page').css('width', '85%');
-    }, 1000);
+    }, 150);
 
     setTimeout(() => {
         const sidebar = jQuery('#pvp-sidebar');
         if ((player || isPlayingTrailer()) && !sidebar.hasClass('player-mode')) {
-            adjustPlayerWidth('85%');
+            alignSidebarWidth('85%');
             postWindowMessage({type: 'start-video'}, getSidebarIframe().contentWindow);
             sidebar.addClass('player-mode');
         }
@@ -41,36 +46,74 @@ async function initializeSidebar() {
 }
 
 /**
- * Sidebar is asking for party data
+ * Sidebar is asking for current state
  */
-listenToWindowEvent('sb-get-current-party', () => {
-    postWindowMessage({type: 'party-info', currentParty}, getSidebarIframe().contentWindow);
+listenToWindowEvent('sidebar-request-init', () => {
+    const changes = getStateChanges();
+    postWindowMessage({type: 'sidebar:state-init', changes, members: currentParty.members}, getSidebarIframe().contentWindow);
 });
 
 /**
  * Adjusts the PvP sidebar theme when the webplayer opens or closes.
  */
 function startWebplayerWatcher() {
-
-    if (player) {
-        adjustPlayerWidth('85%');
+    if (player || isPlayingTrailer()) {
+        alignSidebarWidth('15%');
     }
 
     listenToWindowEvent('start-video', () => {
         const sidebar = jQuery('#pvp-sidebar');
         sidebar.addClass('player-mode');
-        adjustPlayerWidth('85%');
+        alignSidebarWidth('15%');
     });
 
     listenToWindowEvent('close-video', () => {
         const sidebar = jQuery('#pvp-sidebar');
         sidebar.removeClass('player-mode');
+        alignSidebarWidth('15%');
     });
 }
 
-function adjustPlayerWidth(sidebarWidth) {
-    const webPlayer = jQuery('#dv-web-player');
-    if (webPlayer.length > 0) {
-        webPlayer.css('width', sidebarWidth);
+/**
+ * Adjust sidebar width and makes sure the webplayer width is aligned.
+ * Will move the sidebar inside the player element, to support fullscreen
+ * @param sidebarWidth like '300px' or '15%'
+ */
+function alignSidebarWidth(sidebarWidth) {
+    if (isLegacyWebPlayer()) {
+        const webPlayer = jQuery('#dv-web-player');
+        if (webPlayer.length > 0) {
+            webPlayer.css('width', 'calc(100% - ' + sidebarWidth + ')');
+        }
+    } else {
+        // Support full screen sidebar in new webplayer
+        const webPlayerElements = jQuery('#dv-web-player .webPlayerSDKContainer .scalingVideoContainer, #dv-web-player .webPlayerSDKContainer .webPlayerSDKUiContainer');
+        if (webPlayerElements.length === 2) {
+            webPlayerElements.css('width', 'calc(100% - ' + sidebarWidth + ')');
+        }
+    }
+
+    moveSidebar();
+}
+
+/**
+ * Move sidebar into the player element, to support fullscreen.
+ * If sidebar does not exist, will create a new one.
+ */
+async function moveSidebar() {
+    if (isLegacyWebPlayer()) return;
+
+    const sidebar = jQuery('#pvp-sidebar');
+    if (sidebar.length === 0) {
+        console.log('Tried to move an non-existing sidebar, creating a new one.');
+        await initializeSidebar();
+    }
+
+    console.log(sidebar.hasClass('player-mode'), sidebar.parent().hasClass('webPlayerSDKContainer'));
+
+    if (sidebar.hasClass('player-mode') && !sidebar.parent().hasClass('webPlayerSDKContainer')) {
+        sidebar.appendTo('#dv-web-player .webPlayerSDKContainer');
+    } else if (!sidebar.hasClass('player-mode') && sidebar.parent().hasClass('webPlayerSDKContainer')) {
+        sidebar.appendTo('body');
     }
 }

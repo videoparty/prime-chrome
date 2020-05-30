@@ -1,47 +1,40 @@
 /**
- * All local and remote actions that result
- * into a change of state, like playing, pausing, etc.
+ * Receive state updates from the contentscript state listener
  */
-listenToWindowEvent('start-video', (ev) => {
-    const member = ev.data.byMember ? ev.data.byMember.displayName : myDisplayName;
-    if (ev.reason === 'next-episode') {
-        updateMemberStatus(member, States.nextEpisode);
-    } else {
-        updateMemberStatus(member, States.loading);
+listenToWindowEvent('sidebar:state-update', (ev) => handleChange(ev.data.change));
+
+/**
+ * A change can enter the sidebar through a realtime
+ * state change, or a batch of changes during init.
+ * @see processChange
+ */
+function handleChange(change) {
+    if (change.type === 'member-state') {
+        let state = States.unknown;
+        for (let key in States) {
+            if (change.state === States[key]) {
+                state = States[key];
+                break;
+            }
+        }
+        updateMemberStatus(change.member.id, state);
+    } else if (change.type === 'notification') {
+        handleNotification(change.action, change.message);
     }
-});
-listenToWindowEvent('state-update', (ev) => {
-    const member = ev.data.byMember ? ev.data.byMember.displayName : myDisplayName;
-    let state = States.unknown;
-    for (let key in States) {
-        if (ev.data.state === States[key]) {
-            state = States[key];
-            break;
+}
+
+/**
+ * When the sidebar gets moved or browses to another page,
+ * the state gets lost.
+ */
+listenToWindowEvent('sidebar:state-init', (ev) => {
+    if (ev.data.changes) {
+        for (const change of ev.data.changes) {
+            handleChange(change);
         }
     }
-    updateMemberStatus(member, state);
-});
-listenToWindowEvent('play-video', (ev) => {
-    const member = ev.data.byMember ? ev.data.byMember.displayName : myDisplayName;
-    updateMemberStatus(member, States.playing);
-});
-listenToWindowEvent('seek-video', () => {
-    updateMemberStatus(myDisplayName, States.playerReady);
-});
-listenToWindowEvent('player-ready', () => {
-    updateMemberStatus(myDisplayName, States.playerReady);
-});
-listenToWindowEvent('pause-video', (ev) => {
-    const member = ev.data.byMember ? ev.data.byMember.displayName : myDisplayName;
-    updateMemberStatus(member, States.paused);
-});
-listenToWindowEvent('close-video', (ev) => {
-    const member = ev.data.byMember ? ev.data.byMember.displayName : myDisplayName;
-    updateMemberStatus(member, States.idle);
-});
-listenToWindowEvent('watching-trailer', (ev) => {
-    const member = ev.data.byMember ? ev.data.byMember.displayName : myDisplayName;
-    updateMemberStatus(member, States.watchingTrailer);
+
+    initMemberList(ev.data.members);
 });
 
 /**
@@ -53,7 +46,4 @@ listenToWindowEvent('member-change', (ev) => {
     } else if (ev.data.change === 'leave') {
         removeMemberFromList(ev.data.member.displayName)
     }
-});
-listenToWindowEvent('party-info', (ev) => {
-    initMemberList(ev.data.currentParty);
 });

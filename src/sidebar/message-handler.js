@@ -1,15 +1,16 @@
 /**
  * Display notification and chat messages in the sidebar
  */
-listenToWindowEvent('notification', (ev) => {
-    const icon = ev.data.action ? '<i class="fa fa-' + actionToFontAwesome(ev.data.action) + '"></i>' : '';
-    const errorClass = ev.data.action === 'error' ? 'error' : '';
+
+function handleNotification(action,  message) {
+    const icon = action ? '<i class="fa fa-' + actionToFontAwesome(action) + '"></i>' : '';
+    const errorClass = action === 'error' ? 'error' : '';
     $('#messages').prepend('' +
         '<div class="notification ' + errorClass + '">' +
         icon +
-        '<em>' + ev.data.message + '</em>' +
+        '<em>' + message + '</em>' +
         '</div>')
-});
+}
 
 function actionToFontAwesome(action) {
     console.log(action);
