@@ -12,8 +12,15 @@ function handleNotification(action,  message) {
         '</div>')
 }
 
+function handleChat(member,  message) {
+    $('#messages').prepend('' +
+        '<div class="chat">' +
+        '<span class="member">' + member + '</span>' +
+        '<span class="message">' + message + '</span>' +
+        '</div>')
+}
+
 function actionToFontAwesome(action) {
-    console.log(action);
     switch (action) {
         case States.playing:
             return 'play';

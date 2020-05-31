@@ -28,7 +28,7 @@ html.active.player-mode .member .status.unknown {
 }
 
 html.player-mode .member .status {
-    color: rgba(242, 244, 246, .4);
+    color: rgba(242, 244, 246, .25);
     transition: color 1s ease-in-out;
 }
 

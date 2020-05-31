@@ -10,7 +10,7 @@
 /* *************** PvP defaults (browsing mode) *************** */
 #pvp-sidebar {
     position: fixed;
-    height: 100%;
+    height: 100vh;
     width: 0;
     right: 0;
     top: initial;
@@ -19,18 +19,18 @@
 
 /* Sidebar is positioned differently on primevideo.com */
 #pvp-sidebar:not(.player-mode).primevideo {
-    height: calc(100% - 72px);
+    height: calc(100vh - 72px);
 }
 
 #pvp-sidebar iframe {
     width: 100%;
     border: none;
-    height: 100%;
+    height: 100vh;
 }
 
 /* ******************** PvP webplayer mode ******************** */
 #pvp-sidebar.player-mode {
     top: 0;
     z-index: 10000;
-    height: 100%;
+    height: 100vh;
 }

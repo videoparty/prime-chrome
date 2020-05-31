@@ -1,6 +1,6 @@
 html.player-mode {
     border-top: none;
-    color: rgba(242, 244, 246, .4);
+    color: rgba(242, 244, 246, .25);
     background-color: #000;
     transition: all 1s ease-in-out;
     border-left: 1px solid rgba(129, 151, 164, .2);
@@ -14,6 +14,10 @@ html.active.player-mode {
 /* ************ CONTENT ************ */
 html.player-mode #members {
     border-bottom: 1px solid rgba(129, 151, 164, .2);
+}
+
+html.player-mode #send-chat {
+    border-top: 1px solid rgba(129, 151, 164, .2);
 }
 
 /* ************ SCROLL ************ */

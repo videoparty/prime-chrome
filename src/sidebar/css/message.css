@@ -1,0 +1,20 @@
+/**
+* Styles for notifications and chat messages
+*/
+
+.notification {
+    font-size: 1.1em;
+    margin: 5px 0;
+}
+
+.notification > i.fa {
+    margin-right: 5px;
+}
+
+.chat-spam-warning {
+    display: none;
+    font-size: 0.45em;
+    text-align: center;
+    color: #ffa724;
+    margin-bottom: 5px;
+}

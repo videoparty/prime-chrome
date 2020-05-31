@@ -96,35 +96,35 @@ listenToWindowEvent('notification', (ev) => {
 });
 
 listenToWindowEvent('member-change', async (ev) => {
-    let memberName = 'You';
+    let member = displayName;
     if (ev.data.remote && ev.data.member.displayName !== displayName) {
-        memberName = ev.data.member.displayName;
+        member = ev.data.member.displayName;
     }
 
     if (ev.data.change === 'join') {
         // Do not show notification if the member joined back within 2 seconds
-        if (removeLeavingMember(memberName)) return;
+        if (removeLeavingMember(member)) return;
 
         // Prevent showing every time again 'You joined the party!' when browsing
         if ((ev.data.member.displayName === displayName && getStateChanges().length === 0)
             || (ev.data.member.displayName !== displayName)) {
-            sendNotification('success', memberName + ' joined the party!', 'join');
+            sendNotification('success', member + ' joined the party!', 'join');
         }
     } else if (ev.data.change === 'leave') {
         // Only show notification if the member does not rejoin within 2 secs
-        leavingMembers.push(memberName);
+        leavingMembers.push(member);
         setTimeout(() => {
-            if (leavingMembers.includes(memberName)) {
-                removeLeavingMember(memberName);
-                sendNotification('error', memberName + ' left the party', 'leave');
+            if (leavingMembers.includes(member)) {
+                removeLeavingMember(member);
+                sendNotification('error', member + ' left the party', 'leave');
             }
         }, 2000);
     }
 });
 
-function removeLeavingMember(memberName) {
-    if (leavingMembers.includes(memberName)) {
-        const i = leavingMembers.indexOf(memberName);
+function removeLeavingMember(member) {
+    if (leavingMembers.includes(member)) {
+        const i = leavingMembers.indexOf(member);
         leavingMembers.splice(i, 1);
         return true;
     }

@@ -20,6 +20,8 @@ function handleChange(change) {
         updateMemberStatus(change.member.id, state);
     } else if (change.type === 'notification') {
         handleNotification(change.action, change.message);
+    } else if (change.type === 'chat') {
+        handleChat(change.member.id, change.message);
     }
 }
 
@@ -28,6 +30,12 @@ function handleChange(change) {
  * the state gets lost.
  */
 listenToWindowEvent('sidebar:state-init', (ev) => {
+    if (ev.data.playerMode) {
+        console.log('player mode');
+        const sidebar = jQuery('html');
+        sidebar.addClass('player-mode');
+    }
+
     if (ev.data.changes) {
         for (const change of ev.data.changes) {
             handleChange(change);

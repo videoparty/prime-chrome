@@ -96,7 +96,22 @@ button.secondary:hover {
     margin: 15px 0 15px 0;
 }
 
-#ext-version {
+footer {
     font-size: 0.6em;
+    display: flex;
+    flex-direction: column;
     color: rgba(242, 244, 246, .2);
+}
+
+.ext-version {
+    margin-top: 2px;
+}
+
+a {
+    color: #425265;
+}
+
+a:hover {
+    font-size: 1.2em;
+    color: rgb(0, 160, 214);
 }

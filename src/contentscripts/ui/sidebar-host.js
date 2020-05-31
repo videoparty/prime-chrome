@@ -27,14 +27,12 @@ async function initializeSidebar() {
 
     // I like animations
     setTimeout(() => {
-        jQuery('#pvp-sidebar').css('width', '15%');
-        jQuery('#a-page').css('width', '85%');
+        alignSidebarWidth('15%');
     }, 150);
 
     setTimeout(() => {
         const sidebar = jQuery('#pvp-sidebar');
         if ((player || isPlayingTrailer()) && !sidebar.hasClass('player-mode')) {
-            alignSidebarWidth('85%');
             postWindowMessage({type: 'start-video'}, getSidebarIframe().contentWindow);
             sidebar.addClass('player-mode');
         }
@@ -50,7 +48,12 @@ async function initializeSidebar() {
  */
 listenToWindowEvent('sidebar-request-init', () => {
     const changes = getStateChanges();
-    postWindowMessage({type: 'sidebar:state-init', changes, members: currentParty.members}, getSidebarIframe().contentWindow);
+    postWindowMessage({
+        type: 'sidebar:state-init',
+        changes,
+        members: currentParty.members,
+        playerMode: jQuery('#pvp-sidebar').hasClass('player-mode')
+    }, getSidebarIframe().contentWindow);
 });
 
 /**
@@ -80,6 +83,9 @@ function startWebplayerWatcher() {
  * @param sidebarWidth like '300px' or '15%'
  */
 function alignSidebarWidth(sidebarWidth) {
+    jQuery('#a-page').css('width', 'calc(100% - ' + sidebarWidth + ')');
+    jQuery('#pvp-sidebar').css('width', sidebarWidth);
+
     if (isLegacyWebPlayer()) {
         const webPlayer = jQuery('#dv-web-player');
         if (webPlayer.length > 0) {
@@ -108,8 +114,6 @@ async function moveSidebar() {
         console.log('Tried to move an non-existing sidebar, creating a new one.');
         await initializeSidebar();
     }
-
-    console.log(sidebar.hasClass('player-mode'), sidebar.parent().hasClass('webPlayerSDKContainer'));
 
     if (sidebar.hasClass('player-mode') && !sidebar.parent().hasClass('webPlayerSDKContainer')) {
         sidebar.appendTo('#dv-web-player .webPlayerSDKContainer');
