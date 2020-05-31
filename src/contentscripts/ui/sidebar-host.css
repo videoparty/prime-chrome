@@ -18,14 +18,14 @@
 }
 
 /* Sidebar is positioned differently on primevideo.com */
-#pvp-sidebar:not(.player-mode).primevideo {
-    height: calc(100vh - 72px);
+#pvp-sidebar.primevideo {
+    height: calc(100% - 72px);
 }
 
 #pvp-sidebar iframe {
     width: 100%;
     border: none;
-    height: 100vh;
+    height: 100%;
 }
 
 /* ******************** PvP webplayer mode ******************** */

@@ -7,7 +7,7 @@ html {
     font-family: "Amazon Ember", Arial, sans-serif;
     transition: all 1s ease-in-out;
     color: rgba(242, 244, 246, .8);
-    max-height: 100vh;
+    overflow: hidden;
 }
 
 body {
@@ -19,6 +19,7 @@ body {
 
 /* ************ CONTENT ************ */
 #members {
+    flex-shrink: 0;
     padding: 15px;
     max-height: 30vh;
     height: auto;
@@ -28,7 +29,7 @@ body {
 #messages {
     padding: 15px 5px;
     font-size: 0.6em;
-    flex-grow: 8;
+    flex-grow: 1;
     display: flex;
     flex-direction: column-reverse;
 }
@@ -45,6 +46,7 @@ body {
     height: auto;
     border-top: 1px solid rgba(129, 151, 164, .5);
     padding: 5px 0;
+    flex-shrink: 0;
 }
 
 #send-chat > input {
