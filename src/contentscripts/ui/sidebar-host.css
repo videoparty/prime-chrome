@@ -21,6 +21,11 @@
 #pvp-sidebar.primevideo {
     height: calc(100% - 72px);
 }
+@media only screen and (min-width: 90em) {
+    #pvp-sidebar.primevideo {
+        height: calc(100% - 80px);
+    }
+}
 
 #pvp-sidebar iframe {
     width: 100%;

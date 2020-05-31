@@ -18,3 +18,18 @@
     color: #ffa724;
     margin-bottom: 5px;
 }
+
+.notification > i.fa {
+    color: rgb(0, 160, 214);
+    transition: color 1s ease-in-out;
+}
+
+html.active.player-mode .notification > i.fa {
+    color: rgb(0, 160, 214);
+    transition: color .3s ease-in-out;
+}
+
+html.player-mode .notification > i.fa {
+    color: rgba(242, 244, 246, .25);
+    transition: color 1s ease-in-out;
+}
