@@ -36,6 +36,7 @@ async function initializeSidebar() {
             postWindowMessage({type: 'start-video'}, getSidebarIframe().contentWindow);
             sidebar.addClass('player-mode');
         }
+        alignSidebarWidth('15%');
     }, 5000); // Just to make sure it's not missing the 'start-video' message
 
     // Watcher is changing the theme

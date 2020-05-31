@@ -45,13 +45,13 @@ body {
     justify-content: space-evenly;
     height: auto;
     border-top: 1px solid rgba(129, 151, 164, .5);
-    padding: 5px 0;
+    padding: 5px 0 5px 2px;
     flex-shrink: 0;
 }
 
 #send-chat > input {
     background-color: #0f171e;
-    border: 1px solid #223444;
+    border: none;
     color: rgba(242, 244, 246, .8);
     font-size: 0.5em;
     height: 15px;
@@ -64,9 +64,12 @@ body {
     background: transparent;
     border: none;
     color: rgba(242, 244, 246, .8);
-    transition: color .2s ease-in-out;
     cursor: pointer;
     font-size: 0.9em;
+}
+
+html.player-mode:not(.active) #send-chat > button {
+    color: inherit;
 }
 
 #send-chat > button:hover {

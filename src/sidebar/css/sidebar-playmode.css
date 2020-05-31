@@ -20,6 +20,33 @@ html.player-mode #send-chat {
     border-top: 1px solid rgba(129, 151, 164, .2);
 }
 
+html.player-mode #send-chat > input,
+html.player-mode #send-chat > input::placeholder {
+    color: rgba(129, 151, 164, .1);
+    transition: all 1s ease-in-out;
+}
+
+html.player-mode #send-chat > input {
+    background-color: rgba(129, 151, 164, .1);
+    border: 1px solid rgba(129, 151, 164, .1);
+}
+
+html.player-mode.active #send-chat > button {
+    transition: all .3s ease-in-out;
+}
+
+html.player-mode.active #send-chat > input::placeholder {
+    color: rgba(242, 244, 246, .4);
+    transition: all .3s ease-in-out;
+}
+
+html.player-mode.active #send-chat > input {
+    background-color: rgba(129, 151, 164, .2);
+    border: 1px solid rgba(129, 151, 164, .2);
+    color: rgba(242, 244, 246, .8);
+    transition: all .3s ease-in-out;
+}
+
 /* ************ SCROLL ************ */
 html.player-mode .scroll::-webkit-scrollbar-track {
     background-color: rgba(255, 255, 255, 0.05);
