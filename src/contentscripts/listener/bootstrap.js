@@ -8,10 +8,3 @@ if (joinPartyId) {
 } else {
     chrome.runtime.sendMessage({type: 'get-party', url: window.location.href, createNew: false});
 }
-
-/**
- * Configure toastr
- */
-toastr.options.escapeHtml = true;
-toastr.options.positionClass = 'toast-top-center';
-toastr.options.preventDuplicates = true;
