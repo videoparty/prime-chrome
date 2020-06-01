@@ -112,14 +112,3 @@ function getSeasonAndEpisode() {
 function performNextEpisode() {
     getWebPlayerElement('.nextTitleButton .text', '.f1l8jkug.fpp3az0').click();
 }
-
-/**
- * Sends a toastr notification in the top center of the window.
- * Html code is escaped.
- * @param type 'success', 'info', 'warning', 'error'
- * @param message
- * @param title optional
- */
-function sendNotification(type, message, title = undefined) {
-    toastr[type](message, title);
-}

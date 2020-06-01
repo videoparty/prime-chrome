@@ -9,26 +9,26 @@
     margin-right: 5px;
 }
 
-body:not(.player-mode) .member .status,
-html.active body.player-mode .member .status {
+html:not(.player-mode) .member .status,
+html.active.player-mode .member .status {
     /* Icons have blue color when hovering or not in play mode */
     color: rgb(0, 160, 214);
     transition: color .3s ease-in-out;
 }
 
-body:not(.player-mode) .member .status.loading,
-body:not(.player-mode) .member .status.watching-trailer,
-body:not(.player-mode) .member .status.unknown,
-html.active body.player-mode .member .status.loading,
-html.active body.player-mode .member .status.watching-trailer,
-html.active body.player-mode .member .status.unknown {
+html:not(.player-mode) .member .status.loading,
+html:not(.player-mode) .member .status.watching-trailer,
+html:not(.player-mode) .member .status.unknown,
+html.active.player-mode .member .status.loading,
+html.active.player-mode .member .status.watching-trailer,
+html.active.player-mode .member .status.unknown {
     /* Unknown, watching trailer or loading statuses are orange */
     color: #ffa724;
     transition: color .3s ease-in-out;
 }
 
-body.player-mode .member .status {
-    color: rgba(242, 244, 246, .4);
+html.player-mode .member .status {
+    color: rgba(242, 244, 246, .25);
     transition: color 1s ease-in-out;
 }
 

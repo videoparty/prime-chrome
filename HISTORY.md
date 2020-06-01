@@ -1,3 +1,10 @@
+# 0.7.0 - 01-06-2020
+- Finally, the chat feature is here! ([#19](https://github.com/videoparty/prime-chrome/issues/19))
+- Sidebar slides in more quickly
+- Fixed sidebar wasn't showing in fullscreen ([#29](https://github.com/videoparty/prime-chrome/issues/29))
+- Merged the new state listener with the existing notifications handler
+- Added link to contact the developer in popup
+
 # 0.6.2 - 25-05-2020
 - Fixed incorred redirect URL for amazon.com websites ([#27](https://github.com/videoparty/prime-chrome/issues/27))
 

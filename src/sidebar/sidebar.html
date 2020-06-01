@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress HtmlFormInputWithoutLabel -->
 <html>
   <head>
     <title>Prime Video Party</title>
@@ -6,18 +7,35 @@
       @font-face { font-family: "Amazon Ember"; src: url("https://js-assets.aiv-cdn.net/playback/web_player/ATVWebCascadesPlayer/1.2.200840.0/fonts/AmazonEmber_Rg.woff") format("woff"); font-weight: 100; }
     </style>
     <link rel="stylesheet" href="../../lib/normalize.css">
-    <link rel="stylesheet" href="sidebar.css">
-    <link rel="stylesheet" href="member.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/sidebar-playmode.css">
+    <link rel="stylesheet" href="css/member.css">
+    <link rel="stylesheet" href="css/message.css">
     <script type="text/javascript" src="../../lib/jquery.js"></script>
     <script type="text/javascript" src="../../lib/global-helpers.js"></script>
     <script type="text/javascript" src="../../lib/states.js"></script>
-    <script type="text/javascript" src="theme-listener.js" defer></script>
-    <script type="text/javascript" src="sidebar-ui.js" defer></script>
-    <script type="text/javascript" src="state-listener.js" defer></script>
+    <script type="text/javascript" src="js/theme-listener.js" defer></script>
+    <script type="text/javascript" src="js/sidebar-ui.js" defer></script>
+    <script type="text/javascript" src="js/state-listener.js" defer></script>
+    <script type="text/javascript" src="js/message-handler.js" defer></script>
+    <script type="text/javascript" src="js/chat.js" defer></script>
   </head>
   <body>
-  <div id="members">
+
+  <div id="members" class="scroll">
   </div>
+
+  <!-- <div class="fixed"> -->
+    <div id="messages" class="scroll">
+    </div>
+
+    <form id="send-chat">
+      <input type="text" placeholder="Chat..." />
+      <button type="submit"><i class="fa fa-paper-plane"></i></button>
+    </form>
+
+    <span class="chat-spam-warning"><i class="fa fa-exclamation-triangle"></i> To prevent chat spam, please wait..</span>
+  <!-- </div> -->
   </body>
 </html>

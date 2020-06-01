@@ -1,0 +1,68 @@
+html.player-mode {
+    border-top: none;
+    background-color: #000;
+    transition: all 1s ease-in-out;
+    border-left: 1px solid rgba(129, 151, 164, .2);
+}
+
+html.player-mode body {
+    color: rgba(242, 244, 246, .25);
+}
+
+html.active.player-mode body {
+    transition: all .3s ease-in-out;
+    color: rgba(242, 244, 246, .8);
+}
+
+/* ************ CONTENT ************ */
+html.player-mode #members {
+    border-bottom: 1px solid rgba(129, 151, 164, .2);
+}
+
+html.player-mode #send-chat {
+    border-top: 1px solid rgba(129, 151, 164, .2);
+}
+
+html.player-mode #send-chat > input,
+html.player-mode #send-chat > input::placeholder {
+    color: rgba(129, 151, 164, .1);
+    transition: all 1s ease-in-out;
+}
+
+html.player-mode #send-chat > input {
+    background-color: rgba(129, 151, 164, .1);
+    border: 1px solid rgba(129, 151, 164, .1);
+}
+
+html.player-mode.active #send-chat > button {
+    transition: all .3s ease-in-out;
+}
+
+html.player-mode.active #send-chat > input::placeholder {
+    color: rgba(242, 244, 246, .4);
+    transition: all .3s ease-in-out;
+}
+
+html.player-mode.active #send-chat > input {
+    background-color: rgba(129, 151, 164, .2);
+    border: 1px solid rgba(129, 151, 164, .2);
+    color: rgba(242, 244, 246, .8);
+    transition: all .3s ease-in-out;
+}
+
+/* ************ SCROLL ************ */
+html.player-mode .scroll::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+html.player-mode .scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+html.player-mode .scroll::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+html.player-mode .scroll::-webkit-scrollbar-thumb:active {
+    background-color: rgba(255, 255, 255, 0.5);
+}

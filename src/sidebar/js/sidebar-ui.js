@@ -1,4 +1,4 @@
-let myDisplayName;
+let myMemberId;
 
 /**
  * Add a member to the bottom of the member list
@@ -45,16 +45,16 @@ function sanitize(string) {
  * Clears the entire member list and rebuilds it according
  * to the given party.
  */
-function initMemberList(party) {
-    if (!party) {
+function initMemberList(members) {
+    if (!members || members.length === 0) {
         console.error('Tried to update member list on an undefined party');
         return;
     }
 
     $('#members').html(''); // Empty member list
 
-    for (const member of party.members) {
-        if (member.isMe) myDisplayName = member.displayName; // Set our member ID (which is displayName currently)
+    for (const member of members) {
+        if (member.isMe) myMemberId = member.displayName; // Set our member ID (which is displayName currently)
         addMemberToList(member.displayName);
     }
 }
@@ -71,19 +71,14 @@ function removeMemberFromList(displayName) {
  * Update the icon in front of the member
  * @param memberId currently the displayName
  * @param status one of the States enum
- * @param setAllToLoading wether to set all members to 'loading'. If undefined, it will be determined automatically.
  * @see States
  */
-function updateMemberStatus(memberId, status, setAllToLoading = undefined) {
+function updateMemberStatus(memberId, status) {
     const memberStatus = $('#members .member[data-id="'+memberId+'"] .status');
     if (memberStatus.length === 0) return;
-
-    if (setAllToLoading) {
-        $('#members .member .status').attr('class', 'status loading');
-    }
 
     $(memberStatus).attr('class', 'status ' + status);
 }
 
-// Load member list
-postWindowMessage({type: 'sb-get-current-party'}, parent);
+// Request the state from the main window
+postWindowMessage({type: 'sidebar-request-init'}, parent);

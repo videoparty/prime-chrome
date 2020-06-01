@@ -19,7 +19,6 @@ Spotted a bug or got a new feature in mind? Pull requests are very much apprecia
 
 ## Credits
 This codebase includes work from the projects below:
-- [toastr](https://codeseven.github.io/toastr/), by Hans Fjällemark, John Papa & Tim Ferrell
 - [socket.io](https://socket.io), by Guillermo Rauch
 - [jquery](https://jquery.org), by JS Foundation
 - [normalize](https://github.com/necolas/normalize.css), by Nicolas Gallagher and Jonathan Neal

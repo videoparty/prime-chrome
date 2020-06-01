@@ -51,6 +51,9 @@ window.addEventListener('message', async function (ev) {
         case 'player-ready':
             socket.emit('player-ready');
             break;
+        case 'chat':
+            socket.emit('chat', {message: ev.data.message});
+            break;
         case 'displayname':
             displayName = ev.data.displayName;
             break;
@@ -176,6 +179,14 @@ function initializeWebsocket(partyId) {
             remote: true
         });
     });
+    socket.on('chat', (data) => {
+        postWindowMessage({
+            type: 'chat',
+            byMember: data.byMember,
+            message: data.message,
+            remote: true
+        });
+    });
     socket.on('watching-trailer', (data) => {
         postWindowMessage({
             type: 'watching-trailer',
@@ -234,7 +245,7 @@ function initializeWebsocket(partyId) {
     // Socket error handling
     socket.on('reconnecting', (attemptNr) => {
         if (attemptNr === 1) {
-            sendNotification('error', 'The server might be in the process of updating. Sorry for the inconvenience.', 'Lost connection');
+            sendNotification('error', 'The server might be in the process of updating. Sorry for the inconvenience.', 'error', 'Lost connection');
         }
     });
 }

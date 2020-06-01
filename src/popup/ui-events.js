@@ -1,5 +1,5 @@
 // Show current extension version number
-$('#ext-version').html('version ' + chrome.runtime.getManifest().version)
+$('.ext-version').html('version ' + chrome.runtime.getManifest().version)
 
 // Create new party button
 $('#new-party-link').click(() => {
