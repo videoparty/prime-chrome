@@ -78,7 +78,7 @@ function bindPlayerEvents() {
 
     // If the content is already playing,
     // manually call onPlay() to trigger the getting-ready process.
-    if (!player.paused && (currentParty.members.length > 1 || leavingMembers.length > 0)) {
+    if (!player.paused) {
         console.log('onplay because player already started');
         onPlay();
     }

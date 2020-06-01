@@ -30,6 +30,8 @@ function handleChange(change) {
  * the state gets lost.
  */
 listenToWindowEvent('sidebar:state-init', (ev) => {
+    initMemberList(ev.data.members);
+
     if (ev.data.playerMode) {
         console.log('player mode');
         const sidebar = jQuery('html');
@@ -41,8 +43,6 @@ listenToWindowEvent('sidebar:state-init', (ev) => {
             handleChange(change);
         }
     }
-
-    initMemberList(ev.data.members);
 });
 
 /**

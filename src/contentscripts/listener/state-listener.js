@@ -24,7 +24,7 @@ listenToWindowEvent('start-video', (ev) => {
 
 listenToWindowEvent('next-episode', async (ev) => {
     const member = ev.data.remote ? ev.data.byMember.displayName : displayName;
-    sendNotification('info', member + ' started the next episode', States.playing);
+    sendNotification('info', member + ' started the next episode', States.nextEpisode);
     updateMemberState(member, States.nextEpisode);
 });
 
@@ -100,6 +100,8 @@ listenToWindowEvent('member-change', async (ev) => {
     if (ev.data.remote && ev.data.member.displayName !== displayName) {
         member = ev.data.member.displayName;
     }
+
+    updateMemberState(member, States.idle);
 
     if (ev.data.change === 'join') {
         // Do not show notification if the member joined back within 2 seconds

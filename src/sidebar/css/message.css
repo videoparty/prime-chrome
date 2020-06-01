@@ -19,6 +19,31 @@
     margin-bottom: 5px;
 }
 
+.message {
+    margin: 2px 0;
+    font-size: 1.1em;
+}
+
+.message .sender {
+    margin-bottom: 1px;
+    font-size: 0.8em;
+}
+
+.message .chat {
+    background-color: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 5px;
+    padding: 5px;
+    transition: border .3s ease-in-out;
+}
+
+html:not(.active).player-mode .message .chat {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 5px;
+    padding: 5px;
+    transition: border 1s ease-in-out;
+}
+
 .notification > i.fa {
     color: rgb(0, 160, 214);
     transition: color 1s ease-in-out;
