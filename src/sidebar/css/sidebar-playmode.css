@@ -1,12 +1,15 @@
 html.player-mode {
     border-top: none;
-    color: rgba(242, 244, 246, .25);
     background-color: #000;
     transition: all 1s ease-in-out;
     border-left: 1px solid rgba(129, 151, 164, .2);
 }
 
-html.active.player-mode {
+html.player-mode body {
+    color: rgba(242, 244, 246, .25);
+}
+
+html.active.player-mode body {
     transition: all .3s ease-in-out;
     color: rgba(242, 244, 246, .8);
 }

@@ -50,6 +50,11 @@ listenToWindowEvent('play-video', (ev) => {
     }
 });
 
+listenToWindowEvent('chat', (ev) => {
+    if (!ev.data.remote) return; // Only accept from server
+    sendChatMessage(ev.data.byMember.displayName, ev.data.message);
+});
+
 listenToWindowEvent('seek-video', (ev) => {
     const member = ev.data.remote ? ev.data.byMember.displayName : displayName;
     sendNotification('info', member + ' seeked to another time', 'seek');
@@ -140,6 +145,16 @@ function removeLeavingMember(member) {
  */
 function updateMemberState(memberId, state) {
     const change = {type: 'member-state', member: {id: memberId}, state, time: new Date()};
+    return processChange(change);
+}
+
+/**
+ * Sends a chat message to the sidebar
+ * @param memberId
+ * @param message
+ */
+function sendChatMessage(memberId, message) {
+    const change = {type: 'chat', member: {id: memberId}, message, time: new Date()};
     return processChange(change);
 }
 

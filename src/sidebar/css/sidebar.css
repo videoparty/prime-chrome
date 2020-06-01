@@ -6,7 +6,6 @@ html {
 
     font-family: "Amazon Ember", Arial, sans-serif;
     transition: all 1s ease-in-out;
-    color: rgba(242, 244, 246, .8);
     overflow: hidden;
 }
 
@@ -14,6 +13,8 @@ body {
     font-size: 1.35em;
     height: 100vh;
     display: flex;
+    color: rgba(242, 244, 246, .8);
+    transition: color 1s ease-in-out;
     flex-direction: column;
 }
 

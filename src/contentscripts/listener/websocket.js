@@ -51,6 +51,9 @@ window.addEventListener('message', async function (ev) {
         case 'player-ready':
             socket.emit('player-ready');
             break;
+        case 'chat':
+            socket.emit('chat', {message: ev.data.message});
+            break;
         case 'displayname':
             displayName = ev.data.displayName;
             break;
@@ -173,6 +176,14 @@ function initializeWebsocket(partyId) {
             byMember: data.byMember,
             season: data.season,
             episode: data.episode,
+            remote: true
+        });
+    });
+    socket.on('chat', (data) => {
+        postWindowMessage({
+            type: 'chat',
+            byMember: data.byMember,
+            message: data.message,
             remote: true
         });
     });

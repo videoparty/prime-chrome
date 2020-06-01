@@ -14,9 +14,9 @@ function handleNotification(action,  message) {
 
 function handleChat(member,  message) {
     $('#messages').prepend('' +
-        '<div class="chat">' +
-        '<span class="member">' + member + '</span>' +
-        '<span class="message">' + message + '</span>' +
+        '<div class="message">' +
+        '<em class="sender">' + sanitize(member) + '</em>' +
+        '<div class="chat">' + sanitize(message) + '</div>' +
         '</div>')
 }
 
