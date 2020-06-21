@@ -10,7 +10,9 @@ listenToWindowEvent('member-change', async (ev) => {
 });
 
 async function initializeSidebar() {
-    const sidebarSrc = chrome.runtime.getURL('src/sidebar/sidebar.html');
+    const displayname = await getDisplayName(); // First set nickname if not done yet
+    const sidebarPage = displayname ? 'sidebar.html' : 'set-nickname.html';
+    const sidebarSrc = chrome.runtime.getURL('src/sidebar/' + sidebarPage);
     const sidebarClass = window.isOnAmazonWebsite ? '' : 'primevideo';
     jQuery('body')
         .css('display', 'flex')

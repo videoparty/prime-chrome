@@ -50,7 +50,7 @@ body {
     flex-shrink: 0;
 }
 
-#send-chat > input {
+input[type="text"] {
     background-color: #0f171e;
     border: none;
     color: rgba(242, 244, 246, .8);
@@ -61,7 +61,7 @@ body {
     border-radius: 4px;
 }
 
-#send-chat > button {
+button.send {
     background: transparent;
     border: none;
     color: rgba(242, 244, 246, .8);
@@ -69,11 +69,11 @@ body {
     font-size: 0.9em;
 }
 
-html.player-mode:not(.active) #send-chat > button {
+html.player-mode:not(.active) button.send {
     color: inherit;
 }
 
-#send-chat > button:hover {
+button.send:hover {
     background: transparent;
     border: none;
     color: rgba(242, 244, 246, .8);
@@ -82,7 +82,7 @@ html.player-mode:not(.active) #send-chat > button {
     transition: color .2s ease-in-out;
 }
 
-#send-chat > button > i {
+button.send > i {
     transform: rotate(30deg);
     position: relative;
     top: -3px;
