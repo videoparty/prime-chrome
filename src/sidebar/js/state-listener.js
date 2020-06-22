@@ -22,6 +22,9 @@ function handleChange(change) {
         handleNotification(change.action, change.message);
     } else if (change.type === 'chat') {
         handleChat(change.member.id, change.message);
+    } else if (change.type === 'update-displayname') {
+        handleNotification(States.playerReady, change.old + ' changed their nickname to ' + change.new);
+        updateMemberName(change.old, change.new);
     }
 }
 
@@ -50,8 +53,8 @@ listenToWindowEvent('sidebar:state-init', (ev) => {
  */
 listenToWindowEvent('member-change', (ev) => {
     if (ev.data.change === 'join') {
-        addMemberToList(ev.data.member.displayName)
+        addMemberToList(ev.data.member.displayName);
     } else if (ev.data.change === 'leave') {
-        removeMemberFromList(ev.data.member.displayName)
+        removeMemberFromList(ev.data.member.displayName);
     }
 });

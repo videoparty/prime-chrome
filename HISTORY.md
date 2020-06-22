@@ -1,3 +1,7 @@
+# 0.8.0 - 22-06-2020
+- Ability to hide the chat window
+- Screen to set your nickname when joining your first party
+
 # 0.7.0 - 01-06-2020
 - Finally, the chat feature is here! ([#19](https://github.com/videoparty/prime-chrome/issues/19))
 - Sidebar slides in more quickly

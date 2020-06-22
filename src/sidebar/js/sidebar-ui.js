@@ -41,6 +41,14 @@ function sanitize(string) {
     return string.replace(reg, (match)=>(map[match]));
 }
 
+function updateMemberName(oldName, newName) {
+    console.log('update name ' + oldName + ' - ' + newName + ' | ' + sanitize(newName));
+    $('#members .member[data-id="'+oldName+'"] .displayname')
+        .html(sanitize(newName))
+    $('#members .member[data-id="'+oldName+'"]')
+        .attr('data-id', newName);
+}
+
 /**
  * Clears the entire member list and rebuilds it according
  * to the given party.

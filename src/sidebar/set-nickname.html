@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/sidebar.css">
     <link rel="stylesheet" href="css/sidebar-playmode.css">
-    <link rel="stylesheet" href="css/member.css">
     <link rel="stylesheet" href="css/message.css">
+    <link rel="stylesheet" href="css/nickname.css">
     <script type="text/javascript" src="../../lib/jquery.js"></script>
     <script type="text/javascript" src="../../lib/global-helpers.js"></script>
     <script type="text/javascript" src="../../lib/states.js"></script>
@@ -20,22 +20,17 @@
     <script type="text/javascript" src="js/state-listener.js" defer></script>
     <script type="text/javascript" src="js/message-handler.js" defer></script>
     <script type="text/javascript" src="js/chat.js" defer></script>
+    <script type="text/javascript" src="js/nickname.js" defer></script>
   </head>
   <body>
 
-  <div id="members" class="scroll">
+  <div id="set-nickname">
+    <h1>Please specify a nickname</h1>
+    <form class="save">
+      <input type="text" placeholder="Nickname" maxlength="30">
+      <button class="send" type="submit"><i class="fa fa-check"></i></button>
+    </form>
   </div>
 
-  <!-- <div class="fixed"> -->
-    <div id="messages" class="scroll">
-    </div>
-
-    <form id="send-chat">
-      <input type="text" placeholder="Chat..." />
-      <button class="send" type="submit"><i class="fa fa-paper-plane"></i></button>
-    </form>
-
-    <span class="chat-spam-warning"><i class="fa fa-exclamation-triangle"></i> To prevent chat spam, please wait..</span>
-  <!-- </div> -->
   </body>
 </html>

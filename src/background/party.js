@@ -10,7 +10,7 @@ chrome.runtime.onMessage.addListener(function (request) {
         case 'get-party':
             getParty(request.url, true, request.createNew);
             break;
-        case 'set-displayname':
+        case 'bg:set-displayname':
             setDisplayName(request.displayName);
             break;
         case 'get-displayname':

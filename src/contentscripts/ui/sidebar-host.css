@@ -10,11 +10,38 @@
 /* *************** PvP defaults (browsing mode) *************** */
 #pvp-sidebar {
     position: fixed;
+    z-index: 10000;
     height: 100vh;
     width: 0;
     right: 0;
     top: initial;
     transition: width 1s ease-in-out, top 1s ease-in-out;
+}
+
+#pvp-sidebar .size-toggle {
+    background-color: #203140;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    left: -29px;
+    top: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border: 1px solid rgba(129, 151, 164, .5);
+    color: rgba(242, 244, 246, .8);
+}
+
+.size-toggle span {
+    align-self: center;
+}
+
+#pvp-sidebar iframe {
+    width: 100%;
+    border: none;
+    height: 100%;
 }
 
 /* Sidebar is positioned differently on primevideo.com */
@@ -27,15 +54,32 @@
     }
 }
 
-#pvp-sidebar iframe {
-    width: 100%;
-    border: none;
-    height: 100%;
-}
-
 /* ******************** PvP webplayer mode ******************** */
 #pvp-sidebar.player-mode {
     top: 0;
-    z-index: 10000;
     height: 100vh;
+}
+
+#pvp-sidebar.player-mode .size-toggle {
+    border: 1px solid rgba(129, 151, 164, .2);
+    background-color: rgba(0, 0, 0, 0.31);
+    color: rgba(242, 244, 246, .25);
+}
+
+/* ******************** Opened/Collapsed ******************** */
+#pvp-sidebar.collapsed {
+    width: 0 !important;
+}
+
+#pvp-sidebar:not(.collapsed) .size-toggle .open {
+    display: none;
+}
+
+#pvp-sidebar.collapsed .size-toggle .collapse {
+    display: none;
+}
+
+#dv-web-player .webPlayerSDKContainer .scalingVideoContainer,
+#dv-web-player .webPlayerSDKContainer .webPlayerSDKUiContainer {
+    transition: width 1s ease-in-out;
 }

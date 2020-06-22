@@ -57,6 +57,18 @@ window.addEventListener('message', async function (ev) {
         case 'displayname':
             displayName = ev.data.displayName;
             break;
+        case 'set-displayname':
+            if (ev.data.displayName.length === 0) return;
+            chrome.runtime.sendMessage({type: 'bg:set-displayname', displayName: ev.data.displayName});
+            socket.emit('update-displayname', {displayName: ev.data.displayName});
+            postWindowMessage({
+                type: 'update-displayname',
+                old: displayName,
+                new: ev.data.displayName,
+                remote: true
+            });
+            displayName = ev.data.displayName;
+            break;
         case 'watching-trailer':
             socket.emit('watching-trailer');
             break;
@@ -131,6 +143,14 @@ function initializeWebsocket(partyId) {
             type: 'state-update',
             byMember: data.byMember,
             state: data.state,
+            remote: true
+        })
+    });
+    socket.on('update-displayname', (data) => {
+        postWindowMessage({
+            type: 'update-displayname',
+            old: data.old,
+            new: data.new,
             remote: true
         })
     });

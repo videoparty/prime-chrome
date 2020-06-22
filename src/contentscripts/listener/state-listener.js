@@ -65,6 +65,11 @@ listenToWindowEvent('player-ready', () => {
     updateMemberState(displayName, States.playerReady);
 });
 
+listenToWindowEvent('update-displayname', (ev) => {
+    const change = {type: 'update-displayname', old: ev.data.old, new: ev.data.new, time: new Date()};
+    processChange(change);
+});
+
 listenToWindowEvent('pause-video', (ev) => {
     const member = ev.data.byMember ? ev.data.byMember.displayName : displayName;
     if (ev.data.reason === 'watching-trailer' && ev.data.remote) {
