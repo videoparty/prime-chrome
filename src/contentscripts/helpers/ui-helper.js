@@ -26,7 +26,7 @@ function getPlayer() {
  */
 function hasWebplayerControls() {
     if (isLegacyWebPlayer()) return true;
-    return jQuery('.webPlayerUIContainer .f1fo23vz .fveo0gq.f3s9by7.f1kiqelb.f1l8jkug.f13bmvti.fubttoo.fal744d.fbpe0th')
+    return jQuery('.webPlayerUIContainer .f1fo23vz .fveo0gq.f3s9by7.f1kiqelb.f1l8jkug')
         .length > 0
 }
 

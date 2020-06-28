@@ -1,3 +1,6 @@
+# 0.8.1 - 28-06-2020
+- Fixed sync again after Primevideo webplayer change
+
 # 0.8.0 - 22-06-2020
 - Ability to hide the chat window
 - Screen to set your nickname when joining your first party
