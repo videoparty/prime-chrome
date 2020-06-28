@@ -1,6 +1,6 @@
 html.player-mode {
     border-top: none;
-    background-color: #000;
+    background-color: #131313;
     transition: all 1s ease-in-out;
     border-left: 1px solid rgba(129, 151, 164, .2);
 }
