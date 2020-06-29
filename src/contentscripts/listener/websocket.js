@@ -51,6 +51,9 @@ window.addEventListener('message', async function (ev) {
         case 'player-ready':
             socket.emit('player-ready');
             break;
+        case 'copy-party-url': // Clicked the 'copy' button in the popup
+            copyPartyUrl();
+            break;
         case 'chat':
             socket.emit('chat', {message: ev.data.message});
             break;

@@ -21,7 +21,7 @@ $('#displayname').submit((ev) => {
 
 // Copy party link button
 $('#copy-party-link').click(() => {
-    copyValToClipboard('#party-link');
+    sendMessageToRuntime({type: 'copy-party-url'});
     const copyLinkButton = $('#copy-party-link');
     copyLinkButton.html('<i class="fa fa-check" aria-hidden="true"></i> Copied!');
     setTimeout(() => {
@@ -34,7 +34,6 @@ window.addEventListener('message', function (ev) {
     const msg = ev.data;
     switch (msg.type) {
         case 'party-info':
-            $('#party-link').val(msg.link);
             $('#party-code').val(msg.partyId);
             break;
         case 'displayname':
