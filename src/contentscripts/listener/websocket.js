@@ -66,7 +66,7 @@ window.addEventListener('message', async function (ev) {
             socket.emit('update-displayname', {displayName: ev.data.displayName});
             postWindowMessage({
                 type: 'update-displayname',
-                old: displayName,
+                old: displayName ? displayName : socket.id,
                 new: ev.data.displayName,
                 remote: true
             });
