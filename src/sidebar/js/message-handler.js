@@ -3,7 +3,7 @@
  */
 
 function handleNotification(action,  message) {
-    const icon = action ? '<i class="fas fa-' + actionToFontAwesome(action) + '"></i>' : '';
+    const icon = action ? '<i class="' + actionToFontAwesome(action) + '"></i>' : '';
     const errorClass = action === 'error' ? 'error' : '';
     $('#messages').prepend('' +
         '<div class="notification ' + errorClass + '">' +
@@ -23,26 +23,26 @@ function handleChat(member,  message) {
 function actionToFontAwesome(action) {
     switch (action) {
         case States.playing:
-            return 'play';
+            return 'fas fa-play';
         case States.playerReady:
-            return 'check';
+            return 'fas fa-check';
         case States.idle:
-            return 'desktop';
+            return 'fas fa-desktop';
         case States.paused:
-            return 'pause';
+            return 'fas fa-pause';
         case States.watchingTrailer:
-            return 'film';
+            return 'fas fa-film';
         case States.nextEpisode:
-            return 'forward';
+            return 'fas fa-forward';
         case 'join':
-            return 'sign-in';
+            return 'fas fa-sign-in-alt';
         case 'leave':
-            return 'sign-out';
+            return 'fas fa-sign-out-alt';
         case 'seek':
-            return 'clock-o';
+            return 'far fa-clock';
         case 'error':
-            return 'ban';
+            return 'fas fa-ban';
         case 'close':
-            return 'window-close';
+            return 'far fa-window-close';
     }
 }
