@@ -1,3 +1,7 @@
+# 0.8.2 - 29-06-2020
+- Visual updates for sidebar
+- Fixed initial nickname setup (nickname didn't update)
+
 # 0.8.1 - 29-06-2020
 - Restored sync features again after Primevideo webplayer change
 - Changed partylink copy logic to remove 'activeTab' permission after Google review feedback
