@@ -268,7 +268,7 @@ function initializeWebsocket(partyId) {
     // Socket error handling
     socket.on('reconnecting', (attemptNr) => {
         if (attemptNr === 1) {
-            sendNotification('error', 'The server might be in the process of updating. Sorry for the inconvenience.', 'error', 'Lost connection');
+            sendNotification('error', undefined, 'The server might be in the process of updating. Sorry for the inconvenience.', 'error', 'Lost connection');
         }
     });
 }

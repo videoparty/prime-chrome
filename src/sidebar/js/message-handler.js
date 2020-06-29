@@ -2,7 +2,7 @@
  * Display notification and chat messages in the sidebar
  */
 
-function handleNotification(action,  message) {
+function handleNotification(action, message) {
     const icon = action ? '<i class="' + actionToFontAwesome(action) + '"></i>' : '';
     const errorClass = action === 'error' ? 'error' : '';
     $('#messages').prepend('' +
@@ -12,10 +12,29 @@ function handleNotification(action,  message) {
         '</div>')
 }
 
+function handleMemberNotification(action, memberName, message) {
+    if (!memberName) return handleNotification(action, message);
+
+    const icon = action ? '<i class="' + actionToFontAwesome(action) + '"></i>' : '';
+    const errorClass = action === 'error' ? 'error' : '';
+
+
+    $('#messages').prepend('' +
+        '<div class="message">' +
+        '<span class="sender">' + sanitize(memberName) + '</span>' +
+        '<div class="chat-tip"></div>' +
+        '<div class="chat notification ' + errorClass + '">' +
+            icon +
+            '<em>' + message + '</em>' +
+        '</div>' +
+        '</div>');
+}
+
 function handleChat(member,  message) {
     $('#messages').prepend('' +
         '<div class="message">' +
-        '<em class="sender">' + sanitize(member) + '</em>' +
+        '<span class="sender">' + sanitize(member) + '</span>' +
+        '<div class="chat-tip"></div>' +
         '<div class="chat">' + sanitize(message) + '</div>' +
         '</div>')
 }
