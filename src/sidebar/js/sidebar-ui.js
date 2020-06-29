@@ -14,14 +14,14 @@ function addMemberToList(displayName) {
     $('#members').append('' +
         '<div class="member" data-id="' + sanitizedName + '">\n' +
         '  <span class="status idle">\n' +
-        '    <i class="fa fa-desktop"></i>\n' +
-        '    <i class="fa fa-play"></i>\n' +
-        '    <i class="fa fa-pause"></i>\n' +
-        '    <i class="fa fa-check"></i>\n' +
-        '    <i class="fa fa-spinner fa-pulse fa-fw"></i>\n' +
-        '    <i class="fa fa-question"></i>\n' +
-        '    <i class="fa fa-film"></i>\n' +
-        '    <i class="fa fa-fast-forward"></i>\n' +
+        '    <i class="fas fa-desktop"></i>\n' +
+        '    <i class="fas fa-play"></i>\n' +
+        '    <i class="fas fa-pause"></i>\n' +
+        '    <i class="fas fa-check"></i>\n' +
+        '    <i class="fas fa-spinner fa-pulse"></i>\n' +
+        '    <i class="fas fa-question"></i>\n' +
+        '    <i class="fas fa-film"></i>\n' +
+        '    <i class="fas fa-fast-forward"></i>\n' +
         '  </span>\n' +
         '  <span class="displayname">' + sanitizedName + '</span>\n' +
         '</div>');

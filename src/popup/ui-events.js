@@ -23,9 +23,9 @@ $('#displayname').submit((ev) => {
 $('#copy-party-link').click(() => {
     sendMessageToRuntime({type: 'copy-party-url'});
     const copyLinkButton = $('#copy-party-link');
-    copyLinkButton.html('<i class="fa fa-check" aria-hidden="true"></i> Copied!');
+    copyLinkButton.html('<i class="fas fa-check" aria-hidden="true"></i> Copied!');
     setTimeout(() => {
-        copyLinkButton.html('<i class="fa fa-clipboard" aria-hidden="true"></i> Copy link');
+        copyLinkButton.html('<i class="fas fa-paste" aria-hidden="true"></i> Copy link');
     }, 3000);
 });
 

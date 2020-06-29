@@ -7,7 +7,7 @@
     margin: 5px 0;
 }
 
-.notification > i.fa {
+.notification > i {
     margin-right: 5px;
 }
 
@@ -44,17 +44,17 @@ html:not(.active).player-mode .message .chat {
     transition: border 1s ease-in-out;
 }
 
-.notification > i.fa {
+.notification > i {
     color: rgb(0, 160, 214);
     transition: color 1s ease-in-out;
 }
 
-html.active.player-mode .notification > i.fa {
+html.active.player-mode .notification > i {
     color: rgb(0, 160, 214);
     transition: color .3s ease-in-out;
 }
 
-html.player-mode .notification > i.fa {
+html.player-mode .notification > i {
     color: rgba(242, 244, 246, .25);
     transition: color 1s ease-in-out;
 }

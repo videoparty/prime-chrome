@@ -3,7 +3,7 @@
  */
 
 function handleNotification(action,  message) {
-    const icon = action ? '<i class="fa fa-' + actionToFontAwesome(action) + '"></i>' : '';
+    const icon = action ? '<i class="fas fa-' + actionToFontAwesome(action) + '"></i>' : '';
     const errorClass = action === 'error' ? 'error' : '';
     $('#messages').prepend('' +
         '<div class="notification ' + errorClass + '">' +
