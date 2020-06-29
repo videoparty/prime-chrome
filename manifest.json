@@ -5,7 +5,6 @@
   "version": "0.8.1",
   "default_locale": "en",
   "permissions": [
-    "activeTab",
     "declarativeContent",
     "storage"
   ],

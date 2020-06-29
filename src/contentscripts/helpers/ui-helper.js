@@ -112,3 +112,23 @@ function getSeasonAndEpisode() {
 function performNextEpisode() {
     getWebPlayerElement('.nextTitleButton .text', '.f1l8jkug.fpp3az0').click();
 }
+
+/**
+ * Copy the party URL to the clipboard
+ */
+function copyPartyUrl() {
+    const partyLink = getCurrentBaseUrl() +'/?pvpartyId=' + currentParty.id;
+    const $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val(partyLink).select();
+    document.execCommand("copy");
+    $temp.remove();
+}
+
+function getCurrentBaseUrl() {
+    let url = window.location.origin;
+    if (url.includes('amazon.')) {
+        url += '/gp/video/storefront'
+    }
+    return url;
+}

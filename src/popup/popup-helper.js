@@ -15,12 +15,9 @@ function sendMessageToRuntime(data) {
 /**
  * Create new party and join it
  * @param sendToContentScript to send a message to the contentscript
- * @returns {{code: string, link: string}}
  */
 function createAndJoinNewParty(sendToContentScript = true) {
-    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-        sendMessageToRuntime({type: 'create-new-party', url: tabs[0].url});
-    });
+    sendMessageToRuntime({type: 'create-new-party'});
 }
 
 /**
@@ -29,9 +26,7 @@ function createAndJoinNewParty(sendToContentScript = true) {
  * off a 'party-info' event.
  */
 function getCurrentParty() {
-    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-        sendMessageToRuntime({type: 'get-party', url: tabs[0].url, createNew: true});
-    });
+    sendMessageToRuntime({type: 'get-party', createNew: true});
 }
 
 /**
@@ -50,16 +45,4 @@ function getDisplayName() {
  */
 function setDisplayName(name) {
     sendMessageToRuntime({type: 'set-displayname', displayName: name});
-}
-
-/**
- * Copy the .val() of a given selector
- * to the clipboard.
- */
-function copyValToClipboard(selector) {
-    const $temp = $("<input>");
-    $("body").append($temp);
-    $temp.val($(selector).val()).select();
-    document.execCommand("copy");
-    $temp.remove();
 }
