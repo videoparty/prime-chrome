@@ -76,7 +76,7 @@ function performPlay(errorRetry = false) {
             setTimeout(() => { performPlay(true) }, 50); // Race condition, try again
         } else {
             onPause(); // Trigger the onPause to broadcast a message and pause all other members.
-            sendNotification('error', 'Could not play automatically. Please press the play button manually!', 'error', 'Error');
+            sendNotification('error', undefined, 'Could not play automatically. Please press the play button manually!', 'error', 'Error');
         }
         player.onplay = onPlay;
     }

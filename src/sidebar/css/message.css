@@ -2,12 +2,18 @@
 * Styles for notifications and chat messages
 */
 
-.notification {
-    font-size: 1.1em;
-    margin: 5px 0;
+.message .chat.notification {
+    margin: 0;
+    font-size: 0.6em;
 }
 
-.notification > i.fa {
+.notification {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.7em;
+    margin: 15px 0;
+}
+
+.notification > i {
     margin-right: 5px;
 }
 
@@ -20,41 +26,55 @@
 }
 
 .message {
-    margin: 2px 0;
-    font-size: 1.1em;
+    margin: 4px 0;
 }
 
-.message .sender {
-    margin-bottom: 1px;
-    font-size: 0.8em;
+.message .chat:not(.notification) {
+    background-color: rgba(0,0,0,0.4);
 }
 
 .message .chat {
-    background-color: rgba(0,0,0,0.4);
+    background-color: transparent;
     border: 1px solid rgba(255, 255, 255, 0.13);
     border-radius: 5px;
-    padding: 5px;
+    padding: 4px;
     transition: border .3s ease-in-out;
+    font-size: 1.1em;
+}
+
+.message .chat-tip {
+    position: relative;
+    left: 8px;
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid rgba(255, 255, 255, 0.13);
 }
 
 html:not(.active).player-mode .message .chat {
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 5px;
-    padding: 5px;
     transition: border 1s ease-in-out;
 }
 
-.notification > i.fa {
+html:not(.active).player-mode .message .chat-tip {
+    border-bottom: 7px solid rgba(255, 255, 255, 0.08);
+    transition: border 1s ease-in-out;
+}
+
+.notification > i {
     color: rgb(0, 160, 214);
     transition: color 1s ease-in-out;
 }
 
-html.active.player-mode .notification > i.fa {
+html.active.player-mode .notification > i {
     color: rgb(0, 160, 214);
     transition: color .3s ease-in-out;
 }
 
-html.player-mode .notification > i.fa {
+html.player-mode .notification > i,
+html.player-mode .notification {
     color: rgba(242, 244, 246, .25);
     transition: color 1s ease-in-out;
 }

@@ -1,5 +1,10 @@
-# 0.8.1 - 28-06-2020
-- Fixed sync again after Primevideo webplayer change
+# 0.8.2 - 29-06-2020
+- Visual updates for sidebar
+- Fixed initial nickname setup (nickname didn't update)
+
+# 0.8.1 - 29-06-2020
+- Restored sync features again after Primevideo webplayer change
+- Changed partylink copy logic to remove 'activeTab' permission after Google review feedback
 
 # 0.8.0 - 22-06-2020
 - Ability to hide the chat window

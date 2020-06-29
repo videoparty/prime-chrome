@@ -51,6 +51,9 @@ window.addEventListener('message', async function (ev) {
         case 'player-ready':
             socket.emit('player-ready');
             break;
+        case 'copy-party-url': // Clicked the 'copy' button in the popup
+            copyPartyUrl();
+            break;
         case 'chat':
             socket.emit('chat', {message: ev.data.message});
             break;
@@ -63,7 +66,7 @@ window.addEventListener('message', async function (ev) {
             socket.emit('update-displayname', {displayName: ev.data.displayName});
             postWindowMessage({
                 type: 'update-displayname',
-                old: displayName,
+                old: displayName ? displayName : socket.id,
                 new: ev.data.displayName,
                 remote: true
             });
@@ -265,7 +268,7 @@ function initializeWebsocket(partyId) {
     // Socket error handling
     socket.on('reconnecting', (attemptNr) => {
         if (attemptNr === 1) {
-            sendNotification('error', 'The server might be in the process of updating. Sorry for the inconvenience.', 'error', 'Lost connection');
+            sendNotification('error', undefined, 'The server might be in the process of updating. Sorry for the inconvenience.', 'error', 'Lost connection');
         }
     });
 }

@@ -7,7 +7,7 @@
     </style>
     <link rel="stylesheet" href="../../lib/normalize.css">
     <link rel="stylesheet" href="popup.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css" integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q" crossorigin="anonymous">
     <script type="text/javascript" src="../../lib/jquery.js"></script>
     <script type="text/javascript" src="../../lib/global-helpers.js"></script>
     <script type="text/javascript" src="popup-helper.js"></script>
@@ -20,7 +20,7 @@
     <form id="displayname">
       <label for="displayname-text">Your nickname:</label>
       <input id="displayname-text" type="text" maxlength="20" />
-      <button id="save-displayname" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+      <button id="save-displayname" type="submit"><i class="fas fa-check" aria-hidden="true"></i></button>
       <em class="saved-hint">Saved!</em>
     </form>
   </div>
@@ -28,11 +28,10 @@
 
     <label for="party-code">Current party:</label>
     <input id="party-code" type="text" readonly />
-    <input id="party-link" type="hidden" />
 
     <div class="party-controls">
       <button class="primary" id="copy-party-link">
-        <i class="fa fa-clipboard" aria-hidden="true"></i> Copy link
+        <i class="fas fa-paste" aria-hidden="true"></i> Copy link
       </button>
       <button class="secondary" id="new-party-link">New party</button>
     </div>

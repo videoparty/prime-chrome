@@ -19,11 +19,11 @@ function handleChange(change) {
         }
         updateMemberStatus(change.member.id, state);
     } else if (change.type === 'notification') {
-        handleNotification(change.action, change.message);
+        handleMemberNotification(change.action, change.memberName, change.message);
     } else if (change.type === 'chat') {
         handleChat(change.member.id, change.message);
     } else if (change.type === 'update-displayname') {
-        handleNotification(States.playerReady, change.old + ' changed their nickname to ' + change.new);
+        handleMemberNotification(States.playerReady, change.old, 'Changed their nickname to ' + change.new);
         updateMemberName(change.old, change.new);
     }
 }
