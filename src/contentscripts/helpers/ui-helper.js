@@ -21,12 +21,11 @@ function getPlayer() {
 
 /**
  * Detect whether the new webplayer is
- * showing the play/pause button.
- * (not compatible with legacy webplayer!)
+ * showing the play/pause button
  */
 function hasWebplayerControls() {
     if (isLegacyWebPlayer()) return true;
-    return jQuery('.webPlayerUIContainer .f1fo23vz .fveo0gq.f3s9by7.f1kiqelb.f1l8jkug')
+    return getWebPlayerElement('.webPlayer .overlaysContainer .pausedOverlay .playIcon', '.webPlayerUIContainer .f1fo23vz .fveo0gq.f3s9by7.f1kiqelb.f1l8jkug')
         .length > 0
 }
 
@@ -66,16 +65,17 @@ function isPlayingTrailer() {
  */
 function getCurrentTimeOffset() {
     try {
-        const timeIndicator = jQuery('.f1ha12bn.f177tia9.fc1n9o1.f25z3of.floz2gv.f1ak3391 .fheif50.f989gul.f1s55b4').clone();
+        const timeIndicator = getWebPlayerElement('.bottomPanelItem .infoBar .left .time', '.f1ha12bn.f177tia9.fc1n9o1.f25z3of.floz2gv.f1ak3391 .fheif50.f989gul.f1s55b4').clone();
         timeIndicator.find('*').remove();
-        const splittedTime = timeIndicator.text().match(/(\d+):(\d+):(\d+)/);
-        const hr = parseInt(splittedTime[1]) * 3600;
+        const splittedTime = timeIndicator.text().match(/(?:(\d+):)?(\d+):(\d+)/);
+        const hr = splittedTime[1] ? parseInt(splittedTime[1]) * 3600 : 0; // Sometimes there is no hour
         const min = parseInt(splittedTime[2]) * 60;
         const sec = parseInt(splittedTime[3]);
         const offset = player.currentTime - (hr + min + sec);
-
+        console.log('Offset is ' + offset);
         return offset < 2 ? 0 : offset;
     } catch(err) {
+        console.error('Tried to determine webplayer time offset: ' + err);
         return 0;
     }
 }

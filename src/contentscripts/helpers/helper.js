@@ -52,6 +52,6 @@ async function getDisplayName() {
             }
         };
         window.addEventListener('message', listener, false);
-        chrome.runtime.sendMessage({type: 'get-displayname'});
+        sendMessageToRuntime({type: 'get-displayname'});
     })
 }

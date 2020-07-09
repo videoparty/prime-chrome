@@ -71,10 +71,10 @@ function performPlay(errorRetry = false) {
         player.play();
         postWindowMessage({type: 'state-update', state: States.playing});
     } catch(err) {
-        console.error(err);
         if (err.message.includes('https://goo.gl/LdLk22') && !errorRetry) {
             setTimeout(() => { performPlay(true) }, 50); // Race condition, try again
         } else {
+            console.error(err);
             onPause(); // Trigger the onPause to broadcast a message and pause all other members.
             sendNotification('error', undefined, 'Could not play automatically. Please press the play button manually!', 'error', 'Error');
         }

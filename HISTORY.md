@@ -1,3 +1,9 @@
+# 0.8.3 - 09-07-2020
+- Extension popup: Hide copy button if there is no party code
+- Extension popup: Show "Copied!" after explicit signal from content script, otherwise fallback to alternative copy action
+- Fix webplayer offset calculations ([#35](https://github.com/videoparty/prime-chrome/issues/35))
+- Added webplayer controls check for legacy webplayers
+
 # 0.8.2 - 29-06-2020
 - Visual updates for sidebar
 - Fixed initial nickname setup (nickname didn't update)

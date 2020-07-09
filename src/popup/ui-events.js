@@ -20,24 +20,44 @@ $('#displayname').submit((ev) => {
 });
 
 // Copy party link button
+let copySuccess = undefined;
 $('#copy-party-link').click(() => {
     sendMessageToRuntime({type: 'copy-party-url'});
+    copySuccess = undefined;
+    setTimeout(() => {
+        // Alternative copy if the primary approach does not work
+        if (!copySuccess) {
+            console.error('Copy link error - No response from content script. Switching to manual copy.');
+            alternativeCopyPartyUrl();
+            confirmCodeCopy();
+        }
+    }, 200);
+});
+
+/**
+ * The content script is responsible for constructing
+ * the proper URL. Recenly a user complained about the
+ * copy function not working, so here we have an alternative
+ * way of copying the party url (only for primevideo.com).
+ */
+function alternativeCopyPartyUrl() {
+    const partyCode = $('#party-code').val();
+    const partyLink = 'https://primevideo.com/?pvpartyId=' + partyCode;
+    const $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val(partyLink).select();
+    document.execCommand("copy");
+    $temp.remove();
+}
+
+/**
+ * Show "Copied!" in copy button and reset after 3 sec.
+ */
+function confirmCodeCopy() {
+    copySuccess = true;
     const copyLinkButton = $('#copy-party-link');
     copyLinkButton.html('<i class="fas fa-check" aria-hidden="true"></i> Copied!');
     setTimeout(() => {
         copyLinkButton.html('<i class="fas fa-paste" aria-hidden="true"></i> Copy link');
     }, 3000);
-});
-
-// Listen to incoming events
-window.addEventListener('message', function (ev) {
-    const msg = ev.data;
-    switch (msg.type) {
-        case 'party-info':
-            $('#party-code').val(msg.partyId);
-            break;
-        case 'displayname':
-            $('#displayname-text').val(msg.displayName);
-            break;
-    }
-}, false);
+}
