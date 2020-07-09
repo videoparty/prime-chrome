@@ -21,6 +21,8 @@ listenToWindowEvent('member-change', async (ev) => {
 
 /**
  * Listen to when the video starts playing (again)
+ * Do not broadcast when getting ready for coordinated
+ * play.
  */
 function onPause() {
     if (signalReadiness) return;

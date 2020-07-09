@@ -47,7 +47,6 @@ listenToWindowEvent('start-video', (ev) => {
         if (player === undefined) return;
 
         clearInterval(waitForPlayer);
-        currentTimeOffset = getCurrentTimeOffset();
         signaledWatchingTrailer = false;
         signalReadiness = true;
         waitingForCoordinatedPlay = true;
@@ -75,6 +74,10 @@ function bindPlayerEvents() {
     player.onseeked = onSeeked;
     startNextEpisodeListener();
     startCloseListener();
+
+    setTimeout(() => {
+        currentTimeOffset = getCurrentTimeOffset();
+    }, 2500);
 
     // If the content is already playing,
     // manually call onPlay() to trigger the getting-ready process.

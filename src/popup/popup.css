@@ -87,6 +87,10 @@ button.secondary:hover {
     color: rgba(242, 244, 246, .8);
 }
 
+#copy-party-link {
+    display: none;
+}
+
 #party-code {
     font-size: 1.5em;
     width: 78px;

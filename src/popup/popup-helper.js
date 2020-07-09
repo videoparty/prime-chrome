@@ -1,18 +1,4 @@
 /**
- * Listen to all incoming contentscript messages
- */
-chrome.runtime.onMessage.addListener(async function (msg) {
-    postWindowMessage(msg);
-});
-
-/**
- * Sends a message to the background scripts and/or content script(s)
- */
-function sendMessageToRuntime(data) {
-    chrome.runtime.sendMessage(data);
-}
-
-/**
  * Create new party and join it
  * @param sendToContentScript to send a message to the contentscript
  */

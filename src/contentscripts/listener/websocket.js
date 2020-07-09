@@ -2,7 +2,6 @@
  * Mediating events between websocket and the window
  */
 
-const supportedUi = '3.19.4-2020-05-14'; // Amazon user interface version. Different versions might imply webplayer changes.
 const websocketUrl = 'https://ws.primevideoparty.com';
 let currentParty; // = {id: string, members: {id: string, displayName: string}[], videoId: string}
 let socket;
@@ -53,6 +52,7 @@ window.addEventListener('message', async function (ev) {
             break;
         case 'copy-party-url': // Clicked the 'copy' button in the popup
             copyPartyUrl();
+            sendMessageToRuntime({type: 'copy-confirm'});
             break;
         case 'chat':
             socket.emit('chat', {message: ev.data.message});
@@ -62,7 +62,7 @@ window.addEventListener('message', async function (ev) {
             break;
         case 'set-displayname':
             if (ev.data.displayName.length === 0) return;
-            chrome.runtime.sendMessage({type: 'bg:set-displayname', displayName: ev.data.displayName});
+            sendMessageToRuntime({type: 'bg:set-displayname', displayName: ev.data.displayName});
             socket.emit('update-displayname', {displayName: ev.data.displayName});
             postWindowMessage({
                 type: 'update-displayname',
