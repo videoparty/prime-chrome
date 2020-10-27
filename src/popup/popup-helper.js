@@ -7,6 +7,14 @@ function createAndJoinNewParty(sendToContentScript = true) {
 }
 
 /**
+ * Join an (existing) party
+ * @param partyCode
+ */
+function joinParty(partyCode) {
+    sendMessageToRuntime({type: 'join-party', partyId: partyCode});
+}
+
+/**
  * Get current party info.
  * Background service will kick
  * off a 'party-info' event.

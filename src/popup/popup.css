@@ -31,7 +31,7 @@ em {
     margin-bottom: 15px;
 }
 
-#save-displayname {
+#save-displayname, #join-party-btn {
     margin: 0 0 0 3px;
     padding: 0;
     background-color: unset;
@@ -41,12 +41,12 @@ em {
     color: rgba(242, 244, 246, 0.9);
 }
 
-#save-displayname:hover {
+#save-displayname:hover, #join-party-btn:hover {
     color: rgb(0, 160, 214);
     cursor: pointer;
 }
 
-#displayname-text {
+#displayname-text, #join-party-text {
     padding: 3px;
     width: 106px;
 }
@@ -80,7 +80,7 @@ button.secondary:hover {
     background-color: #203140;
 }
 
-#party-code, #displayname-text {
+#party-code, #displayname-text, #join-party-text {
     background-color: #0f171e;
     text-align: center;
     border: 1px solid #223444;

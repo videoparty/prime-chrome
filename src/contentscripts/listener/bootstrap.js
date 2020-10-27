@@ -4,7 +4,7 @@
  */
 const joinPartyId = getPartyQueryParameter();
 if (joinPartyId) {
-    sendMessageToRuntime({type: 'join-party', url: window.location.href, partyId: joinPartyId});
+    sendMessageToRuntime({type: 'join-party', partyId: joinPartyId});
 } else {
-    sendMessageToRuntime({type: 'get-party', url: window.location.href, createNew: false});
+    sendMessageToRuntime({type: 'get-party', createNew: false});
 }

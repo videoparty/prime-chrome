@@ -6,6 +6,12 @@ $('#new-party-link').click(() => {
     createAndJoinNewParty();
 });
 
+// Join party
+$('#join-party').submit((ev) => {
+    join($('#join-party-text').val());
+    ev.preventDefault(); // Prevent page reload
+});
+
 // Save displayname
 $('#displayname').submit((ev) => {
     setDisplayName($('#displayname-text').val());
@@ -16,7 +22,7 @@ $('#displayname').submit((ev) => {
         $('.saved-hint').css('visibility', 'hidden')
             .css('opacity', '0');
     }, 3000);
-    ev.preventDefault(); // Prevent page reload
+    ev.preventDefault(); // Prevent pag e reload
 });
 
 // Copy party link button
