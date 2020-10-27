@@ -25,7 +25,7 @@ function getPlayer() {
  */
 function hasWebplayerControls() {
     if (isLegacyWebPlayer()) return true;
-    return getWebPlayerElement('.webPlayer .overlaysContainer .pausedOverlay .playIcon', '.webPlayerUIContainer .f1fo23vz .fveo0gq.f3s9by7.f1kiqelb.f1l8jkug')
+    return getWebPlayerElement('.webPlayer .overlaysContainer .pausedOverlay .playIcon', '.webPlayerUIContainer .fveo0gq.f3s9by7.f1kiqelb.f1l8jkug')
         .length > 0
 }
 
@@ -54,7 +54,7 @@ function getWebPlayerElement(legacySelector, newSelector) {
 function isPlayingTrailer() {
     return getWebPlayerElement(
         '.bottomPanelItem .adSkipButton',
-        '.fe39tpk .fu4rd6c.f1cw2swo')
+        '.fu4rd6c.f1cw2swo')
         .length > 0;
 }
 
@@ -65,7 +65,7 @@ function isPlayingTrailer() {
  */
 function getCurrentTimeOffset() {
     try {
-        const timeIndicator = getWebPlayerElement('.bottomPanelItem .infoBar .left .time', '.f1ha12bn.f177tia9.fc1n9o1.f25z3of.floz2gv.f1ak3391 .fheif50.f989gul.f1s55b4').clone();
+        const timeIndicator = getWebPlayerElement('.bottomPanelItem .infoBar .left .time', '.f989gul.f1s55b4').clone();
         timeIndicator.find('*').remove();
         const splittedTime = timeIndicator.text().match(/(?:(\d+):)?(\d+):(\d+)/);
         const hr = splittedTime[1] ? parseInt(splittedTime[1]) * 3600 : 0; // Sometimes there is no hour
@@ -96,7 +96,7 @@ function getSeasonAndEpisode() {
     try {
         const extracted = getWebPlayerElement(
             '.contentTitlePanel .subtitle',
-            '.f15586js.f1iodedr.fdm7v.fs89ngr').html().match(/(\d+)\D*(\d+)/);
+            '.f15586js.f1iodedr.fdm7v').html().match(/(\d+)\D*(\d+)/);
         return {
             season: extracted[1],
             episode: extracted[2]
@@ -110,7 +110,7 @@ function getSeasonAndEpisode() {
  * 'next episode' link in the webplayer
  */
 function performNextEpisode() {
-    getWebPlayerElement('.nextTitleButton .text', '.f1l8jkug.fpp3az0').click();
+    getWebPlayerElement('.nextTitleButton .text', '.f989gul.fpp3az0').click();
 }
 
 /**
