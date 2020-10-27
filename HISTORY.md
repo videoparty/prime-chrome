@@ -1,3 +1,6 @@
+# 0.8.4 - 27-10-2020
+- Restored sync features again after Primevideo webplayer change
+
 # 0.8.3 - 09-07-2020
 - Extension popup: Hide copy button if there is no party code
 - Extension popup: Show "Copied!" after explicit signal from content script, otherwise fallback to alternative copy action

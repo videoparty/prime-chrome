@@ -52,7 +52,7 @@ function closeWebPlayer() {
     lastClickedPlayItem = undefined;
     getWebPlayerElement(
         '.closeButtonWrapper img.svgBackground',
-        '.fyysciv.f1yzibwv > .fo6n8wp.fud1t1u.f1njeegi > img.fuorrko').click();
+        '.fyysciv.f1yzibwv > .fo6n8wp.fud1t1u.f1njeegi img.fuorrko, .atvwebplayersdk-playerclose-button img.fuorrko').click();
     player.onplay = undefined;
     player.onpause = undefined;
     player.onseeked = undefined;
