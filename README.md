@@ -8,7 +8,7 @@ Watch video's from primevideo.com together in sync! This extension handles all c
 
 ## Install
 
-[![Chrome WebStore](https://developer.chrome.com/webstore/images/ChromeWebStore_BadgeWBorder_v2_340x96.png)](https://chrome.google.com/webstore/detail/eingklpogjmofcedolfbgoomghkaamkn)
+[![Chrome WebStore](https://developer-chrome-com.imgix.net/image/BrQidfK9jaQyIHwdw91aVpkPiib2/LclHxMxqoswLNRcUW3m5.png)](https://chrome.google.com/webstore/detail/eingklpogjmofcedolfbgoomghkaamkn)
 
 <a href="https://microsoftedge.microsoft.com/addons/detail/jnageifhalnblhjdnjngghdbpmbifcii">
 <img src="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4nqTh" height="100"/>

@@ -1,4 +1,8 @@
-# 0.8.4 - 27-10-2020
+# 0.8.6 - 07-02-2021
+- Fixed broken readme chrome webstore image
+- Asking for a webstore review after some time
+
+# 0.8.5 - 28-10-2020
 - Restored sync features again after Primevideo webplayer change
 
 # 0.8.3 - 09-07-2020
