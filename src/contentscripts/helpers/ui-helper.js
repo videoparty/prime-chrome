@@ -25,7 +25,7 @@ function getPlayer() {
  */
 function hasWebplayerControls() {
     if (isLegacyWebPlayer()) return true;
-    return getWebPlayerElement('.webPlayer .overlaysContainer .pausedOverlay .playIcon', '.webPlayerUIContainer .fveo0gq.f3s9by7.f1kiqelb.f1l8jkug')
+    return getWebPlayerElement('.webPlayer .overlaysContainer .pausedOverlay .playIcon', 'button.atvwebplayersdk-playpause-button')
         .length > 0
 }
 
@@ -52,6 +52,7 @@ function getWebPlayerElement(legacySelector, newSelector) {
  * @returns boolean
  */
 function isPlayingTrailer() {
+return true;
     return getWebPlayerElement(
         '.bottomPanelItem .adSkipButton',
         '.fu4rd6c.f1cw2swo')
@@ -65,7 +66,7 @@ function isPlayingTrailer() {
  */
 function getCurrentTimeOffset() {
     try {
-        const timeIndicator = getWebPlayerElement('.bottomPanelItem .infoBar .left .time', '.f989gul.f1s55b4').clone();
+        const timeIndicator = getWebPlayerElement('.bottomPanelItem .infoBar .left .time', '.atvwebplayersdk-timeindicator-text').clone();
         timeIndicator.find('*').remove();
         const splittedTime = timeIndicator.text().match(/(?:(\d+):)?(\d+):(\d+)/);
         const hr = splittedTime[1] ? parseInt(splittedTime[1]) * 3600 : 0; // Sometimes there is no hour
@@ -110,7 +111,7 @@ function getSeasonAndEpisode() {
  * 'next episode' link in the webplayer
  */
 function performNextEpisode() {
-    getWebPlayerElement('.nextTitleButton .text', '.f989gul.fpp3az0').click();
+    getWebPlayerElement('.nextTitleButton .text', 'button.atvwebplayersdk-nexttitle-button').click();
 }
 
 /**
