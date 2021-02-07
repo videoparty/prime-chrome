@@ -39,6 +39,37 @@ function handleChat(member,  message) {
         '</div>')
 }
 
+function handleStoreReviewChat() {
+    $('#messages').prepend('' +
+        '<div class="message" id="review-question">' +
+        '<span class="sender dev">Marnix</span>' +
+        '<div class="chat-tip"></div>' +
+        '<div class="chat notification">' +
+            'Hi there! I\'m the creator of PrimeVideoParty. It is amazing to see so many people using this plugin! ' +
+            'Unfortunately, most of the bad experiences end up in the plugin reviews and that makes me sad :-( <br/>' +
+            'Can you help me by leaving a review on the web store, so more people can enjoy PvP? Thanks a ton!' +
+            '<a href="https://chrome.google.com/webstore/detail/prime-video-party/eingklpogjmofcedolfbgoomghkaamkn/reviews" target="_blank" class="review-button store">Review PvP</a>' +
+            '<a href="#" class="review-button remind">Maybe later</span>' +
+            '<a href="#" class="review-button no">Don\'t remind me again</span>' +
+        '</div>' +
+        '</div>');
+
+    $('#review-question .review-button.store').click(() => {
+        $('#review-question .chat.notification').html('Thank you for your review, I greatly appreciate it!');
+        postWindowMessage({type: 'store-review-change', status: 'done'}, parent);
+    });
+
+    $('#review-question .review-button.remind').click(() => {
+        $('#review-question .chat.notification').html('Thank you, I\'ll ask you another time. Enjoy your party!');
+        postWindowMessage({type: 'store-review-change', status: 'later'}, parent);
+    });
+
+    $('#review-question .review-button.no').click(() => {
+        $('#review-question .chat.notification').html('No worries, enjoy your party!');
+        postWindowMessage({type: 'store-review-change', status: 'no'}, parent);
+    });
+}
+
 function actionToFontAwesome(action) {
     switch (action) {
         case States.playing:

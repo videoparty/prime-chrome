@@ -3,6 +3,8 @@
  */
 listenToWindowEvent('sidebar:state-update', (ev) => handleChange(ev.data.change));
 
+let askedForStoreReview = false; // Make sure that we don't ask multiple times in one session.
+
 /**
  * A change can enter the sidebar through a realtime
  * state change, or a batch of changes during init.
@@ -22,6 +24,9 @@ function handleChange(change) {
         handleMemberNotification(change.action, change.memberName, change.message);
     } else if (change.type === 'chat') {
         handleChat(change.member.id, change.message);
+    } else if (change.type === 'store-review-msg' && !askedForStoreReview) {
+        askedForStoreReview = true;
+        handleStoreReviewChat();
     } else if (change.type === 'update-displayname') {
         handleMemberNotification(States.playerReady, change.old, 'Changed their nickname to ' + change.new);
         updateMemberName(change.old, change.new);

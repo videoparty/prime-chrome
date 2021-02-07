@@ -6,6 +6,7 @@ const websocketUrl = 'https://ws.primevideoparty.com';
 let currentParty; // = {id: string, members: {id: string, displayName: string}[], videoId: string}
 let socket;
 let displayName;
+let askForStoreReview; // {readyToAsk: bool, browser: 'chrome'|'edge'} or undefined
 
 /**
  * Listen to contentscript, background / popup extension events
@@ -38,6 +39,7 @@ window.addEventListener('message', async function (ev) {
     if (!socket && ev.data.type === 'party-info') {
         // When the user surfs to another page but is already in a party
         displayName = await getDisplayName();
+        askForStoreReview = ev.data.askForStoreReview;
         initializeWebsocket(ev.data.partyId);
         return;
     }
