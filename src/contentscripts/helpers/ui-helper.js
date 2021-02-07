@@ -52,7 +52,6 @@ function getWebPlayerElement(legacySelector, newSelector) {
  * @returns boolean
  */
 function isPlayingTrailer() {
-return true;
     return getWebPlayerElement(
         '.bottomPanelItem .adSkipButton',
         '.fu4rd6c.f1cw2swo')
