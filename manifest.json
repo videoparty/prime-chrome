@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_extName__",
   "description": "__MSG_extDescription__",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "default_locale": "en",
   "permissions": [
     "declarativeContent",
@@ -35,6 +35,7 @@
         "src/contentscripts/listener/extension-messages.js",
         "src/contentscripts/listener/websocket.js",
         "src/contentscripts/listener/start-video-button.js",
+        "src/contentscripts/listener/review-listener.js",
         "src/contentscripts/actions/next-episode.js",
         "src/contentscripts/actions/close.js",
         "src/contentscripts/actions/play.js",
