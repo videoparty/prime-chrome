@@ -1,4 +1,5 @@
 # Prime Video Party chrome extension
+![](https://img.shields.io/chrome-web-store/users/eingklpogjmofcedolfbgoomghkaamkn?label=chrome%20users)
 <p style="text-align: center" align="center">
   <img src="https://primevideoparty.com/logo-full.png" alt="PvP logo"/>
 </p>
@@ -6,7 +7,13 @@
 Watch video's from primevideo.com together in sync! This extension handles all client-side actions (start video, pause, resume, seek time) coming from or going to the [PvP server](https://github.com/videoparty/server).
 
 ## Install
+
 [![Chrome WebStore](https://developer.chrome.com/webstore/images/ChromeWebStore_BadgeWBorder_v2_340x96.png)](https://chrome.google.com/webstore/detail/eingklpogjmofcedolfbgoomghkaamkn)
+
+<a href="https://microsoftedge.microsoft.com/addons/detail/jnageifhalnblhjdnjngghdbpmbifcii">
+<img src="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4nqTh" height="100"/>
+  <p>Get the Edge add-on</p>
+</a>
 
 ## Local development
 - Open your [Chrome Extensions](chrome://extensions)
